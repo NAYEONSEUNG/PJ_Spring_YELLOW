@@ -14,6 +14,8 @@
 			background-color: white;
 			box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 20, .1);
 			z-index: 999;/*숫자가 크면 클수록 무조건 맨 앞에 오는놈*/
+			top: 0;
+			position: fixed;
 		}
 		div.header_content{
 			width: 1400px;

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type="text/css" href="${path}../css/common.css">
 	<style type="text/css">
 		div.contetn_wrap{
@@ -15,14 +16,14 @@
 		}
 		div.content{
 			width: 1400px;
-			margin: 0 auto;
+			margin: 92px auto 0;
 			box-sizing: border-box;
 			/*height: 1400px;*/ /*임시로 고정 나중에 삭제할것*/
 			border: 1px solid red;
 		}
-		div{
+		/* div{
 			border: 1px solid red;
-		}
+		} */
 		body, input{
 			font-family: 나눔고딕, "Nanum Gothic", 나눔스퀘어, "Nanum Square", "Apple SD Gothic Neo","돋움","sans-serif";			
 			line-height: 1.5em;
@@ -36,11 +37,19 @@
 
 		/* Slideshow container */
 		.slideshow-container {
-		  max-width: 1000px;
+		  width: 1400px;
 		  position: relative;
-		  margin: auto;
+		  display:flex;
 		}
-
+		/*캐러셀 버튼*/
+		.mySlideWrap{
+		  width:400px;
+		  height:387.64px;
+		}
+		.mySlidesBest{
+		width:100%;
+		height:33.33%;
+		}
 		/* Caption text */
 		.text {
 		  color: #000000;
@@ -130,6 +139,8 @@
 		.recommand_pdt{
 			width: 25%;
 			height: 100%;
+			border: solid 1px #ececec;
+			margin: 0 10px;
 		}
 		.recommand_pdt_img{
 			width: 100%;
@@ -187,53 +198,69 @@
 			display:block;
 			text-align: center;
 		}
-		#about{
+		/* 탑버튼 */
+		.top_btn{
+			bottom: 115px;
+			background-color: #414d41;
+			display: none;
+			bottom: 95px;
+		}
+		.fix_btn{
+			position: fixed;
+			right: 50px;			
+			color: white;
+			height: 70px;
+			width: 70px;			
+			border-radius:50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 25px;
+			cursor: pointer;
+			box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+		}
+		.fix_btn > i {
+			transition: transform .3s;			
+		}
+		.fix_btn:hover > i{
+			transform: scale(2);
+		}
+		
 			
-			width: 100%;
-			min-width: 1290px;
-			height: 1070px;
-		}
-		.about_title{
-			background: url(../img/texture-1504364_1280.jpg);				
-			overflow: hidden;
-
-			text-align: center;
-			padding-top: 178px;
-		}
-
-		.about_title h2{
-			font-size: 100px;
-			font-weight: 100;
-		}
-
+		
 
 	</style>
 
 </head>
 
 <body>
+<div class="top_btn fix_btn"><i class="fas fa-arrow-alt-circle-up"></i></div>
 <div class="content_wrap">
 		<div class="content">
 			<div class="slideshow-container">
 
 				<div class="mySlides fade">
 				  <div class="numbertext">1 / 3</div>
-				  <img src="${path}/resources/image/img/repill-1884777_1280.jpg" style="width:100%">
+				  <img src="${path}/resources/image/img/yellpharmacy-3087599_1280.jpg" style="width:100%">
 				  <div class="text">Caption One</div>
 				</div>
 
 				<div class="mySlides fade">
 				  <div class="numbertext">2 / 3</div>
-				  <img src="${path}/resources/image/img/swimming-388910_1280.jpg" style="width:100%">
+				  <img src="${path}/resources/image/img/runners-635906_1280.jpg" style="width:100%">
 				  <div class="text">Caption Two</div>
 				</div>
 
 				<div class="mySlides fade">
 				  <div class="numbertext">3 / 3</div>
-				  <img src="${path}/resources/image/img/manwoman-3694475_1920.jpg" style="width:100%">
+				  <img src="${path}/resources/image/img/people-821624_1280.jpg" style="width:100%">
 				  <div class="text">Caption Three</div>
 				</div>
-
+				<div class="mySlideWrap">	
+					<div class="mySlidesBest">Weekly BEST</div>
+					<div class="mySlidesBest">MD CHOICE</div>
+					<div class="mySlidesBest">레쓰고</div>
+				</div>
 			</div>
 				<br>
 
@@ -248,163 +275,67 @@
 			</h4>
 			<div class="recommand_wrap">
 				<div class="recommand">
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/multivita.png"></div>
-						<div class="recommand_pdt_name">파이토 락토 철분</div>
-						<div class="recommand_pdt_subname">	화학적부형제 제로! 여성을 위한 맞춤 설계 종합비타민</div>
+				
+					<c:forEach items = "${BestPdt}" var="pdt">
+					<div class="recommand_pdt ">
+						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/${pdt.p_img}"></div>
+						<div class="recommand_pdt_name">${pdt.pname}</div>
+						<div class="recommand_pdt_subname">	${pdt.pmemo}</div>
 						<div class="recommand_pdt_price">
 							<strong class="price">
-									<span class="number">40,000</span>
+									<span class="number"><fmt:formatNumber type="number" maxFractionDigits="3"  value="${pdt.price}"/></span>
 									<span class="currency">원</span>
 								</strong>
-								<strong class="price extend_cancel">
-									<span class="number2">50,000</span>
-									<span class="currency">원</span>
-									<span class="blind">취소</span>
-								</strong>
+
 						</div>
 					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/fishcolla.png"></div>
-						<div class="recommand_pdt_name">(4Free)저분자 피쉬콜라겐 대용량 1통[100포]+양태반 마스크팩 5장</div>
-						<div class="recommand_pdt_subname">	흡수율 높은 저분자 피쉬콜라겐</div>
-						<div class="recommand_pdt_price">
-							<div class="recommand_pdt_price">
-							<strong class="price">
-									<span class="number">42,000</span>
-									<span class="currency">원</span>
-								</strong>
-								<strong class="price extend_cancel">
-									<span class="number2">50,000</span>
-									<span class="currency">원</span>
-									<span class="blind">취소</span>
-								</strong>
-						    </div>
-						</div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/dailyguronsan.png"></div>
-						<div class="recommand_pdt_name">데일리 히알루론산</div>
-						<div class="recommand_pdt_subname">물광피부 상피세포 성장발달에 필요</div>
-						<div class="recommand_pdt_price">
-						<div class="recommand_pdt_price">
-							<div class="recommand_pdt_price">
-							<strong class="price">
-									<span class="number">38,000</span>
-									<span class="currency">원</span>
-								</strong>
-								<strong class="price extend_cancel">
-									<span class="number2">85,000</span>
-									<span class="currency">원</span>
-									<span class="blind">취소</span>
-								</strong>
-						    </div>
-						</div>
-						</div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/southcrill.png"></div>
-						<div class="recommand_pdt_name">남극크릴오일 1세트</div>
-						<div class="recommand_pdt_subname">국내 최대 함량 아스타잔틴 300mg/kg 고순도 크릴오일100%</div>
-						<div class="recommand_pdt_price">
-							<div class="recommand_pdt_price">
-							<div class="recommand_pdt_price">
-								<strong class="price">
-									<span class="number">75,000</span>
-									<span class="currency">원</span>
-								</strong>
-								<strong class="price extend_cancel">
-									<span class="number2">90,000</span>
-									<span class="currency">원</span>
-									<span class="blind">취소</span>
-								</strong>
-						    </div>
-						    </div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
-
-				<div id="about">
-					<div class="about_title">
-						<span>오직 건강식품만 취급</span>
-						<h2 class="about_big">ABOUT
-							<span style="color: #76ca00; font-weight: 700">NANANAN</span>
-						</h2>
-						<p class="long_ment">
-							"어렵게 검색을 통해 노란알약 건강식품을 찾는 이유가 뭘까요?"
-							<br>
-							"청정지역에서 생산된 깨끗한 제품의 가치 때문입니다."
-							<br>
-							"노란알약은  오클랜드에 위치해 있습니다."
-						</p>
-					</div>
-				</div>
-			
-
-
-			<h4 class="title_home" title="주간베스트">
-			<span class="inner">추천상품</span>
+			</div>	
+						<h4 class="title_home" title="주간베스트">
+			<span class="inner">신상품</span>
 			</h4>
 			<div class="recommand_wrap">
 				<div class="recommand">
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-				</div>
-					<div class="recommand">
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-					<div class="recommand_pdt">
-						<div class="recommand_pdt_img"></div>
-						<div class="recommand_pdt_name"></div>
-						<div class="recommand_pdt_subname"></div>
-						<div class="recommand_pdt_price"></div>
-					</div>
-				</div>
 				
+					<c:forEach items = "${NewPdt}" var="pdt">
+					<div class="recommand_pdt ">
+						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/${pdt.p_img}"></div>
+						<div class="recommand_pdt_name">${pdt.pname}</div>
+						<div class="recommand_pdt_subname">	${pdt.pmemo}</div>
+						<div class="recommand_pdt_price">
+							<strong class="price">
+									<span class="number"><fmt:formatNumber type="number" maxFractionDigits="3"  value="${pdt.price}"/></span>
+									<span class="currency">원</span>
+								</strong>
+
+						</div>
+					</div>
+					</c:forEach>
+				</div>
 			</div>
-
+						<div class="recommand_wrap">
+				<div class="recommand">
 				
-		</div>			
-	</div>
+					<c:forEach items = "${NewPdt2}" var="pdt">
+					<div class="recommand_pdt ">
+						<div class="recommand_pdt_img"><img src="${path}/resources/image/img/${pdt.p_img}"></div>
+						<div class="recommand_pdt_name">${pdt.pname}</div>
+						<div class="recommand_pdt_subname">	${pdt.pmemo}</div>
+						<div class="recommand_pdt_price">
+							<strong class="price">
+									<span class="number"><fmt:formatNumber type="number" maxFractionDigits="3"  value="${pdt.price}"/></span>
+									<span class="currency">원</span>
+								</strong>
 
+						</div>
+					</div>
+					</c:forEach>
+				</div>
+			</div>
+			
+	</div>		
+</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -429,5 +360,18 @@ function showSlides() {
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 
+$(window).scroll(function(){   //스크롤이 움직이면 
+	   if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
+		   $('.top_btn').fadeIn().css("display","flex");	
+	   
+	}else{
+		$('.top_btn').fadeOut();
+	}
+	});	
+
+	$('.top_btn').click(function(){
+		$('html, body').animate({scrollTop : 0},800);
+	});
+		
 </script>
 </html>

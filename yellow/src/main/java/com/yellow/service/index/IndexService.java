@@ -10,4 +10,9 @@ public interface IndexService {
 	
 	//베스트 상품을 5건 출력
 	public List<ProductDTO> bestPdtList();
+	
+	//신상 4건
+	public List<ProductDTO> newPdtList();
+	//신상 다음 4건
+	public List<ProductDTO> newPdtList2();
 }

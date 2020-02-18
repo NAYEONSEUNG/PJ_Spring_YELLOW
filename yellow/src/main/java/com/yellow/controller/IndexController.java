@@ -28,11 +28,21 @@ public class IndexController {
 		log.info(">>> INDEX PAGE 출력");
 //		iService.bestPdtList();
 		
-		//1.view단에 출력할 데이터
+		//1.view단에 출력할 데이터 베스트상품
 //		List<ProductDTO>list = iService.bestPdtList();
 		model.addAttribute("BestPdt", iService.bestPdtList()); //앞에가 이름표 뒤에가 담을 데이터
+		
+		//2.view단에 출력할 베스트상품 
+		//:신상품 4건을 출력하는 비즈니스 로직을 처리하는 서비스단으로 이동
+		model.addAttribute("NewPdt", iService.newPdtList());					
+//		iService.newPdtList();
+		model.addAttribute("NewPdt2", iService.newPdtList2());
+		
 		//2.출력할 화면을 결정
 		return "index";
+		
+		
 	}
+	
 
 }

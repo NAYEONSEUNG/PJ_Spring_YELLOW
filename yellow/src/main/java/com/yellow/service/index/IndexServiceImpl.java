@@ -42,8 +42,38 @@ public class IndexServiceImpl implements IndexService {
 //			log.info(productDTO.toString());
 //		}
 		
+		//베스트 상품을 4건 출력
+	
+		
+		//신상품을 4건 출력
+		
 		
 		return pDao.bestPdtList();
+	}
+	@Override
+	public List<ProductDTO> newPdtList(){
+		// 비즈니스로직을 처리
+		//신상품 5건을 출력 => db작업
+		//: db작업은 MODEL단 시킴
+		
+		//db작업위해 model단으로 이동
+		// Model(ProductDAO + Mapper) 인터페이스의 newPdtList() 인터페이스의 newPdtList()메서드를 실행하고 return받음 !
+		//Model(ProductDAO + Mapper) 인터페이스의 newPdtList()
+		
+//		pDao.newPdtList(); //newpdtlist 실행하라고 
+		return pDao.newPdtList();
+	}
+	public List<ProductDTO> newPdtList2(){
+		// 비즈니스로직을 처리
+		//신상품 5건을 출력 => db작업
+		//: db작업은 MODEL단 시킴
+		
+		//db작업위해 model단으로 이동
+		// Model(ProductDAO + Mapper) 인터페이스의 newPdtList() 인터페이스의 newPdtList()메서드를 실행하고 return받음 !
+		//Model(ProductDAO + Mapper) 인터페이스의 newPdtList()
+		
+//		pDao.newPdtList(); //newpdtlist 실행하라고 
+		return pDao.newPdtList2();
 	}
 
 }
