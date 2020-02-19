@@ -555,11 +555,6 @@
 	</div>
 
 
-
-
-
-
-
 	<header>
 		<div class="header_wrap">
 			<div class="header_content">
@@ -661,7 +656,7 @@
 						</div>
 					</div>
 					<div><button type="button" class="btn btn-basic login_open">로그인</button></div>
-					<a href="../include/yellow_constract.html"><div><button type="button" class="btn btn-primary">가입하기</button></div></a>
+					<div><button type="button" class="btn btn-primary" id="header_btn_join">가입하기</button></div>
 
 				<!-- 	<a href="#">로그인</a>
 					<a href="#">회원가입</a> -->
@@ -753,6 +748,12 @@
 		}
 
 	});
+	
+	/*Header 가입하기 버튼 클릭시 동의 페이지 이동*/
+	$(document).on('click','#header_btn_join',function(){
+		location.href="${path}/member/constract";
+	});
+	
 </script>
 
 </body>

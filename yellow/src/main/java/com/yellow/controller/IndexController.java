@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yellow.domain.ProductDTO;
 import com.yellow.service.index.IndexService;
@@ -23,7 +24,7 @@ public class IndexController {
 	
 	@Autowired
 	IndexService iService;
-	@GetMapping("/index")
+	@RequestMapping("/") //프로젝트 /만 입력해도 들어가진다.
 	public String indexView(Model model) {
 		log.info(">>> INDEX PAGE 출력");
 //		iService.bestPdtList();

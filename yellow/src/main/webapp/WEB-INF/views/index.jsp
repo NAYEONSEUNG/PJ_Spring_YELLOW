@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
-<link rel = "stylesheet" type="text/css" href="${path}../css/common.css">
+<link rel = "stylesheet" type="text/css" href="${path}/resources/css/common.css">
 	<style type="text/css">
 		div.contetn_wrap{
 			width: 100%;

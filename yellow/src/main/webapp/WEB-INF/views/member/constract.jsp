@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <!-- 헤더 추가할사람 -->
-
 
 <!-- 헤더추가 ㄴㄴ 디자인만 ㄱㄱ -->
 <%@ include file="../include/include.jsp" %>
@@ -11,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
-<link rel = "stylesheet" type="text/css" href="${path}../css/common.css">
+<link rel = "stylesheet" type="text/css" href="${path}/resources/css/common.css">
 	<style type="text/css">
 		/*Common*/
 		/*기본적으로 태그에 margin or padding*/
@@ -62,7 +60,7 @@
 			display: block;
 			width: 240px;
 			height: 240px;
-			background:url('../../img/[크기변환]사본 -레알본옐로_1.png') no-repeat;
+			background:url('${path}/resources/image/img/sizechagejjin.png') no-repeat;
 			margin: 0 auto; 
 		}
 		.lang{
@@ -81,7 +79,7 @@
 			
 		}
 		.lang > select{									
-			background:url('../../Img/NAVER/sel_arr.gif') 100% 50% no-repeat;
+			background:url('${path}/resources/image/NAVER/sel_arr.gif') 100% 50% no-repeat;
 			-webkit-appearance: none; /* 삼각형 모양 꺼브러*/
 			background-color: white;
 		}
@@ -110,7 +108,7 @@
 			position: relative;
 		}
 		.terms_span > label{
-			background:url(../../img/체크킴.png)100% 50% no-repeat ;
+			background:url('${path}/resources/image/img/체크킴.png')100% 50% no-repeat ;
 			display: block;
 			line-height: 20px;
 			height: 50px;
@@ -124,7 +122,7 @@
 			height: 58px;
 		}
 		.terms_span > input:checked +label{
-			background-image: url('../../img/체크끔.png');
+			background-image: url('${path}/resources/image/img/체크끔.png');
 		}
 		.terms_ul{
 			padding-bottom: 7px;
@@ -170,11 +168,11 @@
 
 		}
 		.ul_li_span > label {
-			background:url('../../Img/체크킴.png') 100% 50% no-repeat;
+			background:url('${path}/resources/image/img/체크킴.png') 100% 50% no-repeat;
 			display: block;
 		}
 		.ul_li_span > input:checked +label{
-			background-image: url('../../Img/체크끔.png');
+			background-image: url('${path}/resources/image/img/체크끔.png');
 		}
 		.terms_box{
 			position: relative;
@@ -228,7 +226,7 @@
 			width: 50%;
 		}
 		.btn_type{
-			width: auto;
+			width: 100%;
 			margin:0px 5px;
 			font-size: 20px;
 			font-weight: 600;
@@ -258,6 +256,12 @@
 		.group_join > a{
 			text-decoration: underline;
 			color: #333;
+		}
+		#cons_btn_cancel{
+			color: #333;
+			border: 1px solid #e7e7e7;
+			background-color: #fff;
+		
 		}
 		/*fotter*/
 		#footer{
@@ -413,8 +417,8 @@
 					</div>
 
 					<div class="btn_double_area">
-						<span><a href="../include/header2.html" class="btn_type btn_default">취소</a></span>
-						<span><a href="../include/yellow_join.html" class="btn_type btn_agree">확인</a></span>						
+						<span><button type="button" class="btn_type btn_default" id="cons_btn_cancel">취소</button></span>
+						<span><button type="button" class="btn_type btn_agree" id="cons_btn_agree">확인</button></span>						
 					</div>
 				</form>
 
@@ -436,7 +440,7 @@
 					<div id="address">
 						<span>
 							<a href="../include/header2.html">
-							<img id="addr_logo" src="../../img/small-레알본옐로_1.png">
+							<img id="addr_logo" src="${path}/resources/image/img/small-레알본옐로_1.png">
 							</a>
 						</span>
 						<span>Copyright</span>
@@ -450,4 +454,58 @@
 		</footer>
 	</div>
 </body>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/*전체선택 체크시 전체 체크 or 전체 체크해제*/
+		$('#cbox').on('click', function(){
+			var flag = $(this).is(':checked');//체크박스의 체크여부를 알려준다다.(Bool값으로)
+			if(flag == true){
+				$('.ckboxs').prop('checked', true); // 체크
+			}else{
+				$('.ckboxs').prop('checked', false);//체크해제
+			}
+		});
+		/* 선택체크가 모두 체크되면 전체체크 버튼 True
+			선택체크가 하나라도 체크해제이면 전체체크버튼 False*/
+		$('.ckboxs').on('click', function(){
+			var ckLen = $('.ckboxs:checkbox:checked').length; /*체크된것만 길이를 알려줘라*/
+			if(ckLen != 4){
+				$('#cbox').prop('checked', false);
+			}else{
+				$('#cbox').prop('checked', true);
+			}
+		});
+		/*확인버튼 클릭시 필수체크 (2개) 체크유무 유효성 체크*/
+		$('#cons_btn_agree').on('click', function(){ 
+			var agree_one = $('#li1box').is(':checked');  
+			var agree_two = $('#li2box').is(':checked');
+			var agree_three = $('#li3box').is(':checked');
+			var agree_four = $('#li4box').is(':checked');
+			
+/* 			console.log('동의1:' + agree_one);
+			console.log('동의2:' + agree_two);
+			console.log('동의3:' + agree_three);
+			console.log('동의4:' + agree_four);
+		 */
+		 
+		 if(agree_one == false || agree_two == false){
+			$('.err_check').css('display' ,'block'); //visibility이면 visible
+			 return false;
+		 }
+		 //유효성체크 통과시 회원가입 페이지로 이동!!
+		 location.href="${path}/member/join?useon="+ agree_one + "&primaryon="+ agree_two
+				 								   + "&locon=" + agree_three + "&eventon="+ agree_four;
+		 
+		 alert('회원가입페이지로 이동하시죠 !');
+		});
+		
+		/* 취소버튼 클릭시 INDEX 페이지로 이동 */
+		$('#cons_btn_cancel').on('click', function(){
+			location.href='${path}/';
+		});
+	});
+</script>
+
+
 </html>
