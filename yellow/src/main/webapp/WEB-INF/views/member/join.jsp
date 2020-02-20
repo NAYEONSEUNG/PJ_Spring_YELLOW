@@ -552,7 +552,8 @@
 		});
 
 		//버튼활성화!
-		$('.int').blur(function(){
+	/* 	$('.int').blur(function(){ */
+			$('.int').keyup(function(){
 			var checkAll = true;
 
 			for(var i = 0; i < checkArr.length; i++){

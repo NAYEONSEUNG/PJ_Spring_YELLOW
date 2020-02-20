@@ -135,10 +135,11 @@ var joinValidate = {
 				return this.resultCode.first_special_id;
 			}else if (id.length < 5 || id.length > 20){//6.길이 (5~20자 이내)
 				return this.resultCode.length_id;
+			}else if(idCheck(id)){//아이디 중복체크할때 새로 추가 2.20
+				return this.resultCode.overlap_id;
 			}else{
 				return this.resultCode.success_id;
-			}
-
+			}			
 	},
 	checkPw: function(pw, rpw){
 		var regEmpty = /\s/g; // 공백문자
@@ -241,3 +242,40 @@ var joinValidate = {
     	}
     }
 }
+function idCheck(id){
+	var return_val = true;
+	$.ajax({
+		type: 'POST',
+		url: 'idoverlap?id='+id,
+		async: false,
+		success: function(data){
+			console.log(data); 
+			if(data>= 1){
+				return_val = true;
+			}else{
+				return_val = false;
+			}
+		},
+		error: function(){
+			alert('System ERROR:(');
+		}
+	
+	});
+	return return_val;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

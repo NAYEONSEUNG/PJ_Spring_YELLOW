@@ -1,10 +1,14 @@
 package com.yellow.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yellow.domain.MemberDTO;
+import com.yellow.service.member.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller // 스프링 빈즈로 등록시키겠다.
 
 public class MemberController {
+	@Autowired
+	MemberService mService;
 	@GetMapping("/constract")
 	public 	String viewConstract() {
 		log.info(">>>>>>MEMBER/CONSTRACT PAGE 출력");
@@ -24,6 +30,15 @@ public class MemberController {
 		log.info(mDto.toString());
 		return "member/join"; //화면단 결정하는 놈
 	}
- 
+ //회원가입 ID중복체크
+	@ResponseBody
+	@PostMapping("/idoverlap")
+	public int idOverlap(String id) {
+		log.info(">>>>> ID OVERLAP CHECK");
+		log.info("아이디:" + id);
+		return mService.idOver(id);
+	}
+	
+	
 
 }
