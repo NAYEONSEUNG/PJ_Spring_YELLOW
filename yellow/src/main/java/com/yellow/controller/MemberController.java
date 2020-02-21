@@ -33,10 +33,17 @@ public class MemberController {
  //회원가입 ID중복체크
 	@ResponseBody
 	@PostMapping("/idoverlap")
-	public int idOverlap(String id) {
-		log.info(">>>>> ID OVERLAP CHECK");
+	public String idOverlap(String id) {
+		log.info(">>>>>> ID OVERLAP CHECK");
 		log.info("아이디:" + id);
-		return mService.idOver(id);
+		
+		int cnt = mService.idOver(id);
+		String flag = "1";
+		if(cnt == 0) {
+			flag = "0";
+		}
+		
+		return flag;
 	}
 	
 	

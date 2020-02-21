@@ -135,7 +135,7 @@ var joinValidate = {
 				return this.resultCode.first_special_id;
 			}else if (id.length < 5 || id.length > 20){//6.길이 (5~20자 이내)
 				return this.resultCode.length_id;
-			}else if(idCheck(id)){//아이디 중복체크할때 새로 추가 2.20
+			}else if(idCheck(id)){//아이디 중복체크할때 추가 2.20
 				return this.resultCode.overlap_id;
 			}else{
 				return this.resultCode.success_id;
@@ -151,7 +151,7 @@ var joinValidate = {
 			return this.resultCode.empty_val;
 		}else if(pw.match(regEmpty)){//2.공백값이 있는지 체크
 			return this.resultCode.space_length_val;
-		}else if(!pw.match(regPw)){//3. 유효한 비밀번호 체크 ,!는 반대로할때 사용 '^'있는것은 이값들이 있으면 true
+		}else if(!pw.match(regPw)){//3. 유효한 비밀번호 체크 ,!는 반대로할때 사용 '^'있는것은 이 값들이 있으면 true
 			return this.resultCode.invalid_pw;
 		}else if(/(\w)\1\1\1/.test(pw)){//4. 같은 값이 4번연속으로 사용했는지 체크 
 			return this.resultCode.stream_pw;
@@ -168,7 +168,7 @@ var joinValidate = {
 		}
 	},
 	checkRpw : function(pw, rpw, pwFlag){
-		//비밀번호의 유효성체크를 통과한 갑과]
+		//비밀번호의 유효성체크를 통과한 값과]
 		//비밀번호 재확인 값이 같다면
 		//비밀번호 재확인 값은 유효성체크를 할 필요가 없음
 		if(rpw == '' || rpw.length == 0){//1.값이 있는지 체크
@@ -250,7 +250,7 @@ function idCheck(id){
 		async: false,
 		success: function(data){
 			console.log(data); 
-			if(data>= 1){
+			if(data >= 1){
 				return_val = true;
 			}else{
 				return_val = false;
