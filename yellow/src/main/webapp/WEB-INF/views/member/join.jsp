@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- 헤더추가 ㄴㄴ 디자인만 ㄱㄱ -->
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
@@ -245,7 +245,8 @@
 	</div></header>
 
 	<section>
-		<form name="frm_join" action="" method="POST">
+		<!-- <form id="frm_member" name="frm_join" action="${path}/member/join" method="POST" > 액션이 생략되어있으면 기존에 있던 url을 그대로 집어넣어준다.  -->
+		<form:form id="frm_member" modelAttribute="memberDTO" atuocomplete="on">
 			<div class="container">
 				<div class="join_content">
 					<div class="row_group">
@@ -255,7 +256,8 @@
 								
 							</h3>
 							<span class="ps_box int_id join_info_box_content" >
-								<input type="text" id="uid" name="uid" class="int">
+								<input type="text" id="uid" name="id" class="int">
+								
 								<span class="step_url"></span>
 							</span>
 							<span class="join_err_msg">필수 정보입니다.</span>
@@ -268,7 +270,7 @@
 								
 							</h3>
 							<span class="ps_box int_pass join_info_box_content">
-								<input type="text" id="upw" name="upw" class="int">
+								<input type="text" id="upw" name="pw" class="int">
 								<span class="step_url"><span class="pw_lock"></span></span>
 							</span>
 							<!-- <span class="join_err_msg">필수 정보입니다.</span> -->
@@ -292,7 +294,7 @@
 								<label for="name">이름</label>								
 							</h3>
 							<span class="ps_box join_info_box_content">
-								<input type="text" id="uname" name="uname" class="int">								
+								<input type="text" id="uname" name="name" class="int">								
 							</span>
 							<span class="join_err_msg">필수 정보입니다.</span>
 						</div>
@@ -302,7 +304,7 @@
 								<label for="email">본인 확인 이메일<span class="choice">(선택)</span></label>								
 							</h3>
 							<span class="ps_box join_info_box_content">
-								<input type="text" id="uemail" name="uemail" class="int" placeholder="본인확인 이메일">
+								<input type="text" id="uemail" name="email" class="int" placeholder="본인확인 이메일">
 
 							</span>
 							<span class="join_err_msg">필수 정보입니다.</span>
@@ -313,7 +315,7 @@
 								<label for="phone">휴대전화</label>								
 							</h3>
 							<span class="ps_box join_info_box_content">
-								<input type="text" id="uphone" name="uphone" class="int" placeholder="-없이 입력, 예)01012345678">								
+								<input type="text" id="uphone" name="phone" class="int" placeholder="-없이 입력, 예)01012345678">								
 							</span>
 							<span class="join_err_msg">필수 정보입니다.</span>
 						</div>
@@ -326,15 +328,17 @@
 							<div class="addr_wrap">
 								 <div class="postcode" style="display: flex;">
 								    <span class="join_info_box_content ps_box addr_poc">
-								    <input type="text" id="sample6_postcode" class="int addr_only" placeholder="우편번호" value="12553" readonly>
+								    <input name="postcode" type="text" id="sample6_postcode" class="int addr_only" placeholder="우편번호"  >
 								    </span>
 								     <input type="button" id='btn_post' class='addr_poc_button' onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 								</div>
 								   <span class="join_info_box_content ps_box">
-										<input type="text" id="sample6_address" class="int addr_only" placeholder="주소" value="광주광역시 북구 중흥동"readonly><br>
+										<input name="addr1" type="text" id="sample6_address" class="int addr_only" placeholder="주소" ><br>
 								   </span>
 								   <span class="join_info_box_content ps_box">
-										<input type="text" id="sample6_detailAddress" class="int" placeholder="상세주소">
+										<input name="addr2" type="text" id="sample6_detailAddress" class="int" placeholder="상세주소">
+										<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+										
 								   </span>
 							</div>
 						<span class="join_err_msg">필수 정보입니다.</span>
@@ -348,10 +352,11 @@
 						</div>
 
 				</div>
-				
+			</div>	
 			</div>
 			
-		</form>
+	<!-- </form> -->	
+		</form:form>
 	</section>
 	<footer>
 			<div id="footer">
@@ -391,6 +396,14 @@
    });
 
 	$(function(){
+		//비정상적인 접근인지 판단하는 flag
+		//
+		var flag = '${flag}';// '' 따옴표를 꼭 붙히자
+		if(flag == 0) {
+			location.href="${path}/member/constract";
+		}
+		
+	
 		//비밀번호가 유효한 값인지 체크해주는 Flag값
 		var pwFlag = false;
 
@@ -504,6 +517,10 @@
 		//이메일 유효성 체크
 		$('#uemail').keyup(function(){
 			var email = $.trim($(this).val());
+			
+			//전화번호칸 입력시 문자열 길이를 읽어와 출력에시
+			//$('.email_cnt').text(email.length);
+			
 			var result = joinValidate.checkEmail(email);
 
 			if(result.code == 0){
@@ -586,13 +603,17 @@
 
 			if(invalidAll){
 				alert('회원가입 성공!');
-			}else{
+				$('#frm_member').submit(); 
+				// 아이디가 frm인것 서브밋 해라!, 폼태그 자체를 서버단으로 보내라는 말 , 
+				//데이터 보낼때 서브밋하면 폼태그 안에있는 데이터들을 전송한다.
+				//submit:form태그안에 있는 데이터들을 서버단으로 전송 
+				//action: 목적지(MemberController '/join')
+				//method: 방법(POST: 숨겨서)
+			}else{	//하나라도 flase이면 
 				alert('유효성체크를 진행해주세요!');
 			}
 		
-			//유효성체크가 전부 true이면
-
-			//하나라도 flase이면 
+			//유효성체크가 전부 true이면	
 		});
 
 	});

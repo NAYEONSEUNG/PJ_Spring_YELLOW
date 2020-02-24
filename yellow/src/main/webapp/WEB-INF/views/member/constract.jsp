@@ -316,7 +316,7 @@
 		<header>
 			<div id="header"> 	
 				<h1 class="naver_logo">
-					<a href="../include/header2.html" class="n_logo"></a>
+					<a href="${path}/../include/header2.html" class="n_logo"></a>
 				</h1>		
 				<div class="lang">
 					<select class="langselect">
@@ -495,7 +495,7 @@
 		 }
 		 //유효성체크 통과시 회원가입 페이지로 이동!!
 		 location.href="${path}/member/join?useon="+ agree_one + "&primaryon="+ agree_two
-				 								   + "&locon=" + agree_three + "&eventon="+ agree_four;
+				 								   + "&locon=" + agree_three + "&eventon="+ agree_four + "&flag=1";
 		 
 		 alert('회원가입페이지로 이동하시죠 !');
 		});
