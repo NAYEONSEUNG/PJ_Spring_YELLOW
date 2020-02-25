@@ -444,12 +444,40 @@
 			width: 30px;
 			text-align: center;
 		}
+				/* 탑버튼 */
+		.top_btn{
+			bottom: 115px;
+			background-color: #414d41;
+			display: none;
+			bottom: 95px;
+		}
+		.fix_btn{
+			position: fixed;
+			right: 50px;			
+			color: white;
+			height: 70px;
+			width: 70px;			
+			border-radius:50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 25px;
+			cursor: pointer;
+			box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+		}
+		.fix_btn > i {
+			transition: transform .3s;			
+		}
+		.fix_btn:hover > i{
+			transform: scale(2);
+		}
 		
 	</style>
 
 </head>
 <body>
 <body>
+<div class="top_btn fix_btn"><i class="fas fa-arrow-alt-circle-up"></i></div>
 	<div class="modal_wrap">
 		<div class="modal_content">
 			<div class="login_close">
@@ -753,6 +781,19 @@
 	$(document).on('click','#header_btn_join',function(){
 		location.href="${path}/member/constract";
 	});
+	//top버튼
+	$(window).scroll(function(){   //스크롤이 움직이면 
+		   if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
+			   $('.top_btn').fadeIn().css("display","flex");	
+		   
+		}else{
+			$('.top_btn').fadeOut();
+		}
+		});	
+
+		$('.top_btn').click(function(){
+			$('html, body').animate({scrollTop : 0},800);
+		});
 	
 </script>
 

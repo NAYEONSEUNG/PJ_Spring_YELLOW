@@ -1,6 +1,9 @@
 package com.yellow.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yellow.domain.MemberDTO;
+import com.yellow.service.mail.MailService;
 import com.yellow.service.member.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +46,15 @@ import lombok.extern.slf4j.Slf4j;
 
 public class MemberController {
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private MailService mailService;
+	
+	@Autowired
 	MemberService mService;
+	
+
 	
 	/*
 	 *SeesionAttributes를 사용하기 위해서는
@@ -90,8 +103,8 @@ public class MemberController {
 	 * 
 	 * 만약 없으면
 	 * 메모리 어딘가에 보관중인 SessionAttributes로 설정된
-	 * mDto변수에서 값을 가져와서 비어잇는
-	 * 필드변수를 채우서서 매개변수에 주입한다.
+	 * mDto변수에서 값을 가져와서 비어있는
+	 * 필드변수를 채워서 매개변수에 주입한다.
 	 * 
 	 * 따라서 form에서 보이지 않아도 되는 값들은
 	 * 별도의 코딩을 하지 않아도
@@ -101,10 +114,14 @@ public class MemberController {
 	 */
 	
 	@PostMapping("/join") //join에서 서브밋한게 여기로 온다. /회원정보 숨겨야하니까 포스트
-	public String join(@ModelAttribute("memberDTO") MemberDTO mDto, SessionStatus sessionStatus) {// 가입하기 누르면 여기 디티오로 간다. id,pw,이름... 8개의 값
+	public String join(@ModelAttribute("memberDTO") MemberDTO mDto, SessionStatus sessionStatus, HttpServletRequest request) {// 가입하기 누르면 여기 디티오로 간다. id,pw,이름... 8개의 값
 		log.info(">>>>>>MEMBER/JOIN POST DB에 회원정보 저장 ");
 		log.info(mDto.toString());
-			
+		log.info("Password: " +mDto.getPw());//사용자 입력PW값
+		//1.사용자 암호 HASH변환
+		String encPw= passwordEncoder.encode(mDto.getPw());
+		mDto.setPw(encPw);
+		log.info("password(+Hash): " + mDto.getPw());
 		//2.DB에 회원등록
 		int result = mService.memInsert(mDto);		
 		//3.회원 등록결과
@@ -112,12 +129,26 @@ public class MemberController {
 			log.info(">>>>>"+ mDto.getId()+ "님 회원가입되셨습니다.");
 		}
 		
+		//회원가입 인증 메일 보내기
+		mailService.mailSendUser(mDto.getEmail(),mDto.getId(),request);
+		
 		//SessionAttributes를 사용할때 insert, update가 완료되고
 		//view로 보내기전 반드시 setComplet()를 실행하여
 		//session에 담긴 값을 clear 해주어야한다.
 		
 		sessionStatus.setComplete();
-		return "";
+		return "redirect:/";
+	}
+	@GetMapping("/keyauth")
+	public String keyAuth(String id, String key, RedirectAttributes rttr) {
+		mailService.keyAuth(id, key);
+		
+		//인증 후 메시지출력을 위한 값 전달
+		rttr.addFlashAttribute("id",id);
+		rttr.addFlashAttribute("key", "auth");
+		
+		return "redirect:/";
+			
 	}
 	
  //회원가입 ID중복체크

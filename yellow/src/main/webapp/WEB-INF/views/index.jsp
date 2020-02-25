@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file= "include/header.jsp" %>
+<%@ include file="include/modal.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -199,7 +200,7 @@
 			text-align: center;
 		}
 		/* 탑버튼 */
-		.top_btn{
+/* 		.top_btn{
 			bottom: 115px;
 			background-color: #414d41;
 			display: none;
@@ -225,7 +226,7 @@
 		.fix_btn:hover > i{
 			transform: scale(2);
 		}
-		
+		 */
 			
 		
 
@@ -234,7 +235,7 @@
 </head>
 
 <body>
-<div class="top_btn fix_btn"><i class="fas fa-arrow-alt-circle-up"></i></div>
+<!-- <div class="top_btn fix_btn"><i class="fas fa-arrow-alt-circle-up"></i></div> -->
 <div class="content_wrap">
 		<div class="content">
 			<div class="slideshow-container">
@@ -359,8 +360,8 @@ function showSlides() {
     dots[slideIndex-1].className += " active";
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
-
-$(window).scroll(function(){   //스크롤이 움직이면 
+//top버튼
+/* $(window).scroll(function(){   //스크롤이 움직이면 
 	   if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
 		   $('.top_btn').fadeIn().css("display","flex");	
 	   
@@ -371,7 +372,7 @@ $(window).scroll(function(){   //스크롤이 움직이면
 
 	$('.top_btn').click(function(){
 		$('html, body').animate({scrollTop : 0},800);
-	});
+	}); */
 		
 </script>
 </html>
