@@ -31,6 +31,7 @@ public class IndexController {
 		
 		//1.view단에 출력할 데이터 베스트상품
 //		List<ProductDTO>list = iService.bestPdtList();
+		//model: 컨트롤러에서 화면단으로 데이터 보낼때 쓰는것
 		model.addAttribute("BestPdt", iService.bestPdtList()); //앞에가 이름표 뒤에가 담을 데이터
 		
 		//2.view단에 출력할 베스트상품 

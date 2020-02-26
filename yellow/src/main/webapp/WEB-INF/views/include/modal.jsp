@@ -15,7 +15,7 @@
 			overflow: auto;
 			width: 100%;
 			height: 90%;
-			display: flex;
+			display: none;
 			justify-content: center;
 			align-items: center;
 			
@@ -23,7 +23,7 @@
 		.include_modal_content{
 			position: relative;
 			width: 400px;
-			height: 225px;
+			/* height:250px; */
 			background-color: white;
 			box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),
 						0 4px 20px 0 rgba(0,0,0,0.19);
@@ -36,7 +36,7 @@
 			display: block;
 			clear: both;
 			margin: 30px 0 10px;
-			font-size: 30px;
+			font-size: 25px;
 			text-align: center;
 			font-weight: 400;
 			color: #333;
@@ -77,6 +77,17 @@
 			align-items: center;
 			justify-content: center;
 		}
+		.include_title p{
+		display: block;
+			clear: both;
+			margin: 30px 0 10px;
+			font-size: 15px;
+			text-align: center;
+			font-weight: 400;
+			color: #333;
+			letter-spacing: -0.03em;
+		}
+		
 </style>
 </head>
 <body>
@@ -87,14 +98,15 @@
 			</div>
 			<div id="include_content_layout">
 				<div class="include_title">
-			    	<h1>정말 탈퇴 하시겠습니까?</h1>			    
-			    <div id="include_header_div">					    		
-			   	</div>			   
-		    	</div>		
+			    	<h1 id="modal_msg_main_txt"></h1>			    
+			   
+		    	</div>	
+		    	<div class="include_title">
+		    	<p id="modal_msg_sub_txt"></p>
+		    	</div>	
 	    	</div>
-	    	<div>
-				<button type="button" id="include_btn_login" >완료</button>
-				
+	    	<div>	    	
+				<button type="button" id="include_btn_login" >완료</button>				
 			</div>
     	</div>
 	</div>
@@ -104,15 +116,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-		//모달창의 x버튼을 클릭하면 모달창 close
-	$(document).on('click', '.include_login_close', function(){
-		$('.include_modal_wrap').css('display', 'none');
-		// $('.div_input').val('');
-		$('.include_frm_login')[0].reset();
-		$('.include_pw_eye').prev().attr('type', 'password');
-		$('.include_pw_eye').html('<i class="fas fa-eye-slash"></i>')
-				   .css('color', '#aaa');
-
-	});
+	
+		$(function(){
+			var id='${id}';
+			var email='${email}';
+			var key='${key}';
+			
+			var join_main_txt = id+'님 회원가입을 축하드립니다';
+			var join_sub_txt = email + '으로 인증메일을 보냈습니다. 인증하세요';
+			var auth_main_txt = id+ '님 이메일 인증되셨습니다.';
+			var auth_sub_txt = '지금부터 사이트 활동이 가능합니다. 감사합니다.';
+			
+			if(key == 'join'){
+				$('#modal_msg_main_txt').text(join_main_txt);//메인 텍스트
+				$('#modal_msg_sub_txt').text(join_sub_txt);//서브텍스트
+				$('#modal_msg_cancle').css('display','none');//취소버튼 제거
+				$('.include_modal_wrap').css('display', 'flex');//모달창 출력
+			}else if(key=='auth'){
+				$('#modal_msg_main_txt').text(auth_main_txt);
+				$('#modal_msg_sub_txt').text(auth_sub_txt);
+				$('#modal_msg_cancle').css('display', 'none');
+				$('.include_modal_wrap').css('display', 'flex');
+			}
+			$('#include_btn_login').on('click',function(){
+				$('.include_modal_wrap').css('display', 'none');
+			});
+			$('.include_login_close').on('click',function(){
+				$('.include_modal_wrap').css('display', 'none');
+			});
+		});
 </script>
 </html>

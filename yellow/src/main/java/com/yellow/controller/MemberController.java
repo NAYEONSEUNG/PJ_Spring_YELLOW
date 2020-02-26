@@ -39,9 +39,9 @@ import lombok.extern.slf4j.Slf4j;
  * 이름을 표준 패턴이 아닌 임의의 이름으로 바꾸고 싶다.
  */
 
-@SessionAttributes({"memberDTO"})
 @Slf4j //로그 쓸려고 쓴다ㅏ.
 @RequestMapping("/member") /* 멤버로 시작하는 놈들은 다 여기로 와라 */
+@SessionAttributes({"memberDTO"})
 @Controller // 스프링 빈즈로 등록시키겠다.
 
 public class MemberController {
@@ -112,33 +112,51 @@ public class MemberController {
 	 * 단, 이기능을 효율적으로 사용하려면
 	 * jsp \코드에서 Spring - form tag로 input을 코딩해야 한다.
 	 */
-	
+	//회원가입을 하기위한 메서드들 
 	@PostMapping("/join") //join에서 서브밋한게 여기로 온다. /회원정보 숨겨야하니까 포스트
-	public String join(@ModelAttribute("memberDTO") MemberDTO mDto, SessionStatus sessionStatus, HttpServletRequest request) {// 가입하기 누르면 여기 디티오로 간다. id,pw,이름... 8개의 값
-		log.info(">>>>>>MEMBER/JOIN POST DB에 회원정보 저장 ");
+	public String join(@ModelAttribute("memberDTO") MemberDTO mDto, SessionStatus sessionStatus, HttpServletRequest request, RedirectAttributes rttr) {// 가입하기 누르면 여기 디티오로 간다. id,pw,이름... 8개의 값
+		//view단에서 controller단으로 이동																						ㄴ 한번 새로고침하면 사라짐
+		log.info(">>>>>>MEMBER/JOIN page POST 출력");
+		//view단에서 전송된 데이터가 잘 전달됐는지 확인
 		log.info(mDto.toString());
 		log.info("Password: " +mDto.getPw());//사용자 입력PW값
+		
 		//1.사용자 암호 HASH변환
-		String encPw= passwordEncoder.encode(mDto.getPw());
-		mDto.setPw(encPw);
+		String encPw= passwordEncoder.encode(mDto.getPw());//mDto사용자가 입력한 날것의 비밀번호가 들어있다.passwordEncoder불러와서 인코더작업을 하겠다. 
+															//날것의값을 해쉬화(암호화)한것을 encPw에 넣음
+		mDto.setPw(encPw);	//mDto의 날것의 비밀번호대신에 암호화된 pw를 집어넣어라.,, 암호화한것이 mDto에 들어있음 									
 		log.info("password(+Hash): " + mDto.getPw());
 		//2.DB에 회원등록
-		int result = mService.memInsert(mDto);		
+		int result = mService.memInsert(mDto);	//memInsert mDto보내준다. mService쓸려면 객체생성해야하는데 여기서는 의존성주입을 해 주어서 객체생성안해도 자동으로 넣어준다.
+		//대신 @Autowired  MemberService mService가 있어야 의존성주입을 해준다(이놈은 의존성주입을 타입으로한다.),Autowired안붙히면 null값이 들어간다.
+		//@Autowired는 하나당 하나씩 각각 따로쓰기 @Autowired붙어있으면 개발자가 나는 개발만할건데 객체가 필요하다 근데 ㅈㄴ귀찮음 스프링이 대신 해줘
+		//의존성주입하려면 di패턴이니까 저 객체에대한 권한을 스프링이 가지고있어야 한다. 객체애대한 권한은 원래 개발자가 가지고있는데 스프링에서는 스프링이 가지고있다.
+		//스프링에게 권한을 위임하는게 ioc(제어의역전)이라한다. 그럴려면 서비스에 @Service 표지판이 있어야한다.
+		//표지판이 붙어있으면 서블릿컨텍스트에서 회수해간다.
+		
 		//3.회원 등록결과
 		if(result > 0) {
 			log.info(">>>>>"+ mDto.getId()+ "님 회원가입되셨습니다.");
 		}
 		
-		//회원가입 인증 메일 보내기
-		mailService.mailSendUser(mDto.getEmail(),mDto.getId(),request);
+		//4.회원가입 인증 메일 보내기
+		mailService.mailSendUser(mDto.getEmail(), mDto.getId(), request);
 		
 		//SessionAttributes를 사용할때 insert, update가 완료되고
 		//view로 보내기전 반드시 setComplet()를 실행하여
 		//session에 담긴 값을 clear 해주어야한다.
 		
-		sessionStatus.setComplete();
-		return "redirect:/";
+		sessionStatus.setComplete();// 컨트롤러에서 쓴것 초기화 해주는(제거), 안그러면 계속 남아있다. 
+		
+		//회원가입 후 메시지 출력을 위한 값 전달
+		rttr.addFlashAttribute("id",mDto.getId());
+		rttr.addFlashAttribute("email", mDto.getEmail());
+		rttr.addFlashAttribute("key", "join");
+		
+		return "redirect:/";//화면단 경로를 써줌
+				// 리다이렉트로 하겠다redirect:
 	}
+	//회원가입 후 이메일 인증
 	@GetMapping("/keyauth")
 	public String keyAuth(String id, String key, RedirectAttributes rttr) {
 		mailService.keyAuth(id, key);

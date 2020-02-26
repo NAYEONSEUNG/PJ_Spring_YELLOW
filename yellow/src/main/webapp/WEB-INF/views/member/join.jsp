@@ -234,6 +234,28 @@
 			width: 230px;
 			/*vertical-align: middle;*/
 		}
+		#back{
+			position:fixed;
+			z-index: 1200;
+			background-color: rgba(0,0,0,0.4);
+			overflow: auto;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			display: none;
+			align-items: center;
+			justify-content: center;
+		}
+		.loading_img{
+			animation: ani_loading 0.5s infinite linear;
+			font-size:70px;
+			color: #EBA444;
+		}
+		@keyframes ani_loading{
+			from {-webkit-transform:rotate(0deg);}
+			to {-webkit-transform:rotate(359deg);}
+		}
 
 	</style>
 </head>
@@ -245,7 +267,7 @@
 	</div></header>
 
 	<section>
-		<!-- <form id="frm_member" name="frm_join" action="${path}/member/join" method="POST" > 액션이 생략되어있으면 기존에 있던 url을 그대로 집어넣어준다.  -->
+		<!-- <form id="frm_member" name="frm_join" action="${path}/member/join" method="POST" > 액션이 생략되어있으면 기본적으로 metho= post가들어간다. 기존에 있던 url을 그대로 집어넣어준다.  -->
 		<form:form id="frm_member" modelAttribute="memberDTO" atuocomplete="on">
 			<div class="container">
 				<div class="join_content">
@@ -348,7 +370,6 @@
 
 						<div class="btn_double_area">
 							<button  type="button" id="btn_join" class="btn_type btn_agree btn-primary">가입하기</button>
-
 						</div>
 
 				</div>
@@ -603,17 +624,18 @@
 
 			if(invalidAll){
 				alert('회원가입 성공!');
+				FunLoadingBarStart();//로딩바 생성
 				$('#frm_member').submit(); 
 				// 아이디가 frm인것 서브밋 해라!, 폼태그 자체를 서버단으로 보내라는 말 , 
 				//데이터 보낼때 서브밋하면 폼태그 안에있는 데이터들을 전송한다.
 				//submit:form태그안에 있는 데이터들을 서버단으로 전송 
 				//action: 목적지(MemberController '/join')
 				//method: 방법(POST: 숨겨서)
-			}else{	//하나라도 flase이면 
+			}else{	
 				alert('유효성체크를 진행해주세요!');
 			}
 		
-			//유효성체크가 전부 true이면	
+	
 		});
 
 	});
@@ -646,6 +668,19 @@
 				 console.log(i +'번지:' + checkArr[i]);
 				}
 		   }
+		   
+		   //로딩바 출력
+		   function FunLoadingBarStart(){
+			   var loadingBarImage = '';//가운데 띄어 줄 이미지
+			   loadingBarImage += "<div id='back'>";
+			   loadingBarImage += "<div id='loadingBar'>";
+			   loadingBarImage += "<i class='fas fa-spinner loading_img'></i>";
+			   loadingBarImage += "</div></div>";
+			   $('body').append(loadingBarImage);
+			   $('#back').css('display', 'flex');
+			   $('#loadingImg').show();
+			}
+
 
 
 </script>

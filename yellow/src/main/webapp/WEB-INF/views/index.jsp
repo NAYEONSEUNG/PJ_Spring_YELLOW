@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file= "include/header.jsp" %>
-<%@ include file="include/modal.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -236,6 +236,7 @@
 
 <body>
 <!-- <div class="top_btn fix_btn"><i class="fas fa-arrow-alt-circle-up"></i></div> -->
+<%@ include file="include/modal.jsp"%>
 <div class="content_wrap">
 		<div class="content">
 			<div class="slideshow-container">
