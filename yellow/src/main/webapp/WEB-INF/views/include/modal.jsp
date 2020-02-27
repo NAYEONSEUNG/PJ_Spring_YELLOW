@@ -36,7 +36,7 @@
 			display: block;
 			clear: both;
 			margin: 30px 0 10px;
-			font-size: 25px;
+			font-size: 20px;
 			text-align: center;
 			font-weight: 400;
 			color: #333;
@@ -82,7 +82,7 @@
 			clear: both;
 			margin: 30px 0 10px;
 			font-size: 15px;
-			text-align: center;
+			/* text-align: center; */
 			font-weight: 400;
 			color: #333;
 			letter-spacing: -0.03em;
@@ -98,7 +98,7 @@
 			</div>
 			<div id="include_content_layout">
 				<div class="include_title">
-			    	<h1 id="modal_msg_main_txt"></h1>			    
+			    	<h1 id="modal_msg_main_txt">가입성공</h1>			    
 			   
 		    	</div>	
 		    	<div class="include_title">

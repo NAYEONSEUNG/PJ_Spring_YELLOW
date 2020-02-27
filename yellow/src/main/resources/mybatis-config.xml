@@ -6,6 +6,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.yellow.domain.ProductDTO" alias="ProductDTO"/>
+		<typeAlias type="com.yellow.domain.MemberDTO" alias="MemberDTO"/>
 	</typeAliases>
 
 </configuration>

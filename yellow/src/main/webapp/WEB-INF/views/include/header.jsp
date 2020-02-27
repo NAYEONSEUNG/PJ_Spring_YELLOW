@@ -471,6 +471,15 @@
 		.fix_btn:hover > i{
 			transform: scale(2);
 		}
+		.login_err_msg{
+			display: none;
+			margin: -2px 0 8px;
+			font-size: 12px;
+			line-height: 14px;
+			color: red;
+			height: 15px;
+		
+		}
 		
 	</style>
 
@@ -494,8 +503,9 @@
 			</div>
 		</header>
 		<section>
-			<form class=frm_login>
-			<div class="div_input" id="naver_id">
+		<div class="login_err_msg">에러에러에러에에러에러에러에러에러에러에러에러러.</div>
+			<form class=frm_login onsubmit="return false;" type="submit"> <!-- onsubmit="return false"버튼 눌러도 서브밋안해서 안넘어감/ 서브밋을 막아버림 -->
+			<div class="div_input" id="naver_id">			<!-- 폼으로 싸고 타입 서브밋하면은 엔터치면 넘어가진다. -->
 				<span class="input_box">
 					<input type="text" placeholder="아이디" id="login_id" class="input_login" required>
 					
@@ -511,7 +521,8 @@
 			
 			<div>
 				<!-- <a id="btn_login" href="#">로그인</a> -->
-				<button type="submit" class="btn_type">로그인</button> <!--앵커태그 버튼으로 바꾸기-->
+				<button type="submit" class="btn_type" id="btn-login">로그인</button> <!--앵커태그 버튼으로 바꾸기-->
+				
 			</div>
 			</form>
 			<div>
@@ -566,11 +577,7 @@
 						<img id="addr_logo" src="${path}/resources/image/small-레알본옐로_1.png">
 						</a>
 					</span>
-					<!-- <span>Copyright</span>
-					<span>@</span>
-					<span><strong><a href="#">NAVER Corp.</a></strong></span>
-					<span>All Rights Reserved.</span>
-				 -->
+
 				</div>
 
 			</div>
@@ -683,11 +690,20 @@
 							<a href="#"><i class="fas fa-shopping-cart"></i></a>
 						</div>
 					</div>
-					<div><button type="button" class="btn btn-basic login_open">로그인</button></div>
-					<div><button type="button" class="btn btn-primary" id="header_btn_join">가입하기</button></div>
-
-				<!-- 	<a href="#">로그인</a>
-					<a href="#">회원가입</a> -->
+					<div class="content_member_btn">
+						<c:choose>
+							<c:when test="${empty sessionScope.userid}"><!-- if  -->
+								<div><button type="button" class="btn btn-basic login_open">로그인</button></div>
+								<div><button type="button" class="btn btn-primary" id="header_btn_join">가입하기</button></div>
+							</c:when>
+							<c:otherwise>
+								<div><button type="button" class="btn btn-basic" id="header_btn_logout">로그아웃</button></div>
+							</c:otherwise><!-- else  -->
+							
+						</c:choose>
+		
+					</div>
+						
 				</div>
 			</div>
 		</div>
@@ -792,7 +808,49 @@
 		});	
 
 		$('.top_btn').click(function(){
-			$('html, body').animate({scrollTop : 0},800);
+			$('html, body').animate({scrollTop : 0},500);
+		});
+		
+		$(document).on('click','.login_close', function(){
+			$('.login_err_msg').css('display','none');
+		});
+		//로그인버튼 클릭시 AJAX동작
+		$(document).on('click','#btn-login', function(){
+			//id와 pw값 받아와서 
+			var id= $('#login_id').val();
+			var pw= $('#login_pw').val();
+			
+			//유효성 체크 (id, pw)Null체크
+			//!랑= 붙혀써야된다.
+			if(id !='' && pw !='' && id.length != 0 && pw.length != 0){// 이런 경우일때 로그인 체크 하러 간다.
+				$.ajax({
+					url: '${path}/login/in',
+					type: 'POST',
+					data: 'id='+id+'&pw='+pw,
+					success: function(data){
+						/* alert('System Success :>'); */
+						console.log(data);
+						
+						if(data == 0 || data == 3){
+							$('.login_err_msg').css('display','block')
+							.text('로그인중 문제가 발생했습니다. 아이디 및, 비밀번호를 확인하거나 가입하세요.');
+						}else if(data == 1){
+							console.log('로그인 성공');
+						}else if(data == 2){
+							$('.login_err_msg').css('display', 'block')
+							.text('이메일 인증 후 로그인 할 수 있습니다.');
+						}
+					},
+					error: function(){
+						alert('System Error :/');
+					}
+				})
+			}
+		});
+		
+		//헤더 가입하기 버튼 클릭시 동의페이지 이동
+		$(document).on('click','#header_btn_join', function(){
+			location.href="${path}/member/constract";
 		});
 	
 </script>
