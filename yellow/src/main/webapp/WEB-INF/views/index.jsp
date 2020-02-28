@@ -123,8 +123,6 @@
 			font-size: 30px;
 			line-height: 31px;
 		}
-
-
 		.recommand_wrap{
 			width: 1400px;
 			height: 500px;
@@ -243,26 +241,26 @@
 
 				<div class="mySlides fade">
 				  <div class="numbertext">1 / 3</div>
-				  <img src="${path}/resources/image/img/yellpharmacy-3087599_1280.jpg" style="width:100%">
-				  <div class="text">Caption One</div>
+				  <img src="${path}/resources/image/img/vhfish.png" style="width:100%">
+				  <div class="text"> </div>
 				</div>
 
 				<div class="mySlides fade">
 				  <div class="numbertext">2 / 3</div>
-				  <img src="${path}/resources/image/img/runners-635906_1280.jpg" style="width:100%">
-				  <div class="text">Caption Two</div>
+				  <img src="${path}/resources/image/img/vhpaito.png" style="width:100%">
+				  <div class="text"></div>
 				</div>
 
 				<div class="mySlides fade">
 				  <div class="numbertext">3 / 3</div>
-				  <img src="${path}/resources/image/img/people-821624_1280.jpg" style="width:100%">
-				  <div class="text">Caption Three</div>
+				  <img src="${path}/resources/image/img/vhwellplus.png" style="width:100%">
+				  <div class="text"> </div>
 				</div>
-				<div class="mySlideWrap">	
+<!-- 				<div class="mySlideWrap">	
 					<div class="mySlidesBest">Weekly BEST</div>
 					<div class="mySlidesBest">MD CHOICE</div>
 					<div class="mySlidesBest">레쓰고</div>
-				</div>
+				</div> -->
 			</div>
 				<br>
 

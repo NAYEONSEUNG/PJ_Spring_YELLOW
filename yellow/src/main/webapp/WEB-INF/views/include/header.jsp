@@ -480,6 +480,9 @@
 			height: 15px;
 		
 		}
+		.content_member_btn{
+			display: flex;
+		}
 		
 	</style>
 
@@ -691,19 +694,17 @@
 						</div>
 					</div>
 					<div class="content_member_btn">
-						<c:choose>
-							<c:when test="${empty sessionScope.userid}"><!-- if  -->
+						<c:choose><!-- if문인데 else 들어감 -->
+							<c:when test="${empty userid}"><!-- when=if  세션안에 유저아이디가 없으면-->
 								<div><button type="button" class="btn btn-basic login_open">로그인</button></div>
 								<div><button type="button" class="btn btn-primary" id="header_btn_join">가입하기</button></div>
 							</c:when>
-							<c:otherwise>
+							<c:otherwise><!-- = else -->
+								<div><span>${name}</span></div>
 								<div><button type="button" class="btn btn-basic" id="header_btn_logout">로그아웃</button></div>
-							</c:otherwise><!-- else  -->
-							
-						</c:choose>
-		
-					</div>
-						
+							</c:otherwise>					
+						</c:choose>	
+					</div>						
 				</div>
 			</div>
 		</div>
@@ -835,17 +836,31 @@
 							$('.login_err_msg').css('display','block')
 							.text('로그인중 문제가 발생했습니다. 아이디 및, 비밀번호를 확인하거나 가입하세요.');
 						}else if(data == 1){
-							console.log('로그인 성공');
+							location.reload();//새로고침ㄱㄱ해주는것 , 이거없으면 값을 못받아와서 안넘어간다. 
 						}else if(data == 2){
 							$('.login_err_msg').css('display', 'block')
 							.text('이메일 인증 후 로그인 할 수 있습니다.');
 						}
 					},
 					error: function(){
-						alert('System Error :/');
+						
 					}
 				})
 			}
+		});
+		/* 로그아웃 기능 */
+		$(document).on('click', '#header_btn_logout', function(){
+			$.ajax({
+				url: '${path}/login/out',
+				type: 'POST', //post를 타고 로그인의 아웃을 찾아간다.
+				success: function(){
+					console.log('Logout Success:)');
+					location.reload();
+				},
+				error: function(){
+					alert('System Error :/');
+				}
+			});
 		});
 		
 		//헤더 가입하기 버튼 클릭시 동의페이지 이동
