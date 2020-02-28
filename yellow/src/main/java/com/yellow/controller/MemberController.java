@@ -1,6 +1,9 @@
 package com.yellow.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,6 +84,11 @@ public class MemberController {
 		log.info(">>>>>>member/join page get 출력");
 		log.info(mDto.toString());
 		model.addAttribute("flag", flag);
+		
+		//비정상적인 접근일 경우 약관 동의페이지로 이동
+		if(!flag.contentEquals("1")) {
+			return "member/constract";
+		}
 		
 		return "member/join";
 	}
@@ -185,6 +193,24 @@ public class MemberController {
 		return flag;
 	}
 	
-	
+	//회원정보 수정
+	@GetMapping("/update")
+	public String memUpdate(HttpSession session, Model model) {
+		log.info(">>>>>>GET: Member Update Update Page");
+		
+		//현재 로그인 상태를 확인
+		String id = (String)session.getAttribute("userid"); //object를 스트링에 담는다고 하니까 못담음 . 세션영역에 넣는순간 최상위인 오브젝트로 가서 그런다. 
+		
+		//로그인이 안되있으면 비정상적인 접근으로 간주하여
+		//인덱스페이지로 이동!!
+		if(id == null) {//null은 로그인이 안됐다는 말
+			return "redirect:/";
+		}
+		//로그인된 유저의 정보를 GET
+		//회원정보수정 페이지로 보내기
+		model.addAttribute("user", mService.userView(id)); //model 쓸려면 멤업데이트안에 매개변수 Model model 해줘야함
+		
+		return "member/join";
+	}
 
 }

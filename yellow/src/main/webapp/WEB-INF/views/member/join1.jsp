@@ -296,7 +296,7 @@
 							</span>
 							<!-- <span class="join_err_msg">필수 정보입니다.</span> -->
 						</div>
-
+					
 						<div class="join_row">
 							<h3 class="join_title">
 								<label for="pswd2">비밀번호 재확인</label>								
@@ -484,6 +484,7 @@
 			}else{
 				pwFlag=false
 			}
+			
 			if(result.code == 10){
 				checkArr[1] = true;
 				$('.join_info_box_content:eq(2)').css('border', '2px solid #3885ca');				
@@ -494,15 +495,6 @@
 				checkArr[1] = false;
 			}
 			
-			if(pwFlag){
-				$('.pw_lock').css('background-position', '-54px 0');
-			}else{
-				$('.pw_lock').css('background-position', '0 0');
-			}if(result.code == 10){
-				$('.repw_lock').css('background-position', '-81px 0');
-			}else{
-				$('.repw_lock').css('background-position', '-27px 0');
-			}
 			printCheckArr(checkArr);
 
 			//3. 체크 결과에 따라 디자인하기
@@ -526,19 +518,13 @@
 				$('.join_info_box_content:eq(1)').css('border', '2px solid #3885ca');				
 			}else{
 				checkArr[1] = false;
-			}
-			if(result.code == 10){
-				$('.repw_lock').css('background-position', '-81px 0');
-			}else{
-				$('.repw_lock').css('background-position', '-27px 0');
-			}
-			
+			}	
 			printCheckArr(checkArr);		
 			ckDesign(result.code, result.desc, 2, 1);
 		});
 		
 		
-		
+
 		//이름 유효성체크
 		$('#uname').keyup(function(){
 			var name = $.trim($(this).val());

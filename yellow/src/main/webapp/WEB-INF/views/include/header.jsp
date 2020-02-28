@@ -681,9 +681,11 @@
 						    <ul class="header_dropdown_menu">
 							   <li><a href="#">구매내역</a></li>
 						       <li><a href="#">위시리스트</a></li>
-							   <li><a href="#">회원정보수정</a></li>
+						       <c:if test="${not empty userid}">
+								   <li><a href="${path}/member/pwupdate">비밀번호수정</a></li>
+								   <li><a href="${path}/member/update">회원정보수정</a></li>	
+							   </c:if>						
 							   <li><a href="#">고객센터</a></li>
-							   <li><a href="#">탈퇴하기</a></li>							
 						    </ul>
 						  </div>
 						</div>
@@ -694,12 +696,12 @@
 						</div>
 					</div>
 					<div class="content_member_btn">
-						<c:choose><!-- if문인데 else 들어감 -->
-							<c:when test="${empty userid}"><!-- when=if  세션안에 유저아이디가 없으면-->
+						<c:choose>
+							<c:when test="${empty userid}"><!-- if  -->
 								<div><button type="button" class="btn btn-basic login_open">로그인</button></div>
 								<div><button type="button" class="btn btn-primary" id="header_btn_join">가입하기</button></div>
 							</c:when>
-							<c:otherwise><!-- = else -->
+							<c:otherwise>
 								<div><span>${name}</span></div>
 								<div><button type="button" class="btn btn-basic" id="header_btn_logout">로그아웃</button></div>
 							</c:otherwise>					
@@ -852,7 +854,7 @@
 		$(document).on('click', '#header_btn_logout', function(){
 			$.ajax({
 				url: '${path}/login/out',
-				type: 'POST', //post를 타고 로그인의 아웃을 찾아간다.
+				type: 'POST', //post를 타고 로그인의 아웃을 찾아간다
 				success: function(){
 					console.log('Logout Success:)');
 					location.reload();
