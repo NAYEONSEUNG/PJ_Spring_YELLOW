@@ -173,10 +173,10 @@
 			color: white;
 			background-color: #e9b616;
 		}*/
-		.btn-primary{
+	/* 	.btn-primary{
 			color: white;
 			background-color: #e9b616;
-		}
+		} */
 		#footer{
 			padding: 15px 0;/*상하 (두개일떄는)*/
 		}
@@ -368,7 +368,7 @@
 				
 
 						<div class="btn_double_area">
-							<button  type="button" id="btn_join" class="btn_type btn_agree btn-primary">가입하기</button>
+							<button  type="button" id="btn_join" class="btn_type btn_agree">가입하기</button>
 						</div>
 
 				</div>
@@ -415,22 +415,79 @@
 
 	$(function(){
 		/* alert('user:'+'${user}'); */
-		
+		var checkArr = new Array(6).fill(false); // fill false값으로 다 채워주세요 라는 듯
 		if('${user}' !=''){
 			//회원정보수정 디자인 변경
 			//->버튼 텍스트가 수정하기
 			$('#btn_join').text('수정하기');
 			//->비밀번호,비밀번호 재설정 제거
-			$('.join_row:eq(1)').css('display', 'none');
-			$('.join_row:eq(2)').css('display', 'none');
+			$('.join_row:eq(1)').css('visibility', 'hidden')
+							 	.css('height', '0px')
+								.css('margin-top', '-17px'); 
+			$('.join_row:eq(2)').css('visibility', 'hidden')
+						 		.css('height', '0px')
+								.css('margin-top', '-17px');
 			//->id에 readonly효과를 줘서 입력이 불가능
 			// id=#id를 제거해서 우리가 입력한 유효성체크 동작 불가능
 			$('.join_info_box_input:eq(0)').attr('readonly','true').removeAttr('id');
+			
+			var name = '${user.name}';
+			var phone = '${user.phone}';
+			var email = '${user.email}';
+			var postcode = '${user.postcode}';
+			var addr1 = '${user.addr1}';
+			var addr2 = '${user.addr2}';
+			ckName(name);
+			ckPhone(phone);
+			ckEmail(email);
+			ckAddr(postcode, addr2);
+			checkArr[0]=true;
+			checkArr[1]=true;
+			ckColorBtn();
+			printCheckArr(checkArr);
 		}
-	
-		
+		function ckAddr(addrPost, addrDetail){
+			var result = joinValidate.checkAddr(addrDetail, addrPost);
 
-	
+			if(result.code == 3){//우편번호와 주소 없는경우
+				ckDesign(result.code, result.desc, 6, 5);
+				ckDesign(result.code, result.desc, 7, 5);
+				checkArr[5]=false;
+			}else if(result.code == 0){//성공
+				checkArr[5]=true;
+				ckDesign(result.code, result.desc, 6, 5);
+				ckDesign(result.code, result.desc, 7, 5);
+				ckDesign(result.code, result.desc, 8, 5);
+			}else{//상세주소통과x한 모든경
+				ckDesign(result.code, result.desc, 8, 5);
+				checkArr[5]=false;
+			}
+		}
+		
+		function ckDesign(code, desc, line, msg){//
+			if(code == 0 || code == 10 ){//통과O
+				//테두리 색상변경
+				$('.join_info_box_content:eq('+line+')').css('border', '2px solid #3885ca');//예) line이 2번
+				//에러메시지출력
+				$('.join_err_msg:eq('+msg+')').css('visibility', 'visible')//예) msg 1번
+									    .text(desc)
+									    .css('color','#3885ca');
+				return true;
+
+			}else{//0이면, 통과 O 
+				//테두리색상변경
+				$('.join_info_box_content:eq('+line+')').css('border', '2px solid #d95339');
+				//에러메시지 
+				$('.join_err_msg:eq('+msg+')').css('visibility', 'visible')
+									    .text(desc)
+									    .css('color','#d95339');
+			   return false;
+
+			}
+	   }
+
+		
+		
 	
 	
 		//비정상적인 접근인지 판단하는 flag
@@ -445,7 +502,7 @@
 		var pwFlag = false;
 
 		//유효성체크 여부를 알려주는 배열
-		var checkArr = new Array(6).fill(false); // fill false값으로 다 채워주세요 라는 듯
+		
 		// printCheckArr(checkArr);
 		
 		//유효성체크 모두 통과 or 불통 여부를 알려주는 변수 
@@ -543,32 +600,36 @@
 		$('#uname').keyup(function(){
 			var name = $.trim($(this).val());
 			// console.log(name);
+			ckName(name);
+		});
+		function ckName(name){
 			var result = joinValidate.checkName(name);
-
+			ckDesign(result.code, result.desc, 3, 2);
+			
 			if(result.code == 0){
 				checkArr[2] = true;
 			}else{
 				checkArr[2] = false;
 			}
-		
-
-			ckDesign(result.code, result.desc, 3, 2);
-		});
+		}
 
 		//전화번호 유효성체크
 		$('#uphone').keyup(function(){
 			var phone = $.trim($(this).val());
+			ckPhone(phone);
+			
+		});
+		
+		function ckPhone(phone){
 			var result = joinValidate.checkPhone(phone);
-
+			ckDesign(result.code, result.desc, 5, 4);
+			
 			if(result.code == 0){
 				checkArr[3] = true;
 			}else{
 				checkArr[3] = false;
 			}
-			// printCheckArr(checkArr);
-			// console.log(result.code+', '+ result.desc);
-			ckDesign(result.code, result.desc, 5, 4);
-		});
+		}
 
 		//이메일 유효성 체크
 		$('#uemail').keyup(function(){
@@ -578,15 +639,20 @@
 			//$('.email_cnt').text(email.length);
 			
 			var result = joinValidate.checkEmail(email);
-
+			ckEmail(email);		
+		});
+		
+		function ckEmail(email){
+			var result = joinValidate.checkEmail(email);
+			ckDesign(result.code, result.desc, 4, 3);
+			
 			if(result.code == 0){
 				checkArr[4] = true;
 			}else{
 				checkArr[4] = false;
-			}
-			printCheckArr(checkArr);
-			ckDesign(result.code, result.desc, 4, 3);
-		});
+			}		
+		}
+		
 
 		$('.addr_only').click(function(){//우편번호 버튼에다가 btn_post id로 주기
 			//사용자가 우편번호 또는 주소 input을 클릭했을 때!
@@ -602,11 +668,15 @@
 
 		//주소 유효성체크
 		$('#sample6_detailAddress').keyup(function(){
+/* 			var postcode = $('#sample6_postcode').val();
+			var addr1 = $('#sample6_postcode').val();
+			var addr2 = $.trim($(this).val()); */
+		
 			var addrDetail = $.trim($(this).val());
-			var addrPost = $('#sample6_postcode').val();
+			var addrPost = $('#sample6_postcode').val(); 
 			// console.log('우편번호: '+addrPost+',상세주소: '+addrDetail);
 
-			var result = joinValidate.checkAddr(addrDetail, addrPost);
+/* 			var result = joinValidate.checkAddr(addrDetail, addrPost);
 
 			if(result.code == 3){//우편번호와 주소 없는경우
 				ckDesign(result.code, result.desc, 6, 5);
@@ -620,13 +690,33 @@
 			}else{//상세주소통과x한 모든경
 				ckDesign(result.code, result.desc, 8, 5);
 				checkArr[5]=false;
-			}
+			} */
 			// printCheckArr(checkArr);
+			ckAddr(addrPost, addrDetail);
 		});
 
+
 		//버튼활성화!
-	/* 	$('.int').blur(function(){ */
 			$('.int').keyup(function(){
+/* 			var checkAll = true;
+
+			for(var i = 0; i < checkArr.length; i++){
+				if(!checkArr[i]){
+					checkAll = false;
+				}
+			}
+			if(checkAll){
+				$('#btn_join').addClass('btn-primary');
+				// $('#btn_join').prop('disabled', false);
+				$('#btn_join').css('cursor', 'pointer');
+			}else{
+				$('#btn_join').removeClass('btn-primary');
+				// $('#btn_join').prop('disabled', true);
+				$('#btn_join').css('cursor', 'no-drop');
+			}  */
+			ckColorBtn();
+		});
+		function ckColorBtn(){
 			var checkAll = true;
 
 			for(var i = 0; i < checkArr.length; i++){
@@ -642,8 +732,10 @@
 				$('#btn_join').removeClass('btn-primary');
 				// $('#btn_join').prop('disabled', true);
 				$('#btn_join').css('cursor', 'no-drop');
-			}
-		});
+			} 
+		}
+
+	
 		//회원가입 버튼 클릭!
 		$('#btn_join').click(function(){
 			var invalidAll = true;// 이거 없으면 하나라도 실패한 상태에서 다시 입력하면 절대 안된다.
@@ -655,6 +747,7 @@
 				}
 				
 			}
+			
 			printCheckArr(checkArr);
 
 			if(invalidAll){
@@ -675,27 +768,7 @@
 
 	});
 
-			function ckDesign(code, desc, line, msg){//
-				if(code == 0 || code == 10 ){//통과O
-					//테두리 색상변ㅇ경
-					$('.join_info_box_content:eq('+line+')').css('border', '2px solid #3885ca');//예) line이 2번
-					//에러메시지출력
-					$('.join_err_msg:eq('+msg+')').css('visibility', 'visible')//예) msg 1번
-										    .text(desc)
-										    .css('color','#3885ca');
-					return true;
 
-				}else{//0이면, 통과 O 
-					//테두리색상변경
-					$('.join_info_box_content:eq('+line+')').css('border', '2px solid #d95339');
-					//에러메시지 
-					$('.join_err_msg:eq('+msg+')').css('visibility', 'visible')
-										    .text(desc)
-										    .css('color','#d95339');
-				   return false;
-
-				}
-		   }
 		   	//개발시 사용: 유효성체크 전체여부를 출력해주는 함수(true, false)
 		   	//재사용 하기 위해 메서드화 시킨것이다. 
 		   function printCheckArr(checkArr){// 매개변수 보내주면 아래 배열로 해서 출력을 해준다. 
