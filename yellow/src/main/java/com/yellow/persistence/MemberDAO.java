@@ -10,6 +10,9 @@ public interface MemberDAO {
 		public int memInsert(MemberDTO mDto);
 		//여기를 실행하라고 하는거는 mapper에서 실행하라는것과 같다.//경로가 같다. 
 		
+		//회원가입 DB에 회원 수정
+		public int memUpdate(MemberDTO mDto);
+		
 		//회원가입 진행시 난수 생성 및 useyn 컬럼에 난수 입력
 		public int getKey(String id, String key);
 		
