@@ -222,4 +222,42 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	@GetMapping("/pwupdate")
+	public String pwUpdate(HttpSession session) {
+		log.info(">>>>>>GET: Password Update Page");
+		String id = (String)session.getAttribute("userid");
+		if(id == null) {
+			return "redirect:/";
+			
+		}
+		return "member/pwupdate";
+	}
+	
+	@PostMapping("/pwupdate")
+	public String pwUpdate(HttpSession session, MemberDTO mDto) {
+		log.info(">>>>>POST: PASSWORD UPDATE ACTION");
+		log.info("수정비밀번호:" + mDto.getPw());
+		String encPw = passwordEncoder.encode(mDto.getPw());
+		mDto.setPw(encPw);
+		String id = (String)session.getAttribute("userid");
+		mDto.setId(id);
+		log.info(mDto.toString());
+		
+		mService.pwUpdate(mDto);
+		return "redirect:/";
+	}
+	@ResponseBody
+	@PostMapping("/pwcheck")
+	public Integer pwCheck(String pw, HttpSession session) {
+		log.info(">>>>POST: PWCheck(AJAX)");
+		
+		String id = (String)session.getAttribute("userid");// session에서 아이디 값 가져옴
+		//int result = mService.pwCheck(id,pw);
+		
+		//사용자가 입력한 pw
+		//DB에 가서 PW가 같은지 체크
+		
+		return mService.pwCheck(id,pw);
+	}
 }

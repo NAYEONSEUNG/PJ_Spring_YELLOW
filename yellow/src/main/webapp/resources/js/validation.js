@@ -44,6 +44,10 @@ var joinValidate = {
 			code: 10,
 			desc : '사용가능한 비밀번호입니다.'
 		},
+		success_now_pw : {
+			code: 100,
+			desc : '확인되었습니다.'
+		},
 		invalid_pw : {
 			code: 3,
 			desc : '비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 한다.'
@@ -60,7 +64,7 @@ var joinValidate = {
 			code: 6,
 			desc : '입력하신 비밀번호가 일치하지 않습니다.'
 		},
-		equl_pw : {//유효성체크할때는 쓰지 않고 나중에 회원수정할때 사용
+		equal_pw : {//유효성체크할때는 쓰지 않고 나중에 회원수정할때 사용
 			code: 7,
 			desc : '현재비밀번호와 다르게 입력해 주세요' 
 		},
@@ -141,7 +145,7 @@ var joinValidate = {
 				return this.resultCode.success_id;
 			}			
 	},
-	checkPw: function(pw, rpw){
+	checkPw: function(nowpw, pw, rpw){
 		var regEmpty = /\s/g; // 공백문자
 		var regPw = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&_*-]).{8,}$/;
 		var regHangle = /[ㄱ-ㅎ| ㅏ-ㅣ| 가-힣]/;
@@ -157,12 +161,15 @@ var joinValidate = {
 			return this.resultCode.stream_pw;
 		}else if(regHangle.test(pw)){//5.한글 사용 체크
 			return this.resultCode.hangle_pw;
+		}else if(pw == nowpw){
+			return this.resultCode.equal_pw;
 		}else if(rpw != '' || rpw.length != 0){//6.비밀번호재확인 값이 있으면 !
 			if(pw == rpw) {
 				return this.resultCode.equal_success_pw; // 비밀번호랑 재확인 값이 같을때 띄어준다.
 			}else{
 				return this.resultCode.other_pw;
 			}
+
 		}else{
 			return this.resultCode.success_pw;
 		}
@@ -240,8 +247,22 @@ var joinValidate = {
     	}else{
     		return this.resultCode.success_addr;
     	}
+    },
+    checkNowpw : function(pw){
+    	var regEmpty = /\s/g; // 공백문자
+    	
+    	if(pw == '' || pw.length == 0){//1.값이 있는지 체크
+			return this.resultCode.empty_val;
+		}else if(pw.match(regEmpty)){//2.공백값이 있는지 체크
+			return this.resultCode.space_length_val;
+		} else if(pwCheck(pw)){//3.현재비밀번호 동일한지 체크  값이 비정상 펄스 , 비정상이면 트루
+			return this.resultCode.other_pw;
+		}else{//4.유효성체크 통과
+			return this.resultCode.success_now_pw;
+		}
     }
 }
+
 function idCheck(id){
 	var return_val = true;
 	$.ajax({
@@ -260,6 +281,28 @@ function idCheck(id){
 			alert('System ERROR:(');
 		}
 	
+	});
+	return return_val;
+}
+
+function pwCheck(pw){
+	var return_val = true;
+	
+	$.ajax({
+		type:'POST',
+		url: 'pwcheck?pw='+pw,
+		async: false,
+		success: function(data){
+			console.log(data);
+			if(data == 1){
+				return_val = false;
+			}else if(data == 0){
+				return_val = true;
+			}
+		},
+		error:function(){
+			alert('System ERROR:()');
+		}
 	});
 	return return_val;
 }

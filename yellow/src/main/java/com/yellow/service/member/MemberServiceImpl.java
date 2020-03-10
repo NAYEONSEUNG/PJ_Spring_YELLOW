@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.yellow.domain.MemberDTO;
@@ -11,6 +12,9 @@ import com.yellow.persistence.MemberDAO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -50,6 +54,21 @@ public class MemberServiceImpl implements MemberService{
 		
 		//return mDao.memUpdate(mDto); 수정에 성공했나 볼려고 하는것이니까 지워도 된다.
 	}
-	
-	
+
+	@Override
+	public int pwCheck(String id, String pw) {		
+		String encPw = mDao.pwCheck(id);
+		int result = 0;
+		if(passwordEncoder.matches(pw, encPw)) {
+			result = 1;
+		}
+		//return mDao.pwCheck(id, pw);
+		return result;
+	}
+
+	@Override
+	public void pwUpdate(MemberDTO mDto) {
+		mDao.pwUpdate(mDto);
+	}
+		
 }

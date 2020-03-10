@@ -2,6 +2,8 @@ package com.yellow.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,7 @@ public class IndexController {
 	@Autowired
 	IndexService iService;
 	@RequestMapping("/") //프로젝트 /만 입력해도 들어가진다.
-	public String indexView(Model model) {
+	public String indexView(Model model, HttpSession session) {
 		log.info(">>> INDEX PAGE 출력");
 //		iService.bestPdtList();
 		
@@ -39,6 +41,12 @@ public class IndexController {
 		model.addAttribute("NewPdt", iService.newPdtList());					
 //		iService.newPdtList();
 		model.addAttribute("NewPdt2", iService.newPdtList2());
+		
+		//개발 종료시 삭제하자!!(관리자 자동로그인)
+		session.removeAttribute("userid");//세션영역에서 유저아이디 이름값을 지우고 새로운 아이디 값을 넣어주겠다는말. 굳이 안써도 되는코드지만 쓰는것을 권장 (removeAttribute)
+		session.removeAttribute("name");
+		session.setAttribute("userid", "mrblack");//세션에 값을 담음
+		session.setAttribute("name", "관리자");
 		
 		//2.출력할 화면을 결정
 		return "index";

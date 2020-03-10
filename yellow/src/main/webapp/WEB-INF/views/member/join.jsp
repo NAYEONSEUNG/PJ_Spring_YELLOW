@@ -485,10 +485,7 @@
 
 			}
 	   }
-
-		
-		
-	
+				
 	
 		//비정상적인 접근인지 판단하는 flag
 		//
@@ -535,7 +532,7 @@
 			// alert(pw+','+rpw);
 
 			//2.유효성 체크하기
-			var result = joinValidate.checkPw(pw, rpw); //유효성체크는 joinValidate.checkPw여기서만 한다.
+			var result = joinValidate.checkPw("", pw, rpw); //유효성체크는 joinValidate.checkPw여기서만 한다.
 			if(result.code == 0 || result.code == 10 || result.code == 6){
 				pwFlag = true;
 			}else{
@@ -698,27 +695,10 @@
 
 		//버튼활성화!
 			$('.int').keyup(function(){
-/* 			var checkAll = true;
-
-			for(var i = 0; i < checkArr.length; i++){
-				if(!checkArr[i]){
-					checkAll = false;
-				}
-			}
-			if(checkAll){
-				$('#btn_join').addClass('btn-primary');
-				// $('#btn_join').prop('disabled', false);
-				$('#btn_join').css('cursor', 'pointer');
-			}else{
-				$('#btn_join').removeClass('btn-primary');
-				// $('#btn_join').prop('disabled', true);
-				$('#btn_join').css('cursor', 'no-drop');
-			}  */
 			ckColorBtn();
 		});
 		function ckColorBtn(){
 			var checkAll = true;
-
 			for(var i = 0; i < checkArr.length; i++){
 				if(!checkArr[i]){
 					checkAll = false;

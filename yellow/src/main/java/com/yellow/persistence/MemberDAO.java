@@ -21,6 +21,12 @@ public interface MemberDAO {
 		
 		//1명의 회원정보
 		public MemberDTO userView(String id);
+		
+		//비밀번호 수정: 현재비밀번호 체크
+		public String pwCheck(String id);
+		
+		//비밀번호 수정: DB에 수정
+		public void pwUpdate(MemberDTO mDto);
 	}
 
 

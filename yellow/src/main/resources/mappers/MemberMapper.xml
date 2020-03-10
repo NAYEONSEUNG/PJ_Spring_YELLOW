@@ -42,4 +42,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE id = #{id}
 	</select>
 	
+	<select id="pwCheck" resultType="String">
+		SELECT pw FROM tbl_member<!-- 조회된 건수를 숫자만 카운트한다. -->
+		WHERE id = #{param1} 
+	</select>
+	<update id="pwUpdate">
+		UPDATE tbl_member SET
+			pw = #{pw}
+		WHERE id = #{id}
+	</update>
+	
+
 </mapper>

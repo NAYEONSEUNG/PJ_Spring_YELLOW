@@ -682,8 +682,8 @@
 							   <li><a href="#">구매내역</a></li>
 						       <li><a href="#">위시리스트</a></li>
 						       <c:if test="${not empty userid}">
-								   <li><a href="${path}/member/pwupdate">비밀번호수정</a></li>
-								   <li><a href="${path}/member/update">회원정보수정</a></li>	
+								   <li><a href="${path}/member/update">회원정보 수정</a></li>	
+								   <li><a href="${path}/member/pwupdate">비밀번호 수정</a></li><!-- get으로가라 post로가라는 말이 없으니 get이 디폴트니까 그걸로 간다.  -->
 							   </c:if>						
 							   <li><a href="#">고객센터</a></li>
 						    </ul>
