@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
-<style type="text/css">
+	<style type="text/css">
 		body, input{
 			font-size: 12px;
 			font-family: '돋움',dotum,sans-serif;
@@ -55,7 +53,7 @@
 		.tit_comm{
 			display: block;
 			overflow: hidden;
-			background:url(${path}/resources/image/비번확인.png);
+			background:url(../../img/비번확인.png);
 			text-indent: -9999px;
 		}
 		.info_agree{
@@ -273,140 +271,11 @@
 			align-items: center;
 			justify-content: center;
 		}
-		/* 주의사항 */
-			.info_agree{
-			padding: 42px 50px 29px;
-			overflow: hidden;
-			border-top: 1px solid #e1e1e1;
-			border-bottom: 1px solid #e1e1e1;
-			background-color: #fbfbfb;
-			margin-bottom: 20px;
-		}
-		.info_agree .info_user{
-			position: relative;
-			width: 793px;
-			margin-bottom: 20px;
-			padding: 27px 37px 40px 45px;
-			overflow: hidden;
-			border: 1px solid #dfdfdf;
-			background-color: #fff;
-			color: #444;
-		}
-		.info_user .tit_agree{
-			display: block;
-			margin-right: 30px;
-			padding-top: 13px;
-			font-size: 14px;
-			line-height: 24px;
-			letter-spacing: -1px;
-		}
-		.info_user .txt_agree{
-			line-height: 22px;
-		}
-		.info_user .emph_g{
-			color: #f56a4f;
-		}
-		.info_agree .check_notice{
-			position: absolute;
-			top: 32px;
-			right: 37px;
-		}
-		.check_notice{
-			position: relative;
-			overflow: hidden;
-		}
-
-		.info_agree .tf_check{
-			width: 30px;
-			height: 30px;
-		}
-		.check_notice .tf_check{
-			position: absolute;
-			z-index: -1;
-			top: 0;
-			left: 0;
-			width: 16px;
-			height: 16px;
-			border: 0; 
-			opacity: .01;
-		}
-		.info_agree .tf_check{
-			width: 30px;
-			height: 30px;
-		}
-		.info_agree .lab_check{
-			display: block;
-			width: 30px;
-			padding: 35px 0 0 0;
-			overflow: hidden;
-			text-align: center;			
-		}
-		.check_notice .lab_check{
-			display: inline-block;
-			padding-left: 26px;
-			cursor: pointer;
-		}
-		.info_agree .ico_check{
-			display: block;
-			width: 30px;
-			height: 30px;
-			background-position: 0 -700px;
-		}
-		.lab_check .ico_comm{
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 16px;
-			height: 16px;
-			background-position: 0 300px;
-		}
-	
-		.info_user > input{
-			position: absolute;
-			right: 1px;
-			top: 50%
-			width:22px;
-			margin-top: -11px;
-			visibility: hidden;
-		}
-		.info_user > label{
-			background: url(${path}/resources/image/체크킴.png) 100% 50% no-repeat;
-			display: block;
-			line-height: 20px;
-			height: 50px;
-			top:-1px;
-			font-size: 14px;
-			font-weight: 700;
-		}
-		.info_user > input:checked + label{
-			background-image: url(${path}/resources/image/체크끔.png)
-		}
-		.ul_li_span > input{
-			position: absolute;
-			right: 1px;
-			top: 50%
-			width:22px;
-			margin-top: -11px;
-			visibility: hidden;
-		}
-		.ul_li_span > label{
-			background: url(${path}/resources/image/체크킴.png) 100% 50% no-repeat;
-			display: block;
-			line-height: 20px;
-			height: 50px;
-			top:-1px;
-			font-size: 14px;
-			font-weight: 700;
-		}
-		.ul_li_span > input:checked + label{
-			background-image: url(${path}/resources/image/체크끔.png)
-		}
-
 
 	</style>
 </head>
 <body>
-	<div class="modal_wrap">
+		<div class="modal_wrap">
 		<div class="modal_content">
 			<div class="login_close">
 				<button><i class="fas fa-times"></i></button>
@@ -439,52 +308,6 @@
 		</div>
 
 		<form action="frm_withdrawal" action="" method="post">
-					<div class="info_agree">
-				<div class="info_user">
-					<span class="ul_li_span">
-						<strong class="tit_agree">Yellow아이디는 재사용 및 복구 불가안내</strong>
-						<input type="checkbox" id="cbox">
-						<label for="cbox">
-							<span class="txt_agree">
-								회원탈퇴 진행 시 본인을 포함한 타인 모두
-								<em class="emph_g">아이디 재사용이나 복구가 불가능합니다.</em>
-								<br>
-								      신중히 선택하신 후 결정해 주세요.					
-							</span>
-						</label>
-					</span>
-				</div>
-				
-				<div class="info_user">
-					<strong class="tit_agree">내정보 및 개인형 서비스이용 기록 삭제 안내</strong>
-					<input type="checkbox" id="cbox2">
-					<label for="cbox2">
-					<span class="txt_agree">
-						내정보 및 개인형 서비스 이용기록이 모두 삭제되며,
-						<em class="emph_g">삭제된 데이터는 복구되지 않습니다.</em>
-						<br>
-						      삭제되는 서비스를 확인하시고, 필요한 데이터는 미리 백업을 해주세요.					
-					</span>
-					</label>
-				</div>
-
-				<div class="info_user">
-					<span class="ul_li_span">
-						<strong class="tit_agree">게시판형 서비스에 등록한 게시글 삭제 불가 안내</strong>
-						<input type="checkbox" id="cbox3">
-						<label for="cbox3">
-						<span class="txt_agree">
-							삭제를 원하는 게시글이 있다면 반드시 회원탈퇴 전 비공개 처리하거나 삭제하시기 바랍니다.
-							<br>
-							탈퇴후에는 회원정보가 삭제되어 본인 여부를 확인할 수 있는 방법이 없어,
-							<br>
-							<em class="emph_g">게시글을 임의로 삭제해드릴 수 없습니다.</em>							
-						</span>
-						</label>
-					</span>
-
-				</div>
-			</div>
 			<div class="info_agree">
 				<div class="info_user">
 					<span class="ul_li_span">
@@ -542,7 +365,7 @@
 					<div id="address">
 						<span>
 							<a href="../include/header2.html">
-							<img id="addr_logo" src="${path}/resources/image/small-레알본옐로_1.png">
+							<img id="addr_logo" src="../../img/small-레알본옐로_1.png">
 							</a>
 						</span>
 						<span>Copyright</span>
@@ -553,9 +376,9 @@
 					</div>
 
 				</div>
-	</footer>      
+	</footer>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 		//모달창의 x버튼을 클릭하면 모달창 close

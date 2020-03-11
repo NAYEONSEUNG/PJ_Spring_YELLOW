@@ -80,7 +80,7 @@ public class MemberController {
 	 */
 	@GetMapping("/join")															//controller 공유영역 
 	public String join(@ModelAttribute("memberDTO") MemberDTO mDto, @RequestParam(value="flag", defaultValue="0") String flag, Model model) {//4개의 약관 동의 한게 mdto에 들어가 있다. 
-																				//defaultvlaue 는 constracat페이지 통해서 오면 1이들어가는데 비정상적인 경우로오면 0이들어간다.
+																				//default value 는 constract페이지 통해서 오면 1이들어가는데 비정상적인 경우로오면 0이들어간다.
 		log.info(">>>>>>member/join page get 출력");
 		log.info(mDto.toString());
 		model.addAttribute("flag", flag);
@@ -135,7 +135,7 @@ public class MemberController {
 		mDto.setPw(encPw);	//mDto의 날것의 비밀번호대신에 암호화된 pw를 집어넣어라.,, 암호화한것이 mDto에 들어있음 									
 		log.info("password(+Hash): " + mDto.getPw());
 		//2.DB에 회원등록
-		int result = mService.memInsert(mDto);	//memInsert mDto보내준다. mService쓸려면 객체생성해야하는데 여기서는 의존성주입을 해 주어서 객체생성안해도 자동으로 넣어준다.
+		int result = mService.memInsert(mDto);	//memInsert mDto보내준다. mService쓸려면 객체생성해야하는데 여기서는 의존성주입을 해주어서 객체생성안해도 자동으로 넣어준다.
 		//대신 @Autowired  MemberService mService가 있어야 의존성주입을 해준다(이놈은 의존성주입을 타입으로한다.),Autowired안붙히면 null값이 들어간다.
 		//@Autowired는 하나당 하나씩 각각 따로쓰기 @Autowired붙어있으면 개발자가 나는 개발만할건데 객체가 필요하다 근데 ㅈㄴ귀찮음 스프링이 대신 해줘
 		//의존성주입하려면 di패턴이니까 저 객체에대한 권한을 스프링이 가지고있어야 한다. 객체애대한 권한은 원래 개발자가 가지고있는데 스프링에서는 스프링이 가지고있다.
@@ -260,4 +260,16 @@ public class MemberController {
 		
 		return mService.pwCheck(id,pw);
 	}
-}
+	
+	@GetMapping("/drop")
+	public String drop(){
+	
+		return "member/drop";
+	}
+	
+	@GetMapping("/mypage")
+	public String mypage() {
+		
+		return "member/mypage";
+	}
+}//class
