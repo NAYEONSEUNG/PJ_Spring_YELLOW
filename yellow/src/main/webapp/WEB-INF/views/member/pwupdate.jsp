@@ -357,8 +357,8 @@
 			$('.join_info_box_content:eq('+line+')').css('border', '2px solid #3885ca');//예) line이 2번
 			//에러메시지출력
 			$('.join_err_msg:eq('+msg+')').css('visibility', 'visible')//예) msg 1번
-								    .text(desc)
-								    .css('color','#3885ca');
+								    	  .text(desc)
+								    	  .css('color','#3885ca');
 			return true;
 	
 		}else{//0이면, 통과 O 

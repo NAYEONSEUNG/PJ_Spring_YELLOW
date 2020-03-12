@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel = "stylesheet" type="text/css" href="${path}/resources/css/common.css">
 <script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
 <style type="text/css">
 		body, input{
@@ -97,7 +98,8 @@
 		.btn_agree{
 			color: #fff;
 			border: 1px solid #e9b616;
-			background-color: #e9b616;
+			/* background-color: #e9b616; */
+			 cursor: no-drop; 
 		}
 		.join_title{
 			margin: 18px;
@@ -121,7 +123,7 @@
 			display: block;
 			position: relative;
 			width: 100%;
-			height: 21px;
+			height: 20px;
 			padding-right: 25px;
 			line-height: 29px;
 			border: none;
@@ -141,17 +143,17 @@
 			margin-right: 2px;
 			background-position: -100px -360px;
 			border-radius:6px;
-			cursor: pointer;
+			cusor: no-drop;
 		}
 		.wrap_btn .btn_agree{
 			width: 110px;
 			height: 61px;
 			border-radius:6px;
-			cursor: pointer;
+			/* cusor: no-drop; */
 		}
 
 		.idpw{
-			display:flex;
+			/* display:flex; */
 			align-items: center;
 			justify-content: center;
 		}
@@ -401,12 +403,23 @@
 		.ul_li_span > input:checked + label{
 			background-image: url(${path}/resources/image/체크끔.png)
 		}
+		.join_err_msg{
+			display: block;
+			margin: 9px 0 -2px;
+			font-size: 12px;
+			line-height: 14px;
+			color: red;
+			height: 15px;
+			/*display: none;*/
+			visibility: hidden;
+		}
 
 
 	</style>
 </head>
 <body>
-	<div class="modal_wrap">
+
+<!-- 	<div class="modal_wrap">
 		<div class="modal_content">
 			<div class="login_close">
 				<button><i class="fas fa-times"></i></button>
@@ -423,13 +436,8 @@
 				<a id="btn_login" href="../include/header2.html">탈퇴완료</a>
 			</div>
     	</div>
-	</div>
-
-
-
-
-
-
+	</div> -->
+<%@ include file="../include/modal.jsp"%>
 	<div id="daumContent" role="main">
 		<div class="myinfo_intro intro_out">
 			<span class="bg_intro"></span>
@@ -443,7 +451,7 @@
 				<div class="info_user">
 					<span class="ul_li_span">
 						<strong class="tit_agree">Yellow아이디는 재사용 및 복구 불가안내</strong>
-						<input type="checkbox" id="cbox">
+						<input type="checkbox" id="cbox" class="ckboxs">
 						<label for="cbox">
 							<span class="txt_agree">
 								회원탈퇴 진행 시 본인을 포함한 타인 모두
@@ -457,7 +465,7 @@
 				
 				<div class="info_user">
 					<strong class="tit_agree">내정보 및 개인형 서비스이용 기록 삭제 안내</strong>
-					<input type="checkbox" id="cbox2">
+					<input type="checkbox" id="cbox2" class="ckboxs">
 					<label for="cbox2">
 					<span class="txt_agree">
 						내정보 및 개인형 서비스 이용기록이 모두 삭제되며,
@@ -471,7 +479,7 @@
 				<div class="info_user">
 					<span class="ul_li_span">
 						<strong class="tit_agree">게시판형 서비스에 등록한 게시글 삭제 불가 안내</strong>
-						<input type="checkbox" id="cbox3">
+						<input type="checkbox" id="cbox3" class="ckboxs">
 						<label for="cbox3">
 						<span class="txt_agree">
 							삭제를 원하는 게시글이 있다면 반드시 회원탈퇴 전 비공개 처리하거나 삭제하시기 바랍니다.
@@ -484,7 +492,9 @@
 					</span>
 
 				</div>
+				<!-- <span class="join_err_msg">필수 정보입니다.</span> -->
 			</div>
+				
 			<div class="info_agree">
 				<div class="info_user">
 					<span class="ul_li_span">
@@ -496,26 +506,25 @@
 					</span>
 				</div>
 				<div class="idpw">
-					<h3 class="join_title">
+<!-- 					<h3 class="join_title">
 						<label for="id">아이디</label>								
 					</h3>
 						<span class="ps_box int_id">
 							<input type="text" id="id" name="id" class="int">
 							 <span class="step_url"></span>
-						</span>
+						</span> -->
 					<h3 class="join_title">
 						<label for="pswd1">비밀번호</label>
 									
 					</h3>
 					<span class="ps_box int_pass">
-						<input type="password" id="pswd1" name="pswd1" class="int">
-						<span class="step_url">
-							<span class="pw_lock"></span>
-						</span>						
+						<input type="text" id="pswd1" name="pswd1" class="int">
 					</span>	
+					<span class="join_err_msg">필수 정보입니다.</span>			
 			   </div>	
 			</div>	
 		</form>	
+		<span class="join_err_msg">필수 정보입니다.</span>	
 		<div class="wrap_btn">
 					<div class="btn_double_area">											
 						<!-- <span><a href="../include/header2.html" class="btn_type btn_default">뒤로가기</a></span> -->
@@ -523,9 +532,9 @@
 						<button type="button" class="btn_type btn_default btn_back ">뒤로가기</button>
 
 						<!-- <span><a href="#" class="btn_type btn_agree">탈퇴하기</a></span> -->
-						<button type="button" class="btn_type btn_agree btn_bye">탈퇴하기</button>
+						<button type="button" class="btn_type btn_agree btn_bye" id="drop_yes">탈퇴하기</button>
 					</div>
-			</div>						
+			</div>	
 	</div>
 			
        	
@@ -556,9 +565,10 @@
 	</footer>      
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="${path}/resources/js/validation.js"></script>
 <script type="text/javascript">
 
-		//모달창의 x버튼을 클릭하면 모달창 close
+/* 		//모달창의 x버튼을 클릭하면 모달창 close
 	$(document).on('click', '.login_close', function(){
 		$('.modal_wrap').css('display', 'none');
 		// $('.div_input').val('');
@@ -579,6 +589,104 @@
 	//뒤로가기 누르면 헤더로 가기
 	$(document).on('click','.btn_back' ,function(){
 		location.href='../include/yellow_withdrawal.html';
+	}); */
+	
+	//$(document).on('keyup', '#pswd1', function(){
+	$(function(){
+		
+		/* var checkArr = false; //체크박스 없으면 이렇게 하기 */
+		var checkArr= new Array(2).fill(false);	
+	
+		$('#pswd1').keyup(function(){  // 이 스크립트는 이 페이지 안에서만 동작이 가능하다. 페이지 이동 안하게 뒷문으로 몰래갔다가 다시오게 해야한다.
+			var pw = $(this).val();
+			//console.log(pw);
+			//return 4개 중에 1개(0, 1, 6, 100)
+														// var result에 담아준다.
+			var result = joinValidate.checkNowpw(pw)   //joinvalidate사용할거고 checknowpw메서드 호출 메서드 가서 보니까 매개변수 pw를 달라고 한다 그래서 적는다 괄호안에
+			console.log(result.code + ","+result.desc)
+			
+			var color = '';
+			if(result.code == 100){
+				color = '#3885ca';
+				checkArr[0] = true;
+				/* checkArr = true;//체크박스 없을때 */
+			}else{
+				color = '#d95339'
+				checkArr[0] = false;
+				/* checkArr = false;//체크박스 없을때 */
+			}
+			$('.join_err_msg:eq(0)').css('visibility','visible')
+												.text(result.desc)
+												.css('color',color);
+			ckColorBtn();  // 버튼색깔 쓸수있게 호출
+		});	
+		
+		$('.ckboxs').click(function(){
+				var ckLen = $('.ckboxs:checkbox:checked').length;
+				if(ckLen == 3){
+					checkArr[1] = true;
+					$('.join_err_msg:eq(1)'). css('visibility','hidden');
+				}else{
+					checkArr[1] = false;
+				}
+				ckColorBtn();
+			});
+		
+	/* 버튼 불들어오게 */
+		function ckColorBtn(){
+				var checkAll = true;
+				for(var i = 0; i < checkArr.length; i++){
+					if(!checkArr[i]){
+						checkAll = false;
+					}
+				}
+				if(checkAll){
+					$('#drop_yes').addClass('btn-primary');
+					// $('#btn_join').prop('disabled', false);
+					$('#drop_yes').css('cursor', 'pointer');
+				}else{
+					$('#drop_yes').removeClass('btn-primary');
+					// $('#btn_join').prop('disabled', true);
+					$('#drop_yes').css('cursor', 'no-drop');
+				} 
+			}
+			$('#drop_yes').click(function(){
+				
+/* 				if(checkArr == false){
+					$('.join_err_msg:eq(0)').css('visibility', 'visible')
+				}else {
+					//모달창 온
+				} */
+/* 				for(var i = 0; i < checkArr.length; i++){
+					if(!checkArr [i]){
+						checkAll = false;
+					}
+				}
+				if(checkAll){
+					alert('탈퇴하자');
+				}else{
+					alert('유효성체크 하소');
+				} */
+				var checkAll = true;
+				for(var i=0; i < checkArr.length; i++){
+					if(checkArr[i] == false){
+						$('.join_err_msg:eq('+i+')'). css('visibility','visible');
+						checkAll = false;
+					}
+				}
+				if(checkAll){
+					$('.include_modal_wrap').css('display','flex');
+				}else{
+					return false;
+				}
+		
+		});		
+			$('#include_btn_login').click(function(){
+				location.href='${path}/member/dropAction';			
+			});
 	});
+	
+
+
 </script>
 </html>

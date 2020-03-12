@@ -252,7 +252,7 @@ var joinValidate = {
     	var regEmpty = /\s/g; // 공백문자
     	
     	if(pw == '' || pw.length == 0){//1.값이 있는지 체크
-			return this.resultCode.empty_val;
+			return this.resultCode.empty_val;// this는 조인베릴데이트를 말한다.
 		}else if(pw.match(regEmpty)){//2.공백값이 있는지 체크
 			return this.resultCode.space_length_val;
 		} else if(pwCheck(pw)){//3.현재비밀번호 동일한지 체크  값이 비정상 펄스 , 비정상이면 트루

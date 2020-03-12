@@ -78,7 +78,7 @@
 			justify-content: center;
 		}
 		.include_title p{
-		display: block;
+			display: block;
 			clear: both;
 			margin: 30px 0 10px;
 			font-size: 15px;
@@ -87,27 +87,32 @@
 			color: #333;
 			letter-spacing: -0.03em;
 		}
-		
+		.include_title{
+			text-align: center;
+		}
+
 </style>
 </head>
 <body>
-	<div class="include_modal_wrap">
-		<div class="include_modal_content">
-			<div class="include_login_close">
-				<button><i class="fas fa-times"></i></button>
-			</div>
-			<div id="include_content_layout">
-				<div class="include_title">
-			    	<h1 id="modal_msg_main_txt">가입성공</h1>			    
-			   
-		    	</div>	
-		    	<div class="include_title">
-		    	<p id="modal_msg_sub_txt"></p>
-		    	</div>	
-	    	</div>
-	    	<div>	    	
-				<button type="button" id="include_btn_login" >완료</button>				
-			</div>
+	   <div class="include_modal_wrap">
+		  <div class="include_modal_content">
+				<div class="include_login_close">
+					<button><i class="fas fa-times"></i></button>
+				</div>
+				<div id="include_content_layout">
+					<div class="include_title">
+				    	<h1 id="modal_msg_main_txt"></h1>			    
+				   
+			    	</div>	
+			    	<div class="include_title">
+			    		<p id="modal_msg_sub_txt"></p>
+			    	</div>	
+		    	</div>
+	<!-- 	    	<div>	    	
+		    		<button type="button" id="include_btn_login" >완료</button>	-->	
+					<button type="button" id="include_btn_login" >완료</button>				
+			</div> 
+
     	</div>
 	</div>
 
@@ -122,22 +127,37 @@
 			var email='${email}';
 			var key='${key}';
 			
-			var join_main_txt = id+'님 회원가입을 축하드립니다';
+			var join_main_txt = id+' 님 회원가입을 축하드립니다 ';
 			var join_sub_txt = email + '으로 인증메일을 보냈습니다. 인증하세요';
 			var auth_main_txt = id+ '님 이메일 인증되셨습니다.';
 			var auth_sub_txt = '지금부터 사이트 활동이 가능합니다. 감사합니다.';
+			var drop_main_txt= '${userid}님 정말 탈퇴 하시겠습니까?';
+			var dropResult_main_txt =id+'님 탈퇴되셨습니다.';
+			var dropResult_sub_txt ='그동안 이용해주셔서 감사합니다.';
 			
 			if(key == 'join'){
 				$('#modal_msg_main_txt').text(join_main_txt);//메인 텍스트
 				$('#modal_msg_sub_txt').text(join_sub_txt);//서브텍스트
-				$('#modal_msg_cancle').css('display','none');//취소버튼 제거
+				/* $('#modal_msg_cancle').css('display', 'none'); */
+/* 				$('#include_btn_login').css('display','none')//확인버튼 제거
+									   .text('확인'); */
 				$('.include_modal_wrap').css('display', 'flex');//모달창 출력
 			}else if(key=='auth'){
 				$('#modal_msg_main_txt').text(auth_main_txt);
 				$('#modal_msg_sub_txt').text(auth_sub_txt);
-				$('#modal_msg_cancle').css('display', 'none');
+				/* $('#modal_msg_cancle').css('display', 'none'); */
+				/* $('#include_btn_login').css('display', 'none'); */
+				$('.include_modal_wrap').css('display', 'flex');
+			}else if(key =='drop'){
+				$('#modal_msg_main_txt').text(drop_main_txt);
+			}else if(key == 'dropResult'){
+				$('#modal_msg_main_txt').text(dropResult_main_txt);
+				$('#modal_msg_sub_txt').text(dropResult_sub_txt);
+				/* $('#modal_msg_cancle').css('display', 'none'); */
+				/* $('#include_btn_login').css('display', 'none'); */
 				$('.include_modal_wrap').css('display', 'flex');
 			}
+			
 			$('#include_btn_login').on('click',function(){
 				$('.include_modal_wrap').css('display', 'none');
 			});

@@ -262,9 +262,21 @@ public class MemberController {
 	}
 	
 	@GetMapping("/drop")
-	public String drop(){
-	
+	public String memdrop(Model model){
+		log.info(">>>>>>>>get: member drop page");
+		model.addAttribute("key","drop");
 		return "member/drop";
+	}
+	@GetMapping("/dropAction")
+	public String memDrop(HttpSession session, RedirectAttributes rttr) {
+		log.info(">>>>>>GET: MEMBER DROP ACTION");
+		String id = (String)session.getAttribute("userid");
+		
+		rttr.addFlashAttribute("id",id);
+		rttr.addFlashAttribute("key","dropResult");
+		
+		mService.memDrop(session, id);//회원탈퇴를 했다 이말은 로그인이 돼있다는말 세션의 정보를 지우라고 안했으니까 세션도 초기화를 해버려야 한다.
+		return "redirect:/";
 	}
 	
 	@GetMapping("/mypage")

@@ -282,9 +282,10 @@
 								</div>
 							</div>
 							<div class="section_footer">
-								<div><button type="button" class="tb_btn cancel_btn">회원정보수정</button></div>
-								<div><button type="button" class="tb_btn confirm_btn">비밀번호변경</button></div>
-								<div><button type="button" class="tb_btn confirm_btn">회원탈퇴</button></div>
+							   
+								<div><button type="button" id="mypage_update" class="tb_btn cancel_btn">회원정보수정</button></div>
+								<div><button type="button" id="mypage_pwupdate" class="tb_btn confirm_btn">비밀번호변경</button></div>
+								<div><button type="button" id="mypage_drop"class="tb_btn confirm_btn">회원탈퇴</button></div>
 							</div>
 						</form>
 					</div>
@@ -293,4 +294,15 @@
 		</section>
 	</div>
 </body>
+<script type="text/javascript">
+$(document).on('click','#mypage_update' ,function(){
+	location.href='${path}//member/update';
+});
+$(document).on('click','#mypage_pwupdate' ,function(){
+	location.href='${path}//member/pwupdate';
+});
+$(document).on('click','#mypage_drop' ,function(){
+	location.href='${path}/member/drop';
+});
+</script>
 </html>
