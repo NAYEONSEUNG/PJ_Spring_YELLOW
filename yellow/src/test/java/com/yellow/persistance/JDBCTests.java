@@ -16,7 +16,7 @@ public class JDBCTests {
 		}
 	}
 
-	@Test //테스트할건데 이 메서드 실행해봐! 라는 뜻 
+	@Test //테스트할건데 이 메서드 실행해봐! 라는 뜻  
 	public void textConnection() {
 		try (Connection conn =
 			DriverManager.getConnection(
