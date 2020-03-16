@@ -203,9 +203,9 @@ public class MemberController {
 		
 		//로그인이 안되있으면 비정상적인 접근으로 간주하여
 		//인덱스페이지로 이동!!
-		if(id == null) {//null은 로그인이 안됐다는 말
-			return "redirect:/";
-		}
+		/*
+		 * if(id == null) {//null은 로그인이 안됐다는 말 return "redirect:/"; }
+		 */
 		//로그인된 유저의 정보를 GET
 		//회원정보수정 페이지로 보내기
 		model.addAttribute("user", mService.userView(id)); //model 쓸려면 멤업데이트안에 매개변수 Model model 해줘야함
@@ -224,13 +224,14 @@ public class MemberController {
 	}
 	
 	@GetMapping("/pwupdate")
-	public String pwUpdate(HttpSession session) {
+	public String pwUpdate() {
 		log.info(">>>>>>GET: Password Update Page");
-		String id = (String)session.getAttribute("userid");
-		if(id == null) {
-			return "redirect:/";
-			
-		}
+		/*
+		 * String id = (String)session.getAttribute("userid"); if(id == null) { return
+		 * "redirect:/";
+		 * 
+		 * }
+		 */
 		return "member/pwupdate";
 	}
 	

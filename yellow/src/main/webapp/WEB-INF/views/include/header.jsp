@@ -189,9 +189,9 @@
 			background-color: white;
 			box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),
 				0 4px 20px 0 rgba(0,0,0,0.19);
-				border-radius: 2px;
-				overflow: hidden;
-				padding: 28px 0;
+			border-radius: 2px;
+			overflow: hidden;
+			padding: 28px 0;
 		}
 		div#content_layout{
 			width: 414px;
@@ -265,7 +265,7 @@
 
 		}
 		#state > input{
-			/*visibility: hidden;*/
+			visibility: hidden;
 			position: absolute;
 			right: 1px;
 			width: 331px;
@@ -681,10 +681,8 @@
 						    <ul class="header_dropdown_menu">
 							   <li><a href="#">구매내역</a></li>
 						       <li><a href="#">위시리스트</a></li>
-						       <c:if test="${not empty userid}">
-						       	   <li><a href="${path}/member/mypage">내정보</a></li>	
-								
-							   </c:if>						
+						       
+						       <li><a href="${path}/member/mypage">내정보</a></li>															   						
 							   <li><a href="#">고객센터</a></li>
 						    </ul>
 						  </div>
@@ -745,6 +743,16 @@
 		// 	$(this).css('border','1.5px solid transparent');
 		// });
 
+			var message ='${message}';
+		$(function(){
+			if(message == 'nologin'){
+				$('.modal_wrap').css('display', 'flex');
+				$('#login_id').focus();
+				$('.login_err_msg').css('display', 'block')
+								 .text('로그인이 필요한 기능입니다.');
+			}
+		});
+		
 	//로그인 버튼 클릭시 모달창 열림
 	$(document).on('click', '.login_open', function(){
 		$('.modal_wrap').css('display', 'flex');

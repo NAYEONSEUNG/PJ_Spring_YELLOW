@@ -41,5 +41,16 @@
 		</beans:property>
 	</beans:bean>
 	
+	<!-- Add Interceptor Beans -->
+	<beans:bean id="loginInterceptor" class="com.yellow.interceptor.LoginInterceptor"></beans:bean>
 	
+	<!-- URL Mapping for Interceptor call -->
+	<interceptors>
+		<interceptor> 	<!-- 이 url 타면은 이 경로로 가라는 말  -->
+			<mapping path="/member/update"/>
+			<mapping path="/member/mypage"/>
+			<mapping path="/member/drop"/>
+			<beans:ref bean ="loginInterceptor"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>
