@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/login")
 @Slf4j
-@RestController// 이놈있으면 @ResponseBody 이거없어도 자동으로 붙혀준다.
+@RestController// 이놈있으면 @ResponseBody 이거없어도 자동으로 붙여준다.
 public class LoginController {
 	@Autowired
 	LoginService lService;
