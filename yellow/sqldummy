@@ -1,0 +1,414 @@
+--기획사 테이블 생성
+CREATE TABLE tbl_enter(
+    ano VARCHAR2(20) PRIMARY KEY, --소속 아티스트 고유번호
+    aname VARCHAR2(50) NOT NULL,  --아티스트 이름
+    major VARCHAR2(50) NOT NULL,  --분야(연기, 가수...)
+    groupyn VARCHAR2(5) NOT NULL, --그룹 유무(Y/N)
+    groupnm VARCHAR2(100), --그룹이 없을수도 있으니 NOT NULL ㄴㄴ
+    sal NUMBER NOT NULL,   --연봉
+    regdate DATE DEFAULT SYSDATE
+);
+
+--시퀀스   //내가 설정한 값을 자동으로 + 1 해준다.
+CREATE SEQUENCE seq_enter  -- 한번 저장되면 계속 증가해버린다. 에러가 떠도 값은 계속 증가
+    START WITH 1    --시작값을 쓸수 있다.
+    INCREMENT BY 1 --증가값
+    NOCYCLE;        --순환X 계속 무한대로 증가
+--MAXVALUE20    --최대값
+--MINVALUE 1    --최소값
+--CYCLE/NOCYCLE --반복여부
+
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)
+VALUES(seq_enter.NEXTVAL, '미나','가수','Y','트와이스',500);
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)--SYSDATE 디포르트라 자동으로 들어가니 안쓴다.
+VALUES(seq_enter.NEXTVAL, '사나','가수','Y','트와이스',1000);
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)--SYSDATE 디포르트라 자동으로 들어가니 안쓴다.
+VALUES(seq_enter.NEXTVAL, '메시','가수','Y','바르샤',3500);
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)--SYSDATE 디포르트라 자동으로 들어가니 안쓴다.
+VALUES(seq_enter.NEXTVAL, '태양','가수','Y','빅뱅',5500);
+INSERT INTO tbl_enter(ano, aname, major, groupyn, groupnm, sal)--SYSDATE 디포르트라 자동으로 들어가니 안쓴다.
+VALUES(seq_enter.NEXTVAL, '혜리','가수','Y','걸스데이',7500);
+COMMIT;
+
+DELETE FROM tbl_enter
+WHERE ano = 1;
+
+SELECT* FROM tbl_enter;
+roll back;
+================================================================================================================
+-- 게시판 테이블 작성
+
+DROP TABLE tbl_board;
+
+CREATE TABLE tbl_board (
+
+    bno NUMBER PRIMARY KEY,
+
+    title VARCHAR2(200) NOT NULL,
+
+    content VARCHAR2(500) NOT NULL,
+
+    writer VARCHAR2(100) NOT NULL,
+
+    viewcnt NUMBER DEFAULT 0,
+
+    regdate DATE DEFAULT SYSDATE
+
+);
+
+DROP SEQUENCE seq_board;
+
+CREATE SEQUENCE seq_board
+
+    START WITH 1
+
+    INCREMENT BY 1
+
+    NOCYCLE;
+
+INSERT INTO tbl_board (bno, title, content, writer)
+
+VALUES(seq_board.NEXTVAL,'시험통과할수있나요?','통과할거같다 손~~','??봇');
+
+INSERT INTO tbl_board (bno, title, content, writer)
+
+VALUES(seq_board.NEXTVAL,'건조할땐 역시 비지','강의실이 너무 건조해서 비 오니까 좋다','rainbow');
+
+INSERT INTO tbl_board (bno, title, content, writer)
+
+VALUES(seq_board.NEXTVAL,'자바 실무 꿀팁 대 방출','바로 구글링이지','날따라와');
+
+INSERT INTO tbl_board (bno, title, content, writer)
+
+VALUES(seq_board.NEXTVAL,'여기다가 질문하는 건가요?','궁금','TMI_!');
+
+INSERT INTO tbl_board (bno, title, content, writer)
+
+VALUES(seq_board.NEXTVAL,'오늘 비가 와서 습함ㅠ','습한 거 싫어서 히터 빵빵하게 틀려고 함','꿀꿀이');
+COMMIT;
+SELECT * FROM tbl_board;
+
+============================================================================================================
+-- 은행 테이블생성
+
+DROP TABLE tbl_bank;
+
+CREATE TABLE tbl_bank(
+
+    bno NUMBER PRIMARY KEY,      -- 계좌번호
+
+    bname VARCHAR2(50) NOT NULL, -- 예금주
+
+    pw VARCHAR2(50) NOT NULL,    -- 계좌비밀번호
+
+    money NUMBER DEFAULT 0,      -- 계좌금액
+
+    regdate DATE DEFAULT SYSDATE -- 계좌개설일
+
+);
+
+DROP SEQUENCE seq_bank;
+
+CREATE SEQUENCE seq_bank
+
+    START WITH 101
+
+    INCREMENT BY 1
+
+    NOCYCLE;
+
+INSERT INTO tbl_bank (bno, bname, pw)
+
+VALUES(seq_bank.NEXTVAL,'오라클','147');
+
+INSERT INTO tbl_bank (bno, bname, pw)
+
+VALUES(seq_bank.NEXTVAL,'자바라','258');
+
+INSERT INTO tbl_bank (bno, bname, pw)
+
+VALUES(seq_bank.NEXTVAL,'데이터','369');
+
+INSERT INTO tbl_bank (bno, bname, pw)
+
+VALUES(seq_bank.NEXTVAL,'박은종','789');
+
+INSERT INTO tbl_bank (bno, bname, pw)
+
+VALUES(seq_bank.NEXTVAL,'이지훈','369');
+
+COMMIT;
+
+SELECT * FROM tbl_bank;
+==================================================================================================================
+
+DROP TABLE tbl_member;
+
+CREATE TABLE tbl_member(
+
+    id VARCHAR2(50) PRIMARY KEY,
+
+    pw VARCHAR2(30) NOT NULL,
+
+    name VARCHAR2(100) NOT NULL,
+
+    phone VARCHAR2(100) NOT NULL,
+
+    regdate DATE DEFAULT SYSDATE
+
+);
+
+
+INSERT INTO tbl_member(id, pw, name, phone)
+
+VALUES ('a1234','1234','에이','01012341234');
+
+INSERT INTO tbl_member(id, pw, name, phone)
+
+VALUES ('b234','3455','비','01034559888');
+
+INSERT INTO tbl_member(id, pw, name, phone)
+
+VALUES ('c456','4567','씨','01045670000');
+
+COMMIT;
+
+SELECT * FROM tbl_member;
++---------------------------------------------------------------------------------------
+편의점
+DROP TABLE tbl_product;
+CREATE TABLE tbl_product(
+   pno NUMBER PRIMARY KEY,
+   pname VARCHAR2(100) NOT NULL UNIQUE,
+   company VARCHAR2(100) NOT NULL,
+   price NUMBER NOT NULL,
+   cnt NUMBER DEFAULT 0,
+   regdate DATE DEFAULT SYSDATE
+);
+
+DROP SEQUENCE seq_product;
+CREATE SEQUENCE seq_product
+    START WITH 1001
+    INCREMENT BY 1
+    NOCYCLE;
+    
+ INSERT INTO tbl_product(pno, pname, company, price, cnt)
+ VALUES(seq_product.NEXTVAL, '스프라이트','스프라이트',900,5);
+ INSERT INTO tbl_product(pno, pname, company, price, cnt)
+ VALUES(seq_product.NEXTVAL, '코카콜라','스프라이트',800,10); 
+
+commit;
+SELECT * FROM tbl_product;
+
+CREATE Table tbl_sale(
+    sno NUMBER PRIMARY KEY,
+    sname VARCHAR2(100)NOT NULL,
+    cnt NUMBER NOT NULL,
+    tprice NUMBER NOT NULL,
+    regdate DATE DEFAULT SYSDATE
+);
+COMMIT;
+
+SELECT *  FROM tbl_product
+	 WHERE cnt >= 1 ;
+DROP SEQUENCE seq_sale;
+SELECT * FROM tbl_sale;
+CREATE SEQUENCE seq_sale
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+
+
+INSERT INTO tbl_sale(sno, sname, cnt, tprice)
+		VALUES(seq_sale.NEXTVAL, 's', 5 ,900);
+
+commit;
+
+
+SELECT *
+FROM tbl_product
+WHERE cnt >= 0;
+
+--전체 총판매액
+SELECT SUM(tprice) FROM tbl_sale;
+WHERE TO_CHAR(regdate,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD');--TO_CAHR 형변환하는 것
+
+--제품별 총판매액
+SELECT sname, SUM(tprice) 
+FROM tbl_sale
+WHERE TO_CHAR(regdate,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD'); --이줄 포함하면 오늘 판매한 상품의 수량과 총금액
+GROUP BY sname;
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--다음 영화 평점을담기위한 테이블 생성----------------20200226----------------------------------------------------------------------------------------
+DROP TABLE tbl_movie;
+CREATE TABLE tbl_movie(
+    mno NUMBER PRIMARY KEY,
+    title VARCHAR2(500) NOT NULL,
+    content VARCHAR2(2000),
+    writer VARCHAR2(200) NOT NULL,
+    score NUMBER DEFAULT 0,
+    loc VARCHAR2(100),    
+    regdate NUMBER
+);
+
+DROP SEQUENCE seq_movie;
+CREATE SEQUENCE seq_movie
+        START WITH 1
+        INCREMENT BY 1
+        NOCYCLE;
+            
+ select * from tbl_movie;
+ 
+ 
+ ----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------20200217-----------------------------------------------------------------
+
+--상품 테이블
+DROP TABLE tbl_pdt;
+CREATE TABLE tbl_pdt(
+     pno NUMBER PRIMARY KEY,
+     pname VARCHAR2(500) NOT NULL,
+     ptype VARCHAR2(200) NOT NULL,
+     pmemo VARCHAR2(1000),
+     price NUMBER DEFAULT 0,   
+     avail_cnt NUMBER DEFAULT 0,
+     sale_cnt NUMBER DEFAULT 0,
+     p_img VARCHAR2(300),
+     regdate DATE DEFAULT SYSDATE
+);
+
+DROP SEQUENCE seq_pdt;
+CREATE SEQUENCE seq_pdt
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '차가버섯 추출분말', '차가버섯','200만병 판매 돌파! 국민차가버섯', '25000',7 , 10, 'chaga22chaga.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, 'G.어린이 베타카로틴', '영양제','우리아이 눈건강,면역을 위한 베타카로틴!', '20000',6 , 30, 'rere.3f4b063e8e226dc9006b9d8eb82e761b.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '데일리 히알루론산', '새우','바나나과자', '15000',11 , 50, 'dailyguronsan.png');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '피쉬 콜라겐', '콜라겐','	흡수율 높은 저분자 피쉬콜라겐', '11000',52 , 100, 'rere.3a30dc48d4c1d51722aabd7666a5c31b.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '파이토 멀티비타민', '비타민','화학적부형제 제로! 남성을 위한 맞춤 설계 종합비타민', '40000',23 , 120, 'rere.multivitamin.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '파이토 효모 비타민D ', '비타민','화학적부형제 제로! 현대인에게 부족한 비타민D 2,000IU섭취', '50000',41 , 150, 'rere.hymovita.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '파이토 칼맥', '비타민','해조칼슘,산호칼슘과 마그네슘을 한번에', '30000',65 , 170, 'rere.paito.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '뷰티羊양태반', '피부','양태반+콜라겐+천연보습인자로 피부 속 깊이 촉촉하게', '90000',66 , 1000, 'rere.beautytaeban.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '화이트포뮬라', '피부','유해산소로부터 세포를 보호!!', '32000',71 , 192 ,'rere.whiteformul.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '참좋은 유산균', '장','장이튼튼튼!!', '22000',37 , 134, 'rere.goodusangyun.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '연골 앤 관절케어', '관절','지친관절솔루션!관절해답연골앤관절케어!MSM', '35000',23 , 410, 'rere.yungol.jpg');
+INSERT INTO tbl_pdt(pno, pname, ptype, pmemo, price, avail_cnt, sale_cnt, p_img)
+VALUES(seq_pdt.NEXTVAL, '체지방 더블컷 다이어트 라인', '다이어트','더블컷 가르시니아, 체지방컷,탄수화물컷', '12000',75 , 710, 'rere.fatcut.jpg');
+commit;
+SELECT * FROM tbl_pdt;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------2020.02.20----------------------------------------------------------------------------
+--회원테이블
+DROP TABLE tbl_member;
+CREATE TABLE tbl_member(
+    id VARCHAR2(100) PRIMARY KEY,
+    pw VARCHAR2(200) NOT NULL,
+    name VARCHAR2(100) NOT NULL,
+    phone VARCHAR2(50) NOT NULL,
+    email VARCHAR2(100) NOT NULL,
+    postcode VARCHAR2(30) NOT NULL,
+    addr1 VARCHAR2(300) NOT NULL,
+    addr2 VARCHAR2(300) NOT NULL,
+    useon VARCHAR2(20) NOT NULL,
+    primaryon VARCHAR2(20) NOT NULL,
+    locon VARCHAR2(20) DEFAULT 'false',
+    eventon VARCHAR2(20) DEFAULT 'false',
+    useyn VARCHAR2(200) DEFAULT 'n',
+    regdate DATE DEFAULT SYSDATE
+);
+
+INSERT INTO tbl_member(id, pw, name, phone, email, postcode, addr1, addr2, useon, primaryon)
+VALUES('admin','1234','관리자','01012345678','admin@gmail.com','12345','광주광역시','광산구','true','true');
+INSERT INTO tbl_member(id, pw, name, phone, email, postcode, addr1, addr2, useon, primaryon)
+VALUES('blacklv','1234','나연승','01037915216','blackpulv@gmail.com','12345','광주광역시','북구','true','true');
+COMMIT;
+
+SELECT * FROM tbl_member;
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------2020.03.18----------------------------------------------------------------------------------
+--자유게시판
+--질의응답 게시판
+--고객게시판
+--공지사항
+--tbl_board 통합형 게시판
+--type: from,qna, cs, noti
+
+--게시판 Sequence 생성
+DROP SEQUENCE seq_board;
+CREATE SEQUENCE seq_board
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+    
+DROP TABLE tbl_board CASCADE CONSTRAINTS;
+CREATE TABLE tbl_board(
+    bno number(10,0),
+    type CHAR(4) NOT NULL,
+    title VARCHAR2(200) NOT NULL,
+    content VARCHAR2(4000) NOT NULL,
+    writer VARCHAR2(50) NOT NULL,
+    viewcnt NUMBER DEFAULT 0,
+    replycnt NUMBER DEFAULT 0,
+    goodcnt NUMBER DEFAULT 0,
+    regdate DATE DEFAULT SYSDATE,
+    updatedate DATE DEFAULT SYSDATE,
+    show CHAR(1) DEFAULT 'Y',
+    ref NUMBER NOT NULL,
+    re_step NUMBER NOT NULL,
+    re_level NUMBER NOT NULL
+);
+--게시판 테이블 PK KEY 추가
+ALTER TABLE tbl_board ADD CONSTRAINT pk_board
+PRIMARY KEY(bno);
+
+--게시물 초 15건 추가 not null 인거 다 넣고 ref =1, re_step=1, re_level=0, type = free, writer=가입유저
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step,re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글1','가나다라마','오바마',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글2','가나다라마11','오동선',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글3','가나다라마22','숑숑ssss',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글4','가나다라마33','나연승',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글5','가나다라마44','최수종',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글6','가나다라마55','하희라',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글7','가나다라마66','호호d',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글8','가나다라마77','시진핑',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글9','가나다라마88','최수종이',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글10','가나다라마99','관리자',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글11','가나다라마00','관리자2',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글12','가나다라마111','관리자3',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글13','가나다라마222','관리자4',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글14','가나다라마333','관리자5',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글15','가나다라마444','관리자6',1,1,0);
+commit;
+
+SELECT * FROM tbl_board;
