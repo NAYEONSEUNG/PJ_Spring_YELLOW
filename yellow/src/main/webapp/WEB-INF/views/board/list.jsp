@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ include file="../include/include.jsp" %>
+ <%@ include file="../include/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -230,30 +230,47 @@
 			max-width: 1200px;
 			margin: 0 auto;
 			box-sizing: border-box;
+			margin-top: 100px;
 	    }
-	    /* footer */
-	    .#footer{
-	    	width: 100%
-	    	padding: 20px 50px 10px;
+	    /* 새 게시글 효과 */
+	    .twincle_eff{
+	    	animation-name: twinkle;
+	    	animation-duration: 1.2s;
+	    	animation-iteration-count: infinite;
 	    }
+	    @keyframes twinkle{
+	    	0% {opacity:0;}
+	    	100%{opacity:1;}
+	    }
+	    .new_color{
+	    	border: 1px solid tomato;
+	    	color: tomato;
+	    	padding: 3px 5px;
+	    	margin-left: 7px;
+	    	font-weight: bold;
+	    	font-size: 12px;
+	    }
+
 	</style>
 
 </head>
 <body>
+	<jsp:useBean id="now" class="java.util.Date"/>
+	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today"/>
 	<div id="big_content" class="big_wrap">
 		<div>
-			<h3>자유게시판</h3>
+			<h2>자유게시판</h2>
 		</div>
 	<div id="board-wrap">
 
 			<div class="top_search">
 				<div class="search_box">
-					<div class="srarch_select">
+<!-- 					<div class="srarch_select">
 						<select class="choice_sel" id="srch_column" name="srch_column">
 							<option value="select_title">제목</option>
 							<option value="select_writer">작성자</option>
 						</select>
-					</div>
+					</div> -->
 					<div class="search_input">
 						<input type="text" id="srch_wrd" name="srch_wrd" placeholder="검색어를 입력하세요">
 					</div>
@@ -305,66 +322,32 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							<a href="#">GOGogogoGOGOGOogo</a>
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							<a href="#">GOGogogoGOGOGOogo</a>
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							<a href="#">GOGogogoGOGOGOogo</a>
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							<a href="#">GOGogogoGOGOGOogo</a>
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							<a href="#">GOGogogoGOGOGOogo</a>
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
-					<tr>
-						<td class="num">01</td>					
-						<td class="subject">
-							GOGogogoGOGOGOogo
-						</td>
-						<td class="writer">오키</td>
-						<td class="date">2020-03-05</td>
-						<td class="cnt">7</td>
-						<td class="file"></td>
-					</tr>
+					<c:forEach items = "${map.list}" var="list">
+					  
+					  <fmt:formatDate value="${list.updatedate}" pattern="yyyy-MM-dd" var="regdate"/><!-- 작성시간을 바꿈  -->
+						<tr>
+							<td class="num">${list.bno}</td>					
+							<td class="subject">
+								<a href="#">${list.title}</a>
+								<c:if test="${today == regdate}">
+									<span class="new_color twincle_eff">N</span> <!-- 오늘쓴 게시글 막 ㅈㄴ N 뜨면서 깜빡거리는거 -->
+								</c:if>
+							</td>
+							<td class="writer">${list.writer}</td>
+							<td class="date"><%-- ${list.regdate} --%>
+								<c:choose>
+									<c:when test="${today == regdate}">
+										<fmt:formatDate value="${list.updatedate}" pattern="HH:mm:ss"/>
+									</c:when>
+									<c:otherwise>
+										<fmt:formatDate value="${list.updatedate}" pattern="yyyy-MM-dd"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="cnt">${list.viewcnt}</td>
+							<td class="file"></td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 			<div class="pagination"> 
