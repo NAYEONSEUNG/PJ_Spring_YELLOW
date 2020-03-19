@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yellow.persistence.BoardDAO">
 		<select id="newBoardList" resultType="BoardDTO">
-			<include refid="paging_header"/>
+			<include refid="paging_header"/><!-- include페이지헤더니까 페이지헤더가 먼저 나오라는 말 -->
 			SELECT bno, title, writer, name, updatedate, viewcnt, replycnt, goodcnt, show
 			FROM tbl_board b, tbl_member m		
 			WHERE b.writer = m.id AND b.show = 'Y'

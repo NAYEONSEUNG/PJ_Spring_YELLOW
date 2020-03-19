@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
 <style type="text/css">
 		p{
 		margin:0;
@@ -243,7 +243,7 @@
 	    	100%{opacity:1;}
 	    }
 	    .new_color{
-	    	border: 1px solid tomato;
+	    	/* border: 1px solid tomato; */
 	    	color: tomato;
 	    	padding: 3px 5px;
 	    	margin-left: 7px;
@@ -352,30 +352,29 @@
 			</table>
 			<div class="pagination"> 
 				<ul>
-					<li>
-						<a href="#" class="first"><<</a>
-					</li>
-					<li>
-						<a href="#" class="prev"><</i></a>
-					</li>
-					<li>
-						<a href="#" class="active">1</a>
-					</li>
-					<li>
-						<a href="#" class="active">2</a>
-					</li>
-					<li>
-						<a href="#" class="active">3</a>
-					</li>
-					<li>
-						<a href="#" class="active">4</a>
-					</li>
-					<li>
-						<a href="#" class="next">></a>
-					</li>
-					<li>
-						<a href="#" class="last">>></i></a>
-					</li>
+
+					<c:if test ="${map.pager.curBlock > 1}">
+						<li><a href="${path}/board/list?curPage=${map.pager.blockBegin-10}&sort_option=${map.sort_option}&keyword=${map.keyword}" class="page_left"><</a></li>
+						<li><a href="${path}/board/list?curPage=1&sort_option=${map.sort_option}&keyword=${map.keyword}"  class="">1</a></li>
+						<li><span>...</span></li>
+					</c:if>
+					<c:forEach var ="num" begin="${map.pager.blockBegin}" end="${map.pager.blockEnd}">
+					<c:choose>
+					 	<c:when test="${num == map.pager.curPage}">
+							<li><a href="${path}/board/list?curPage=${num}&sort_option=${map.sort_option}&keyword=${map.keyword}"  class="active" id="check_color">${num}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${path}/board/list?curPage=${num}&sort_option=${map.sort_option}&keyword=${map.keyword}">${num}</a></li>
+						</c:otherwise>	
+					</c:choose>
+					</c:forEach>
+					
+					<c:if test="${map.pager.curBlock < map.pager.totBlock}">
+						<li><span>...</span></li>
+						<li><a href="${path}/board/list?curPage=${map.pager.totPage}&sort_option=${map.sort_option}&keyword=${map.keyword}" class="">${map.pager.totPage}</a></li>
+						<li><a href="${path}/board/list?curPage=${map.pager.blockEnd+1}&sort_option=${map.sort_option}&keyword=${map.keyword}"  class="page_right">></a></li>
+					</c:if>
+
 				</ul>
 			</div>
 			
