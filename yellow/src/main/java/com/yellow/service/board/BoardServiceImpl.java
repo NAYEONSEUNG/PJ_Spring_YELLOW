@@ -24,11 +24,13 @@ public class BoardServiceImpl implements BoardService{
 		bDao= sqlSession.getMapper(BoardDAO.class);
 	}
 	@Override
-	public List<BoardDTO> newBoardList(int start, int end) {
+	public List<BoardDTO> newBoardList(String sort_option, String search_option, String keyword, int start, int end) {
 		Map<String, Object>map = new HashMap<>();
+		map.put("sort_option", sort_option);
 		map.put("start", start);
 		map.put("end", end);
-		
+		map.put("search_option",search_option);
+		map.put("keyword", "%"+keyword+"%");
 		/*
 		 * List<BoardDTO> list = bDao.newBoardList(map); for (BoardDTO boardDTO : list)
 		 * { log.info(boardDTO.toString());
@@ -38,8 +40,11 @@ public class BoardServiceImpl implements BoardService{
 		return bDao.newBoardList(map);
 	}
 	@Override
-	public int countArticle() {
-		return bDao.countArticle();
+	public int countArticle(String search_option, String keyword) {
+		Map<String, String>map = new HashMap<>();
+		map.put("search_option",search_option);
+		map.put("keyword", "%"+keyword+"%");
+		return bDao.countArticle(map);
 	}
 
 }

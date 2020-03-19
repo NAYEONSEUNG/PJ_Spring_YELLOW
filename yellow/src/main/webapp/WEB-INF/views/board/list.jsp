@@ -49,7 +49,7 @@
 			padding: 0 3px;
 		}
 		.top_search .search_input input{
-			height: 40px;
+			height: 39px;
 			line-height: 40px;
 			border: 1px solid #d9d9d9;
 			text-indent: 10px;
@@ -133,7 +133,7 @@
 			font-size: 12px;
 		}
 		.board-list-table .cnt{
-			width: 8%;
+			width: 12%;
 			font-size: 12px;
 		}
 		.board-list-table th{
@@ -169,7 +169,7 @@
 			background-color: #ececec; 
 		}
 		.board-list-table .cnt{
-			width: 8%;
+			width: 12%;
 			font-size: 12px;
 		}
 		.board-list-table .file{
@@ -250,6 +250,11 @@
 	    	font-weight: bold;
 	    	font-size: 12px;
 	    }
+	    #check_color{
+	    	border: 1px solid #ececec;
+	    	background-color: #ececec;
+	    	color: #333;
+	    }
 
 	</style>
 
@@ -265,33 +270,24 @@
 
 			<div class="top_search">
 				<div class="search_box">
-<!-- 					<div class="srarch_select">
-						<select class="choice_sel" id="srch_column" name="srch_column">
-							<option value="select_title">제목</option>
-							<option value="select_writer">작성자</option>
-						</select>
-					</div> -->
-					<div class="search_input">
-						<input type="text" id="srch_wrd" name="srch_wrd" placeholder="검색어를 입력하세요">
-					</div>
-					<div class="srch_btn">
-						<button type="button" class="search_btn" style="cursor: pointer;"><i class="fas fa-search"></i></button>
-					</div> 
+						<form action ="${path}/board/list" method="GET">
+							<div class="search_input">
+								<input type="text" id="srch_wrd" name="keyword" class="input_search" placeholder="검색어를 입력하세요">
+							</div>
+							<div class="srch_btn">
+								<button type="submit" class="search_btn" style="cursor: pointer;"><i class="fas fa-search"></i></button>
+							</div> 
+						</form>
 				</div>
 					<div class="top_sort">
  						<ul class="list_sort pull_left">
-							<li>
-								<a href="#">최신순</a>
-							</li>
-							<li>
-								<a href="#">조회순</a>
-							</li>
-							<li>
-								<a href="#">댓글순</a>
-							</li>
-							<li>
-								<a href="#">추천순</a>
-							</li>
+							<li><a href="${path}/board/list?sort_option=new&keyword=${map.keyword}" id="sort_new">최신순</a></li>
+							
+							<li><a href="${path}/board/list?sort_option=cnt&keyword=${map.keyword}" id="sort_cnt">조회순</a></li>
+							
+							<li><a href="${path}/board/list?sort_option=reply&keyword=${map.keyword}" id="sort_reply">댓글순</a></li>
+							
+							<li><a href="${path}/board/list?sort_option=good&keyword=${map.keyword}" id="sort_good">추천순</a></li>
 						</ul> 
 					</div>
 					<div class="writer_btn">
@@ -308,7 +304,7 @@
 					<col class="subject">
 					<col class="writer">
 					<col class="date">
-					<col class="cnt">
+					<col class="cnt">				
 					<col class="file">
 				</colgroup>
 				<thead>
@@ -344,7 +340,11 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td class="cnt">${list.viewcnt}</td>
+							<td class="cnt"> 
+								<i class="far fa-eye">${list.viewcnt}</i>
+								<i class="far fa-comment">${list.replycnt}</i>
+								<i class="far fa-thumbs-up">${list.goodcnt}</i>
+							</td>
 							<td class="file"></td>
 						</tr>
 					</c:forEach>
@@ -382,4 +382,24 @@
 	</div>
 	</div>
 </body>
+
+<script type="text/javascript">
+	$(function(){
+		var sort_option = '${map.sort_option}';
+		if(sort_option == 'new'){
+			$('#sort_new').css('color','tomato');
+		}else if(sort_option == 'cnt'){
+			$('#sort_cnt').css('color','tomato');
+		}else if(sort_option == 'reply'){
+			$('#sort_reply').css('color','tomato');
+		}else if(sort_option == 'good'){
+			$('#sort_good').css('color','tomato');
+		}
+	});
+
+
+
+
+
+</script>
 </html>
