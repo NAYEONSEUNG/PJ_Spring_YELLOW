@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/board")
-@Controller
+@Controller// 이거붙어있으면 바로 빈즈로 생성해준다. 
 public class BoardController {
 	@Autowired
 	BoardService bService;
@@ -39,14 +39,15 @@ public class BoardController {
 		
 		List<BoardDTO> list = bService.newBoardList(sort_option, search_option, keyword, start, end);// 게시물 목록,, 게시글 보는 정렬방식이 바뀔수도 있으니 sort_option 넣어준다.
 		
+		//
 		
 		HashMap<String,Object> map = new HashMap<>();
 		map.put("list", list);
-		map.put("count", count);
+		map.put("count", count);//
 		map.put("pager", pager);//페이지네이션 사용하기위해서 추가한다. 
 		map.put("sort_option", sort_option);//sort_option을 항상 달고다녀야 페이지를 넘겨도 정렬이 가능하다. 
 		map.put("search_option", search_option);
-		map.put("keyword", keyword);
+		map.put("keyword", keyword);//
 		model.addAttribute("map",map);
 		
 		return "board/list";

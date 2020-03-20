@@ -8,7 +8,7 @@
 	
 	<!-- Data Base Connection Pool -->
 	<bean id="dataSource" class= "org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property><!-- 다양한 Log출력// 이거랑log4jdbc.log4j2....랑은 한 세트라고 보자 -->
 		<property name="url" value= "jdbc:log4jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="java" />
 		<property name= "password" value= "1234" />
@@ -18,12 +18,12 @@
 	<bean id = "sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name= "dataSource" ref = "dataSource"/>
 		<property name="configLocation" value = "classpath:/mybatis-config.xml"/>
-		<property name= "mapperLocations" value = "classpath:mappers/**/*Mapper.xml"/>					
+		<property name= "mapperLocations" value = "classpath:mappers/**/*Mapper.xml"/><!-- *은 고정이고 그다음 이름은 뭐든 아무거나 상관없다. -->					
 	</bean>
 	
-	<!-- SqlSession객체주입 -->
+	<!-- SqlSession객체주입 --><!--여기에도 의존성이 들어있다.   -->
 	<bean id = "sqlSession" class= "org.mybatis.spring.SqlSessionTemplate" destroy-method= "clearCache">
-		<constructor-arg name= "sqlSessionFactory" ref= "sqlSessionFactory"></constructor-arg>
+		<constructor-arg name= "sqlSessionFactory" ref= "sqlSessionFactory"></constructor-arg><!-- sqlSessionFactory를 참조해서 만들어라  -->
 	</bean>
 	
 </beans>

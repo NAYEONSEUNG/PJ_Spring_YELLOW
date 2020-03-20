@@ -7,7 +7,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml
-						/WEB-INF/spring/spring-security.xml</param-value>
+					 /WEB-INF/spring/spring-security.xml</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -27,7 +27,7 @@
 	</servlet>
 		
 	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name> <!-- /로 되어있는 애들은 appservlet으로 가라 -->
+		<servlet-name>appServlet</servlet-name> <!-- / 슬러시 경로로 되어있는 애들은 appservlet(디스패처 서블릿)으로 가라 -->
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	

@@ -184,7 +184,7 @@
 			background-color: #fcbe32;
 			color: white;
 		}
-		.search_btn{
+		.search_btn {
 			border-color: transparent;
 			width: 44px;
 			height: 44px;
@@ -255,6 +255,30 @@
 	    	background-color: #ececec;
 	    	color: #333;
 	    }
+	    .clear_box{
+	    	display: inline-block;
+	    	background-color: #ececec;
+	    	font-weight: bold;
+	    }
+	    .clear_btn:hover{
+			background-color: #fcbe32;
+			color: white;
+		}
+		.clear_btn {
+			border-color: transparent;
+			width: 44px;
+			height: 44px;
+			cursor: pointer;
+			border-top-right-radius: 2px;
+			border-bottom-right-radius: 2px;
+		}
+		#map_keyword{
+			font-weight: bold;
+			color: tomato;
+		}
+/* 		#search_result{
+			display: none;
+		} */
 
 	</style>
 
@@ -272,12 +296,17 @@
 				<div class="search_box">
 						<form action ="${path}/board/list" method="GET">
 							<div class="search_input">
-								<input type="text" id="srch_wrd" name="keyword" class="input_search" placeholder="검색어를 입력하세요">
+								<input type="text" id="srch_wrd" name="keyword" class="input_search" placeholder="검색어를 입력하세요" value="${map.keyword}">
 							</div>
 							<div class="srch_btn">
 								<button type="submit" class="search_btn" style="cursor: pointer;"><i class="fas fa-search"></i></button>
 							</div> 
+<!-- 							<div class="clear_box">
+								<button type="button" class="clear_btn" style="cursor: pointer;"><i class="fa fa-times-circle"></i></button>
+							</div> -->
 						</form>
+						
+						
 				</div>
 					<div class="top_sort">
  						<ul class="list_sort pull_left">
@@ -293,7 +322,18 @@
 					<div class="writer_btn">
 					<a href="#" class="board_write btn_write black_btn">글쓰기</a>
 					</div>
+
 			</div>
+			
+			<!-- 검색결과 알림출력 -->
+				<c:if test="${!empty map.keyword}">
+					<span id="search_result"><span id= "map_keyword">"${map.keyword}"</span> 검색결과<span id= "map_keyword"> "${map.count}"</span>건 입니다.
+						<span class="clear_box">
+			 			<!-- 	 <button type="button" class="clear_btn" style="cursor: pointer;"></button>  -->
+								<a href="${path}/board/list" class="clear_btn">처음으로</a> 
+						</span>
+					</span>	
+				</c:if>	
 
 	
 
@@ -386,18 +426,18 @@
 <script type="text/javascript">
 	$(function(){
 		var sort_option = '${map.sort_option}';
-		if(sort_option == 'new'){
-			$('#sort_new').css('color','tomato');
-		}else if(sort_option == 'cnt'){
-			$('#sort_cnt').css('color','tomato');
-		}else if(sort_option == 'reply'){
-			$('#sort_reply').css('color','tomato');
-		}else if(sort_option == 'good'){
-			$('#sort_good').css('color','tomato');
-		}
-	});
-
-
+		$('#sort_'+sort_option).css('color','tomato');
+		
+ 	});
+	
+	/*
+	
+ 	if(!('${map.keyword}'=='')){
+		$('#search_result').css('display','block');
+	}else {
+		$('#search_result').css('display', 'hidden');
+	} 
+ */
 
 
 
