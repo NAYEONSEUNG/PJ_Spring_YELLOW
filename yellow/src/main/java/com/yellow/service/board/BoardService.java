@@ -2,6 +2,8 @@ package com.yellow.service.board;
 
 import java.util.List;
 
+import org.springframework.ui.Model;
+
 import com.yellow.domain.BoardDTO;
 
 public interface BoardService {
@@ -11,4 +13,5 @@ public interface BoardService {
 	//목록(페이지 나누기, 검색 긴으 포함)
 	 public List<BoardDTO> newBoardList(String sort_option, String search_option, String keyword, int start, int end);
 	 
+	 public BoardDTO viewBoard(int bno);
 }

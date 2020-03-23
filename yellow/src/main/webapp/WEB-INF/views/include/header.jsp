@@ -597,7 +597,7 @@
 		<div class="header_wrap">
 			<div class="header_content">
 				<div class="header_content_logo">
-					<a href="#">
+					<a href="${path}">
 					<img class="header_content_logo_img" src="${path}/resources/image/노란알약찐.png">
 					<span class="header_content_logo_text">노란알약</span>
 					</a>

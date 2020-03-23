@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.yellow.domain.BoardDTO;
 import com.yellow.persistence.BoardDAO;
@@ -46,5 +47,11 @@ public class BoardServiceImpl implements BoardService{
 		map.put("keyword", "%"+keyword+"%");
 		return bDao.countArticle(map);
 	}
+	@Override
+	public BoardDTO viewBoard(int bno) {
+		
+		return bDao.viewBoard(bno);
+	}
+
 
 }

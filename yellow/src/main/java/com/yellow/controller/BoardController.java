@@ -53,6 +53,15 @@ public class BoardController {
 		return "board/list";
 		
 	}
+	@GetMapping("/view")
+	public String view(int bno, BoardDTO bDto, Model model) {
+		log.info(">>>GET Board Detail Page");
+		
+		bDto = bService.viewBoard(bno);//잘 모르는 부분
+
+		model.addAttribute("one",bDto); 
+		return "board/view";
+		
+	}
 	
-	
-}
+}//class

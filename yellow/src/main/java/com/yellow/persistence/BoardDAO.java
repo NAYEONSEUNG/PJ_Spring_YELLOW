@@ -14,4 +14,6 @@ public interface BoardDAO {
 	
 	//목록(페이지나누기, 검색 기능 포함)
 	public List<BoardDTO> newBoardList(@Param("map")Map<String, Object> map);
+		
+	public BoardDTO viewBoard(int bno);
 }

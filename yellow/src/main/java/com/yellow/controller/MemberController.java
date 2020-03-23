@@ -62,7 +62,7 @@ public class MemberController {
 	/*
 	 *SeesionAttributes를 사용하기 위해서는
 	 *반드시 해당변수를 생성하는 method가 controller에 있어야 하고
-	 *해당 메서드에는 @ModelAtgtribute("변수명")가 있어야한다.
+	 *해당 메서드에는 @ModelAttribute("변수명")가 있어야한다.
 	 */
 	
 	@ModelAttribute("memberDTO")

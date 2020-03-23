@@ -284,6 +284,7 @@
 
 </head>
 <body>
+
 	<jsp:useBean id="now" class="java.util.Date"/>
 	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today"/>
 	<div id="big_content" class="big_wrap">
@@ -364,7 +365,7 @@
 						<tr>
 							<td class="num">${list.bno}</td>					
 							<td class="subject">
-								<a href="#">${list.title}</a>
+								<a href="${path}/board/view?bno=${list.bno}">${list.title}</a>
 								<c:if test="${today == regdate}">
 									<span class="new_color twincle_eff">N</span> <!-- 오늘쓴 게시글 막 ㅈㄴ N 뜨면서 깜빡거리는거 -->
 								</c:if>
