@@ -43,10 +43,10 @@ public class IndexController {
 		model.addAttribute("NewPdt2", iService.newPdtList2());
 		
 		//개발 종료시 삭제하자!!(관리자 자동로그인)
-//		session.removeAttribute("userid");//세션영역에서 유저아이디 이름값을 지우고 새로운 아이디 값을 넣어주겠다는말. 굳이 안써도 되는코드지만 쓰는것을 권장 (removeAttribute)
-//		session.removeAttribute("name");
-//		session.setAttribute("userid", "mrblack");//세션에 값을 담음
-//		session.setAttribute("name", "관리자");
+		session.removeAttribute("userid");//세션영역에서 유저아이디 이름값을 지우고 새로운 아이디 값을 넣어주겠다는말. 굳이 안써도 되는코드지만 쓰는것을 권장 (removeAttribute)
+		session.removeAttribute("name");
+		session.setAttribute("userid", "mrblack");//세션에 값을 담음
+		session.setAttribute("name", "관리자");
 		
 		//2.출력할 화면을 결정
 		return "index";

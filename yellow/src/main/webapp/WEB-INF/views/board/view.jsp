@@ -274,10 +274,12 @@
 							<a href="${path}/board/list" class="board_write btn_write black_btn">목 록</a>
 							<a href="#" class="board_write btn_write black_btn">답 변</a>
 						</div>
-						<div class="btn_second">
-							<a href="#" class="board_write btn_write black_btn">수 정</a>
-							<a href="#" class="board_write btn_write black_btn">삭 제</a>
-						</div>
+						<c:if test="${userid == one.writer}">
+							<div class="btn_second">							
+									<a href="#" class="board_write btn_write black_btn">수 정</a>
+									<a href="#" class="board_write btn_write black_btn">삭 제</a>
+							</div>
+						</c:if>
 					</div>
 				</div>
 				<div class="reply_box">
