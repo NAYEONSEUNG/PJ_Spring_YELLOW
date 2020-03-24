@@ -68,8 +68,16 @@ public class BoardController {
 		//DB에서 bno정보를 get해서 view단으로 전송 
 		model.addAttribute("one", bService.viewBoard(bno));
 		//model.addAttribute("one",bDto); 
+		model.addAttribute("key", "dropBoard");// 삭제할수 있게 modal.jsp의 코드를 부른다. 
 		return "board/view";
 		
+	}
+	@GetMapping("/delete")
+	public String delete(int bno) {
+		log.info(">>>>>>>>GET: Board Delete Action");
+		bService.delBoard(bno);
+		
+		return "redirect:/board/list";//삭제하고 게시글 목록으로 가게 해준다.
 	}
 	
 }//class

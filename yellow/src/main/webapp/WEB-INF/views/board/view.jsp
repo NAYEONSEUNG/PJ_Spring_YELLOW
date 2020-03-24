@@ -229,6 +229,7 @@
 	</style>
 </head>
 <body>
+	<%@ include file="../include/modal.jsp"%>
 	<div id="container">
 		<div id="contents">
 			<div class="cont_top">
@@ -277,7 +278,7 @@
 						<c:if test="${userid == one.writer}">
 							<div class="btn_second">							
 									<a href="#" class="board_write btn_write black_btn">수 정</a>
-									<a href="#" class="board_write btn_write black_btn">삭 제</a>
+									<a href="#" class="board_write btn_write black_btn" id="delete_btn">삭 제</a>
 							</div>
 						</c:if>
 					</div>
@@ -319,4 +320,22 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+
+		$(function(){
+			
+			//삭제버튼 클릭시 모달창 Open
+			$('#delete_btn').on('click',function(){
+				$('.include_modal_wrap').css('display','flex');
+			});
+			
+			//삭제알림 모달창에서 확인버튼 클릭 -> 게시글 삭제
+			
+			$('#include_btn_login').click(function(){
+				location.href='${path}/board/delete?bno=${one.bno}';
+			});
+			
+		});
+	
+</script>
 </html>

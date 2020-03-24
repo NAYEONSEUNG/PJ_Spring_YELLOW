@@ -19,4 +19,7 @@ public interface BoardDAO {
 
 	//조회수 +1 증가
 	public void increaseViewCnt(@Param("bno") int bno);
+	
+	//게시글 삭제
+	public void delBoard(int bno);
 }

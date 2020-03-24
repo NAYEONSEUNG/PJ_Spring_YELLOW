@@ -134,6 +134,9 @@
 			var drop_main_txt= '${userid}님 정말 탈퇴 하시겠습니까?';
 			var dropResult_main_txt =id+'님 탈퇴되셨습니다.';
 			var dropResult_sub_txt ='그동안 이용해주셔서 감사합니다.';
+		
+			var dropBoard_main_txt = "정말 삭제 하시겠습니까?";
+			var dropBoardNo_main_txt = "댓글이 있는 게시글은 삭제할 수 없습니다.";
 			
 			if(key == 'join'){
 				$('#modal_msg_main_txt').text(join_main_txt);//메인 텍스트
@@ -156,6 +159,14 @@
 				/* $('#modal_msg_cancle').css('display', 'none'); */
 				/* $('#include_btn_login').css('display', 'none'); */
 				$('.include_modal_wrap').css('display', 'flex');
+			} else if(key == 'dropBoard'){
+				if('${one.replycnt}' == 0){ //댓글이 없는 경우
+					$('#modal_msg_main_txt').text(dropBoard_main_txt);
+				}else{// 댓글이 있는 경우 
+					$('#modal_msg_main_txt').text(dropBoardNo_main_txt);
+					/* $('#modal_msg_yes').css('display','none');
+					$('#modal_msg_cancle').text('확 인'); */
+				}
 			}
 			
 			$('#include_btn_login').on('click',function(){
@@ -164,6 +175,11 @@
 			$('.include_login_close').on('click',function(){
 				$('.include_modal_wrap').css('display', 'none');
 			});
+			
+/* 			$('#delete_btn').on('click',function(){
+				$('.include_modal_wrap').css('display','flex');
+			}); */
+			
 		});
 </script>
 </html>
