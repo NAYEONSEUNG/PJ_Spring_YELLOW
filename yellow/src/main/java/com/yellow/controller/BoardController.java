@@ -3,6 +3,8 @@ package com.yellow.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,13 +58,16 @@ public class BoardController {
 	}
 	@GetMapping("/view/{bno}")
 	/* public String view(int bno, BoardDTO bDto, Model model) { */
-	public String view(@PathVariable(value="bno") int bno, BoardDTO bDto, Model model) {
+	public String view(@PathVariable(value="bno") int bno, BoardDTO bDto, Model model, HttpSession session) {
 		log.info(">>>GET Board Detail Page");
 		
-		bDto = bService.viewBoard(bno);//잘 모르는 부분
-
-		//model.addAttribute("one", bSevice.vie(bno));
-		model.addAttribute("one",bDto); 
+		//1.해당 bno의 조회수 +1 증가
+		bService.increaseViewCnt(bno, session);
+		//bDto = bService.viewBoard(bno);//잘 모르는 부분
+		
+		//DB에서 bno정보를 get해서 view단으로 전송 
+		model.addAttribute("one", bService.viewBoard(bno));
+		//model.addAttribute("one",bDto); 
 		return "board/view";
 		
 	}

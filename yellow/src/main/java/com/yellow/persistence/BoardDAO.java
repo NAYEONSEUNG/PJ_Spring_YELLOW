@@ -16,4 +16,7 @@ public interface BoardDAO {
 	public List<BoardDTO> newBoardList(@Param("map")Map<String, Object> map);
 		
 	public BoardDTO viewBoard(int bno);
+
+	//조회수 +1 증가
+	public void increaseViewCnt(@Param("bno") int bno);
 }
