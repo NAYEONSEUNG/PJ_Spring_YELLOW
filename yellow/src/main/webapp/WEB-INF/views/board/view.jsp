@@ -283,47 +283,17 @@
 						</c:if>
 					</div>
 				</div>
-				<div class="reply_box">
-					<div class="reply_cnt">
-						<a href="#" class="re_btn" style="text-decoration:none !important;">댓글 2</a>
-					</div>
-				</div>
-				<div class="box_reply2 bg_color u_cbox" style="display: block;">
-					<!--댓글리스트-->
-					<ul class="reply_list">
-						<li class="repl_wrap" style="border-bottom: 1px solid #ecec; ">
-							<div class="commnet_box">
-								<div class="reply_info_zone">
-									<span class="txt repl_name">나연승</span>
-									<span style="color:#ecec; margin:5px">|</span>
-									<span class="txt"> 2020-03-20</span>
-									<span class="reply_btn"><a href="#" class="rebtn" style="text-decoration:none !important;"><i class="fas fa-comment"></i>답글</a></span>
-									<span class="good_btn"><a href="#"><i class="far fa-thumbs-up"></i></a></span>
-								</div>
-								<div class="repl_txt_zone">
-									<span>울릉도 동남쪽 뱃길따라 이백리 외로운 섬하나 새들의 고향</span>
-								</div>	
-							</div>
-						</li>					
-					</ul>
-					<div style="display: flex; padding: 0 0 0 27px;">
-						<div class="comm_write_wrap">
-							<textarea class="textarea txt_box" cols="50" rows="2">						
-							</textarea>
-						</div>
-						<div class="upload_btn">
-							<button type="button" class="btnupload">등 록</button>
-						</div>
-					</div>
-				</div>
+
+				<!--댓글리스트-->
+				<div id="listReply"></div>
 			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 
-		$(function(){
-			
+		$(function(){//
+			listReply();//화면단이 다 완료되면 이 메서드를 실행하라 이게 호출되면 아래 listreply가 실행 
 			//삭제버튼 클릭시 모달창 Open
 			$('#delete_btn').on('click',function(){
 				$('.include_modal_wrap').css('display','flex');
@@ -336,6 +306,17 @@
 			});
 			
 		});
+		//댓글 목록  출력함수
+		//$(function(){
+		function listReply(){
+			$.ajax({
+				type:'get',
+				url: "${path}/reply/list?bno=${one.bno}",//bno값을 가지고 넘어가라 
+				success:function(result){	
+					$('#listReply').html(result);
+				}
+			});
+		}
 	
 </script>
 </html>
