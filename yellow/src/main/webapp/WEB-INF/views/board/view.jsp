@@ -250,7 +250,7 @@
 								<span class="txt">${regdate}</span>
 								<span class="txt cnt">					
 									<i class="far fa-eye">${one.viewcnt}</i>
-									<i class="far fa-comment">${one.replycnt}</i>
+									<i class="far fa-comment"><span class="replycnt">${one.replycnt}</span></i>
 									<i class="far fa-thumbs-up">${one.goodcnt}</i>
 								</span>
 							</div>
@@ -270,7 +270,7 @@
 						<div class="board_view_winfo">					
 						</div>
 					</div>
-					<div class="board_view_btn" style="display: flex; justify-content: space-between;">
+					<div class="board_view_btn" style="display: flex; justify-content: space-between; padding: 0 0 1px;">
 						<div class="writer_btn">
 							<a href="${header.referer}" class="board_write btn_write black_btn">목 록</a><!-- 바로 전의 페이지를 보여주기위해서 referer쓰는데 이거는 헤더에 담겨온다. -->
 							<a href="#" class="board_write btn_write black_btn">답 변</a>
@@ -305,17 +305,49 @@
 				location.href='${path}/board/delete?bno=${one.bno}';
 			});
 			
+			//댓글 등록 버튼 
+			$(document).on('click', '.btnupload',function(){// 문서에서 등록버튼 누르고 실행하면
+				var reply_txt = $('.txt_box').val().trim();//.trim() 빈칸에 스페이스바 입력해도 인식을 안해준다.
+				//alert(reply_txt);
+				
+				if(reply_txt == ''|| reply_txt.length == 0){
+					$('.txt_box').focus();
+					$('.board_err_msg').css('visibility','visible');
+					return false;
+				} // 이 if를 넘어갔다는것은 댓글 내용이 있다는것 
+				
+				$('.reply_bno').val('${one.bno}');
+				$('.reply_type').val('${one.type}');
+				$('.reply_writer').val('${userid}');//userid
+				
+				$.ajax({ // type, content, wirter, bno
+					url:'${path}/reply/insert',
+					type:'POST',
+					data: $('.frm_reply').serialize(),//serialize 직렬화 
+					success:function(){
+						alert('성공');
+						listReply();
+					}
+				});
+				
+			});
+			
 		});
 		//댓글 목록  출력함수
 		//$(function(){
 		function listReply(){
 			$.ajax({
 				type:'get',
+				async:false,
 				url: "${path}/reply/list?bno=${one.bno}",//bno값을 가지고 넘어가라 
 				success:function(result){	
 					$('#listReply').html(result);
+					$('.replycnt').text($('.replyListCnt').val());
 				}
 			});
+		
+			//게시글 댓글수 수정
+			
 		}
 	
 </script>

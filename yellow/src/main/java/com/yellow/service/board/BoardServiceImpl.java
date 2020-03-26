@@ -78,7 +78,7 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		// 조회수 +1 증가
-//		bDao.increaseViewCnt(bno);
+		//bDao.increaseViewCnt(bno);
 	}
 	@Override
 	public void delBoard(int bno) {
