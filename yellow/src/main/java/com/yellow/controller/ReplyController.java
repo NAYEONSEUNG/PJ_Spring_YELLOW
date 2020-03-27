@@ -46,4 +46,11 @@ public class ReplyController {
 		
 		
 	}
+	@ResponseBody
+	@PostMapping("/delete")
+	public void delete(int rno, int bno) {
+		
+		rService.delete(rno,bno);
+	}
+	
 }

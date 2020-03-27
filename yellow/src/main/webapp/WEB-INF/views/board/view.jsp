@@ -332,17 +332,43 @@
 				
 			});
 			
+			
 		});
+	//	$(document).on('click','.reply_delete_btn',function(){
+			
+			/* var rno = $(this).next().val(); */
+	//		alert('이 댓글번호'+rno);
+	//	}); 
+		
+		$(document).on('click','.reply_delete_btn',function(){
+			var rno = $(this).attr('data_num');
+			var bno = '${one.bno}'
+			$.ajax({
+				type:"POST",
+				url: '${path}/reply/delete/',
+				data: {'rno' : rno,'bno':bno},
+				success:function(){
+					listReply();
+				},
+				error:function(){
+					alert('ㅠㅠ');
+				}
+			});
+			
+		});
+		
 		//댓글 목록  출력함수
 		//$(function(){
 		function listReply(){
 			$.ajax({
 				type:'get',
-				async:false,
+				async:false,// 동기방식, 순차적 실행을 한다.  기본값은 동기방식=true
 				url: "${path}/reply/list?bno=${one.bno}",//bno값을 가지고 넘어가라 
-				success:function(result){	
-					$('#listReply').html(result);
-					$('.replycnt').text($('.replyListCnt').val());
+				success:function(result){	//result가   board/commentlist.jsp 랑 bno 가지고있음 
+					$('#listReply').html(result);  //div태그 listReply에 html을 띄워준다. 무엇을? result를 result= board/commentlist.jsp
+					$('.replycnt').text($('.replyListCnt').val());  //replycnt 선택자에게 replyListCnt의 택스트를 넣어라
+																	//상세: (뷰페이지 댓글카운트) replycnt에다 글자(숫자)를 띄울껀데 ,
+																	//       (커멘트리스트.jsp) class="replyListCnt" 는 검색해서 나온 댓글 갯수를 뷰페이지에 적어줄꺼다
 				}
 			});
 		

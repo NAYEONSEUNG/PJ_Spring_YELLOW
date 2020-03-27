@@ -1,5 +1,6 @@
 package com.yellow.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -14,5 +15,13 @@ public interface ReplyDAO {
 
 	//댓글수 + 1
 	public void replyCntPlus(@Param("bno") int bno);
+
+	public void delete(@Param("rno") int rno);
+
+	public void replyCntMinus(@Param("bno") int bno);
+
+	//public void replyCntUpdate(int bno);
+	
+	public void replyCntUpdate(@Param("map") HashMap<String, Object> map);
 
 }

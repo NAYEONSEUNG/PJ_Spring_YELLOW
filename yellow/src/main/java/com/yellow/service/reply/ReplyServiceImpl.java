@@ -1,5 +1,6 @@
 package com.yellow.service.reply;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,12 +41,25 @@ public class ReplyServiceImpl implements ReplyService {
 		rDao.insert(rDto);
 		
 		//2.게시글 댓글 + 1
-		rDao.replyCntPlus(rDto.getBno());// bno는 이미 rDto에 담겨있으니까 거기에 get을 사용해서 거기에있는 bno을 가져오도록 한다. 
+		HashMap<String,Object>map = new HashMap<>();
+		map.put("bno", rDto.getBno());
+		map.put("type", "plus");
+		//rDao.replyCntPlus(rDto.getBno());// bno는 이미 rDto에 담겨있으니까 거기에 get을 사용해서 거기에있는 bno을 가져오도록 한다.
+		rDao.replyCntUpdate(map);
 	}
 
-//	@Override
-//	public void replyCntPlus(int bno) {
-//		
-//	}
+	@Override
+	public void delete(int rno, int bno) {
+		// TODO Auto-generated method stub
+		
+		rDao.delete(rno);
+		
+		HashMap<String,Object>map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("type", "minus");
+		//rDao.replyCntMinus(bno);
+		rDao.replyCntUpdate(map);
+	}
+
 	
-}
+}//class

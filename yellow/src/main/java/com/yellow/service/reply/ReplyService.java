@@ -9,7 +9,9 @@ public interface ReplyService {
 	
 	public void insert(ReplyDTO rDto);
 
+	public void delete(int rno, int bno);
 
+	//public void replyCntUpdate(int bno);
 }
 
 

@@ -22,6 +22,11 @@
 		/*display: none;*/
 		visibility: hidden;
 		}
+		.reply_delete_btn{
+			background-color: tomato;
+			color:white;
+			cursor: pointer;
+		}
 	</style>
 	
 </head>
@@ -42,12 +47,16 @@
 									<div class="reply_info_zone">
 										<span class="txt repl_name">${reply.writer}</span>
 										<span style="color:#ecec; margin:5px">|</span>
-											<%--< fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today"/>	 --%>									
+										<%-- <fmt:formatDate value="${reply.updatedate}" pattern="yyyy-MM-dd HH:mm:ss" var="regdate"/>	 --%>			 					
 										<span class="txt time"> 
 											${reply.regdate}
 										</span>
 										<span class="reply_btn"><a href="#" class="rebtn" style="text-decoration:none !important;"><i class="fas fa-comment"></i>답글</a></span>
 										<span class="good_btn"><a href="#"><i class="far fa-thumbs-up"></i></a></span>
+										 <c:if test="${userid == reply.writer}">
+											<button type="button" class="reply_delete_btn" data_num="${reply.rno}">댓글삭제</button><!-- 속성값을 임의로 집어 넣음  -->
+											<%-- <input type="hidden" value="${reply.rno}"> --%>
+										 </c:if> 
 										<!-- <span class="reply_btn"><a href="#" class="rebtn" style="text-decoration:none !important;">새로고침</a></span> -->
 									</div>
 									<div class="repl_txt_zone">
@@ -64,13 +73,13 @@
 									<div class="reply_info_zone">
 										<span class="txt repl_name">관리자 연승</span>
 										<span style="color:#ecec; margin:5px">|</span>
-										
 										<span class="txt time"> 										
 											${reply.regdate}
 										</span>
 										<span class="reply_btn"><a href="#" class="rebtn" style="text-decoration:none !important;"><i class="fas fa-comment"></i>답글</a></span>
 										<span style="color:#ecec; margin:5px">|</span>
 										<span class="good_btn" style="margin:0 5px;"><a href="#"><i class="far fa-thumbs-up"></i></a></span>
+										<span></span>
 									</div>
 									<div class="repl_txt_zone">
 										<span>등록된 게시글이 없습니다. </span>

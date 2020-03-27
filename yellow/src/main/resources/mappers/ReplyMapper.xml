@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yellow.persistence.ReplyDAO"><!-- namespace가 중요하다 경로를 맞춰야 한다.  -->
-	<select id="list" resultType="ReplyDTO">
+<mapper namespace="com.yellow.persistence.ReplyDAO">
+<select id="list" resultType="ReplyDTO">
 		SELECT * FROM tbl_reply
 		WHERE bno = #{bno}
 	</select>
@@ -13,9 +13,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(seq_reply.NEXTVAL, #{type}, #{content}, #{writer},#{bno})
 	</insert>
 	
-	<update id="replyCntPlus">
+	<delete id="delete">
+		DELETE FROM tbl_reply
+		WHERE rno = #{rno}
+	</delete>		
+<!-- 	<update id="replyCntPlus">
 		UPDATE tbl_board SET
 			 replycnt = replycnt + 1
 		WHERE bno = #{bno}
+	</update> -->
+<!-- 	<update id="replyCntMinus">
+		UPDATE tbl_board 
+		SET replycnt = replycnt - 1
+		WHERE bno = #{bno}
+	</update> -->
+		<update id="replyCntUpdate">
+		UPDATD tbl_board 
+		
+			<if test="map.type == 'plus'">
+				SET	replycnt = replycnt + 1
+			</if>
+			<if test="map.type == 'minus'">
+				SET	replycnt = replycnt - 1
+			</if>
+		WHERE bno = #{map.bno}
+			
 	</update>
+	
 </mapper>
