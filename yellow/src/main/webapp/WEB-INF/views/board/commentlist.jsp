@@ -120,6 +120,14 @@
 		$('#reply_id_login_btn').on('click',function(){
 			$('.modal_wrap').css('display','flex');
 		});
+		
+		
+	});
+	
+	//댓글 새로고침하기
+	$(document).on('click','.new_reply',function(){
+		//alert('성공');
+		listReply();
 	});
 
 </script>

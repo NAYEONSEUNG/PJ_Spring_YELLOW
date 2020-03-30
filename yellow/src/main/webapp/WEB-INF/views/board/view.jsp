@@ -292,7 +292,10 @@
 </body>
 <script type="text/javascript">
 
-		$(function(){//
+		$(function(){
+			//자바스크립트 내장함수
+			setInterval(refreshReply,3000000);//300000시간에 한번씩refreshReply를 실행하라
+			
 			listReply();//화면단이 다 완료되면 이 메서드를 실행하라 이게 호출되면 아래 listreply가 실행 
 			//삭제버튼 클릭시 모달창 Open
 			$('#delete_btn').on('click',function(){
@@ -378,6 +381,11 @@
 			//게시글 댓글수 수정
 			
 		}
+		function refreshReply(){
+			//alert('ㅋㅋㅋㅋ')
+			listReply();
+		}
+		
 	
 </script>
 </html>
