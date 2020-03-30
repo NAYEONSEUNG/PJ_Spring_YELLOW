@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE bno = #{bno}
 	</update> -->
 		<update id="replyCntUpdate">
-		UPDATD tbl_board 
+		UPDATe tbl_board 
 		
 			<if test="map.type == 'plus'">
 				SET	replycnt = replycnt + 1

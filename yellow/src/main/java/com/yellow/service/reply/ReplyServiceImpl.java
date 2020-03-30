@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yellow.domain.ReplyDTO;
 import com.yellow.persistence.ReplyDAO;
@@ -30,7 +31,8 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		return rDao.list(bno);
 	}
-
+	
+	@Transactional
 	@Override
 	public void insert(ReplyDTO rDto) {// tbl_board
 		//비즈니스 로직
@@ -47,7 +49,7 @@ public class ReplyServiceImpl implements ReplyService {
 		//rDao.replyCntPlus(rDto.getBno());// bno는 이미 rDto에 담겨있으니까 거기에 get을 사용해서 거기에있는 bno을 가져오도록 한다.
 		rDao.replyCntUpdate(map);
 	}
-
+	@Transactional
 	@Override
 	public void delete(int rno, int bno) {
 		// TODO Auto-generated method stub

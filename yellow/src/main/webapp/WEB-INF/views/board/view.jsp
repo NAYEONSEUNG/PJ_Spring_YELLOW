@@ -307,9 +307,11 @@
 			
 			//댓글 등록 버튼 
 			$(document).on('click', '.btnupload',function(){// 문서에서 등록버튼 누르고 실행하면
+				//2.리플텍스트라는 변수에 사용자가 입력한 댓글내용을 담음
 				var reply_txt = $('.txt_box').val().trim();//.trim() 빈칸에 스페이스바 입력해도 인식을 안해준다.
 				//alert(reply_txt);
 				
+		
 				if(reply_txt == ''|| reply_txt.length == 0){
 					$('.txt_box').focus();
 					$('.board_err_msg').css('visibility','visible');
@@ -322,8 +324,9 @@
 				
 				$.ajax({ // type, content, wirter, bno
 					url:'${path}/reply/insert',
+					//url:'${path}/repy/insert?bno = '+bno+&
 					type:'POST',
-					data: $('.frm_reply').serialize(),//serialize 직렬화 
+					data: $('.frm_reply').serialize(),//serialize 직렬화, query스트링을 자동으로 만들어준다. 
 					success:function(){
 						alert('성공');
 						listReply();
