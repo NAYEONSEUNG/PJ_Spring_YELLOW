@@ -321,7 +321,7 @@
 						</ul> 
 					</div>
 					<div class="writer_btn">
-					<a href="#" class="board_write btn_write black_btn">글쓰기</a>
+					<a href="${path}/board/newwriting" class="board_write btn_write black_btn">글쓰기</a>
 					</div>
 
 			</div>
@@ -430,6 +430,7 @@
 		$('#sort_'+sort_option).css('color','tomato');
 		
  	});
+
 	
 	/*
 	

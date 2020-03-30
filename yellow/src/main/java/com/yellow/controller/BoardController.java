@@ -79,5 +79,11 @@ public class BoardController {
 		
 		return "redirect:/board/list";//삭제하고 게시글 목록으로 가게 해준다.
 	}
+	@GetMapping("/newwriting")
+	public  String newwriting() {
+		
+		return "board/newwriting";
+		
+	}
 	
 }//class
