@@ -412,3 +412,95 @@ VALUES(seq_board.NEXTVAL,'free','테스트게시글15','가나다라마444','관
 commit;
 
 SELECT * FROM tbl_board;
+
+
+
+SELECT bno, title, writer, updatedate, viewcnt, replycnt, goodcnt, show FROM tbl_board 
+b, tbl_member m WHERE  ORDER By b.bno DESC;
+            SELECT bno, title, writer, name, updatedate, viewcnt, replycnt, goodcnt, show
+			FROM tbl_board b, tbl_member m		
+			WHERE b.writer = m.id AND b.show = 'Y'
+			ORDER By b.bno DESC;
+
+
+            SELECT *
+			FROM(
+				SELECT rownum AS rnum, A.*
+				FROM(
+                    SELECT bno, title, writer, name, updatedate, viewcnt, replycnt, goodcnt, show
+                    FROM tbl_board b, tbl_member m		
+                    WHERE b.writer = m.id AND b.show = 'Y'
+                    ORDER By b.bno DESC
+               )A
+			)WHERE rnum BETWEEN 1 AND 10
+
+
+--검색 title %keyword%
+--목록 title LIKE
+
+---------------------------------------------------------------------------------------------------------------------------------
+----------------------------2020.03.24------------------------------------------------------------------------------------------
+
+--댓글 테이블 생성
+
+DROP SEQUENCE seq_reply;
+CREATE SEQUENCE seq_reply
+    START WITH 1
+    INCREMENT BY 1
+    NOCYCLE;
+    
+DROP TABle tbl_reply;
+CREATE TABLE tbl_reply(
+    rno NUMBER,
+    type CHAR(4) NOT NULL,
+    content VARCHAR2(2000) NOT NULL,
+    writer VARCHAR2(100) NOT NULL,
+    regdate DATE DEFAULT SYSDATE,
+    bno NUMBER NOT NULL
+);
+--tbl_reply에 pk제약조건 추가
+
+ALTER TABLE tbl_reply 
+ADD CONSTRAINT pk_reply_rno
+PRIMARY key(rno);
+
+--댓글 pk 게시글과 참조, 게시글 삭제시 참조하고 있는 댓글 연쇄 삭제를 위한 cascade설정
+ALTER TABLE tbl_reply
+ADD CONSTRAINT fk_reply_bno
+FOREIGN KEY(bno) REFERENCES tbl_board(bno)
+on DELETE CASCADE;
+
+--상위 게시글 3거에다가  2_3건 게시글 추가
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글1이다.','blackpulv111',255);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글2이다.','blacklv',255);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글3이다.','mrblack1',255);
+
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글1이다.','blackpulv111',254);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글2이다.','blacklv',254);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글3이다.','mrblack1',254);
+
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글1이다.','blackpulv111',253);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글2이다.','blacklv',253);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글3이다.','mrblack1',253);
+
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글1이다.','blackpulv111',252);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글2이다.','blacklv',252);
+INSERT INTO tbl_reply(rno, type, content, writer, bno)
+VALUES(seq_reply.NEXTVAL,'free','댓글3이다.','mrblack1',252);
+commit;
+
+SELECT * FROM tbl_reply;
+SELECT bno, replycnt 
+FROM tbl_board
+ORDER BY bno DESC;
