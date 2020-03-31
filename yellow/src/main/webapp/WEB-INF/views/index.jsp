@@ -20,7 +20,7 @@
 			margin: 92px auto 0;
 			box-sizing: border-box;
 			/*height: 1400px;*/ /*임시로 고정 나중에 삭제할것*/
-			border: 1px solid red;
+			/* border: 1px solid red; */
 		}
 		/* div{
 			border: 1px solid red;
@@ -126,7 +126,7 @@
 		.recommand_wrap{
 			width: 1400px;
 			height: 500px;
-
+			padding: 0 0 12px;
 		}
 		.recommand{
 			width: 100%;

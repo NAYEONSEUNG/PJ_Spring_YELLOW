@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file = "../include/include.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ include file="../include/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +16,10 @@
 			max-width: 900px;
 			margin: 0 auto;
 			z-index: 1;
+			margin-top: 100px;
 		}
 		.big_table{
-			padding-top: 50px;
+			/* padding-top: 50px; */
 
 		}
 		.content_header{
@@ -84,7 +86,7 @@
 		.file_plus{
 			width: 673px;
 			height: 100px;
-			border: 1px solid #a09d9d;
+			border: 2px dashed #a09d9d;
 		}
 		.file_ment{
 			padding:0 24px 18px;
@@ -102,22 +104,24 @@
 				<h3 class="content_header">새 글 쓰기</h3>
 			</tr>
 			<tr>
+			<form:form id="frm_board" >
 				<table class="table2">
 					<tr>
 						<td>작성자</td>
-						<td>mrblack</td>
+						<td>${userid}</td>
+						<input type = "hidden" value="${userid}"  name="writer">
 					</tr>
 					<tr>
 						<td>제목</td>
 						<td>										
-							<input type="text" name="subject" class="subject_input">				
+							<input type="text" name="subject" class="subject_input" name="title">				
 						</td>
 					</tr>
 					<tr>
-						<td>게시판 종류</td>
+						<td>게시판 선택</td>
 						<td>
 							<div>	
-								<select class="sel_board">
+								<select class="sel_board" name="type">
 									<option>자유게시판</option>
 									<option>질의응답</option>
 									<option>구매후기</option>
@@ -132,11 +136,12 @@
 					<tr>
 						<td>글 작성</td>
 						<td>
-							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요"></textarea>
+							<script type="text/javascript" src="${path}/resources/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="content" style="min-width:650px;"></textarea>
 						</td>
 					</tr>
 					<tr>
-						<td>첨부파일</td>
+						<td><i class="fas fa-paperclip"></i></td>
 						<td>
 							<div class="file_plus">
 								<span class="file_ment">첨부파일을 넣어주세요</span>
@@ -148,9 +153,40 @@
 		</table>
 			<div style="padding-bottom: 15px;">
 				<button type="button" class="tb_btn cancel_btn">취소</button>
-				<button type="button" class="tb_btn cancel_btn">등록</button>
+				<button type="button" class="tb_btn cancel_up">등록</button>
 			</div>
+			</form:form>
 	</div>
 
 </body>
+<script type="text/javascript">
+	$(function(){
+		
+	});
+	$(document).on('click', '.cancel_btn', function(){// 취소하면은  왔던곳으로 다시 돌려보낸다. 
+		var referer = '${header.referer}';
+		console.log('이전 URL: ' + referer);
+		
+		var index = referer.indexOf('/board/list');
+		console.log('index:' + referer.indexOf('/board/list'));
+		
+		if(index == '-1'){
+			alert('실패');
+			location.href = '${path}/board/list';
+		}else{
+			alert('성공');
+			location.href = '${header.referer}';
+			
+		}
+	});
+</script>
+<script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+ oAppRef: oEditors,
+ elPlaceHolder: "board_content",//텍스트area 아이디값
+ sSkinURI: "${path}/resources/smarteditor/SmartEditor2Skin.html",
+ fCreator: "createSEditor2"
+});
+</script>
 </html>
