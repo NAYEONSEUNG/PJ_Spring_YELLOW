@@ -217,7 +217,7 @@
 		input.input_login{
 			border-width: 0px;
 			width: 356px;
-			padding:7px 0px 6px 0px;
+			padding:0px 0px 6px 0px;
 		}
 		a#btn_login{
 			display: block;
@@ -743,7 +743,8 @@
 		// 	$(this).css('border','1.5px solid transparent');
 		// });
 
-			var message ='${message}';
+		var message ='${message}';
+		var uri = '${uri}';
 		$(function(){
 			if(message == 'nologin'){
 				$('.modal_wrap').css('display', 'flex');
@@ -767,7 +768,7 @@
 		$('.pw_eye').prev().attr('type', 'password');
 		$('.pw_eye').html('<i class="fas fa-eye-slash"></i>')
 				   .css('color', '#aaa');
-
+		uri = '';
 	});
 	//login modal창 암호 보이기 또는 숨기기
 
@@ -846,7 +847,13 @@
 							$('.login_err_msg').css('display','block')
 							.text('로그인중 문제가 발생했습니다. 아이디 및, 비밀번호를 확인하거나 가입하세요.');
 						}else if(data == 1){
-							location.reload();//새로고침ㄱㄱ해주는것 , 이거없으면 값을 못받아와서 안넘어간다. 
+							console.log('로그인 성공');
+							if(uri == ''){
+								location.reload();////새로고침ㄱㄱ해주는것 , 이거없으면 값을 못받아와서 안넘어간다. 
+							}else{
+								location.href = uri;
+							}
+							
 						}else if(data == 2){
 							$('.login_err_msg').css('display', 'block')
 							.text('이메일 인증 후 로그인 할 수 있습니다.');

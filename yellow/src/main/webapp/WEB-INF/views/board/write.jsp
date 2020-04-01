@@ -94,6 +94,16 @@
 			color: #666;
 			line-height: 1.4;
 		}
+		/* 에러메시지 */
+		.join_err_msg{
+			display: block;
+			margin: 9px 0 -2px;
+			font-size: 12px;
+			line-height: 14px;
+			color: red;
+			height: 15px;
+			visibility: hidden;
+		}
 		
 	</style>
 </head>
@@ -114,7 +124,7 @@
 					<tr>
 						<td>제목</td>
 						<td>										
-							<input type="text" name="subject" class="subject_input" name="title">				
+							<input type="text"  class="subject_input" name="title">				
 						</td>
 					</tr>
 					<tr>
@@ -122,9 +132,9 @@
 						<td>
 							<div>	
 								<select class="sel_board" name="type">
-									<option>자유게시판</option>
-									<option>질의응답</option>
-									<option>구매후기</option>
+									<option value="free">자유게시판</option>
+									<option value="qna">질의응답</option>
+									<option value="buywhogi">구매후기</option>
 								</select>
 							</div>	
 						</td>
@@ -153,8 +163,9 @@
 		</table>
 			<div style="padding-bottom: 15px;">
 				<button type="button" class="tb_btn cancel_btn">취소</button>
-				<button type="button" class="tb_btn cancel_up">등록</button>
+				<button type="button" class="tb_btn up_btn">등록</button>
 			</div>
+			<span class="join_err_msg">제목을 입력하세요.</span>
 			</form:form>
 	</div>
 
@@ -171,12 +182,29 @@
 		console.log('index:' + referer.indexOf('/board/list'));
 		
 		if(index == '-1'){
-			alert('실패');
-			location.href = '${path}/board/list';
-		}else{
-			alert('성공');
-			location.href = '${header.referer}';
 			
+			location.href = '${path}/board/list';
+			alert(index);
+		}else{
+			
+			location.href = '${header.referer}';
+			alert(index);
+		}
+	});
+	$(document).on('click','.up_btn',function(){
+		//유효성체크 제목
+		var title = $('.subject_input').val();
+		
+		if(title == ''|| title.length == 0){
+			//에러메시지 '제목을 입력해 주세요'
+			$(".join_err_msg").css('display', 'bloack');
+			alert('제목 입력해라');
+			return false;
+		}else{
+		//서버로 전송
+			oEditors.getById["board_content"].exec("UPDATE_CONTENTS_FIELD", []);
+			alert('서버로 보낼게')
+			$('#frm_board').submit();
 		}
 	});
 </script>

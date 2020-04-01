@@ -84,6 +84,11 @@ public class BoardServiceImpl implements BoardService{
 	public void delBoard(int bno) {
 		bDao.delBoard(bno);
 	}
+	@Override
+	public void write(BoardDTO bDto) {
+		bDao.write(bDto);//디비 타러 갈려고 bDao를 써준다.
+		
+	}
 
 
 }

@@ -54,6 +54,7 @@
 			<mapping path="/member/update"/>
 			<mapping path="/member/mypage"/>
 			<mapping path="/member/drop"/>
+			<mapping path="/board/write"/>
 			<beans:ref bean ="loginInterceptor"/>
 		</interceptor>
 	</interceptors>

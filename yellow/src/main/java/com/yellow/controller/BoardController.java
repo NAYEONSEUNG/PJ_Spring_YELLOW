@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -79,11 +80,22 @@ public class BoardController {
 		
 		return "redirect:/board/list";//삭제하고 게시글 목록으로 가게 해준다.
 	}
-	@GetMapping("/newwriting")
-	public  String newwriting() {
+	@GetMapping("/write")
+	public  String write() {
 		
-		return "board/newwriting";
+		return "board/write";
 		
+	}
+	
+	@PostMapping("/write")
+	public String write(BoardDTO bDto) {
+		log.info(">>>>>>POST : BOARD WRITE ACTION");
+		
+		log.info(bDto.toString());
+		
+		bService.write(bDto);//컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.
+		
+		return "redirect:/board/list";
 	}
 	
 }//class

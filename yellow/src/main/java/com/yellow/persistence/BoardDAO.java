@@ -22,4 +22,7 @@ public interface BoardDAO {
 	
 	//게시글 삭제
 	public void delBoard(int bno);
+	
+	//게시글 등록
+	public void write(BoardDTO bDto);
 }
