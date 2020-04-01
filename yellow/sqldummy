@@ -370,45 +370,55 @@ CREATE TABLE tbl_board(
     regdate DATE DEFAULT SYSDATE,
     updatedate DATE DEFAULT SYSDATE,
     show CHAR(1) DEFAULT 'Y',
-    ref NUMBER NOT NULL,
-    re_step NUMBER NOT NULL,
-    re_level NUMBER NOT NULL
+    ref NUMBER DEFAULT 1,
+    re_step NUMBER DEFAULT 1,
+    re_level NUMBERDEFAULT 0
 );
 --게시판 테이블 PK KEY 추가
 ALTER TABLE tbl_board ADD CONSTRAINT pk_board
 PRIMARY KEY(bno);
 
 --게시물 초 15건 추가 not null 인거 다 넣고 ref =1, re_step=1, re_level=0, type = free, writer=가입유저
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step,re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글1','가나다라마','오바마',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글2','가나다라마11','오동선',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글3','가나다라마22','숑숑ssss',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer,ref,re_step,re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글4','가나다라마33','나연승',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글5','가나다라마44','최수종',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글6','가나다라마55','하희라',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글7','가나다라마66','호호d',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글8','가나다라마77','시진핑',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글9','가나다라마88','최수종이',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글10','가나다라마99','관리자',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글11','가나다라마00','관리자2',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글12','가나다라마111','관리자3',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글13','가나다라마222','관리자4',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글14','가나다라마333','관리자5',1,1,0);
-INSERT INTO tbl_board(bno,type,title,content,writer, ref,re_step, re_level)
-VALUES(seq_board.NEXTVAL,'free','테스트게시글15','가나다라마444','관리자6',1,1,0);
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글1','가나다라마','mrblack1');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글2','가나다라마11','blackpulvrss');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글3','가나다라마22','blackpulvd2ff');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글4','가나다라마33','blackpulvd2');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글5','가나다라마44','mrblack2');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글6','가나다라마55','djfkdjfkd1');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글7','가나다라마66','blackpulvd';
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글8','가나다라마77','djfkdjfkd');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글9','가나다라마88','blackpulv1');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글10','가나다라마99','blackpulv');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글11','가나다라마00','blacklv');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글12','가나다라마111','admin');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글13','가나다라마222','blackpulv1234');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글14','가나다라마333','blackpulv15');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글15','가나다라마444','blackpulv111');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글1','가나다라마','mrblack1');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글2','가나다라마11','blackpulvrss');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글3','가나다라마22','blackpulvd2ff');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글4','가나다라마33','blackpulvd2');
+INSERT INTO tbl_board(bno,type,title,content,writer)
+VALUES(seq_board.NEXTVAL,'free','테스트게시글5','가나다라마44','mrblack2');
 commit;
 
 SELECT * FROM tbl_board;
