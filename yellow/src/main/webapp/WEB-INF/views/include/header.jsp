@@ -510,13 +510,13 @@
 			<form class=frm_login onsubmit="return false;" type="submit"> <!-- onsubmit="return false"버튼 눌러도 서브밋안해서 안넘어감/ 서브밋을 막아버림 -->
 			<div class="div_input" id="naver_id">			<!-- 폼으로 싸고 타입 서브밋하면은 엔터치면 넘어가진다. -->
 				<span class="input_box">
-					<input type="text" placeholder="아이디" id="login_id" class="input_login" required>
+					<input type="text" placeholder="아이디" id="login_id" class="input_login" required value="mrblack2">
 					
 				</span>
 			</div>
 			<div class="div_input" id="naver_pw">
 				<span class="input_box">
-					<input type="password" placeholder="비밀번호" id="login_pw" class="input_login" required minlength="6" maxlength="18">
+					<input type="password" placeholder="비밀번호" id="login_pw" class="input_login" required minlength="6" maxlength="18" value="">
 					<span class="pw_eye"><i class="fas fa-eye-slash"></i></span>
 				</span>
 				

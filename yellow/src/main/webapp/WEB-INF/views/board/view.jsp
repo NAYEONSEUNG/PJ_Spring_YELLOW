@@ -246,8 +246,12 @@
 								<span class="txt">${one.bno}</span>
 								<span class="txt">${one.writer}</span>
 								<span style="color:#ecec; margin:3px">|</span>
-								<fmt:formatDate value="${one.updatedate}" pattern="yyyy-MM-dd HH:mm:ss" var="regdate"/>
-								<span class="txt">${regdate}</span>
+								<fmt:formatDate value="${one.regdate}" pattern="yyyy-MM-dd HH:mm:ss" var="regdate"/>
+								<fmt:formatDate value="${one.updatedate}" pattern="yyyy-MM-dd HH:mm:ss" var="updatedate"/>
+								<c:if test="${regdate != updatedate}">
+									<span class="txt">수정날짜${one.updatedate}</span>
+								</c:if>
+								<span class="txt">등록날짜${regdate}</span>
 								<span class="txt cnt">					
 									<i class="far fa-eye">${one.viewcnt}</i>
 									<i class="far fa-comment"><span class="replycnt">${one.replycnt}</span></i>
@@ -277,7 +281,7 @@
 						</div>
 						<c:if test="${userid == one.writer}">
 							<div class="btn_second">							
-									<a href="#" class="board_write btn_write black_btn">수 정</a>
+									<a href="${path}/board/update?bno=${one.bno}" class="board_write btn_write black_btn">수 정</a>
 									<a href="#" class="board_write btn_write black_btn" id="delete_btn">삭 제</a>
 							</div>
 						</c:if>

@@ -371,7 +371,7 @@
 								</c:if>
 							</td>
 							<td class="writer">${list.writer}</td>
-							<td class="date"><%-- ${list.regdate} --%>
+							<td class="date">
 								<c:choose>
 									<c:when test="${today == regdate}">
 										<fmt:formatDate value="${list.updatedate}" pattern="HH:mm:ss"/>

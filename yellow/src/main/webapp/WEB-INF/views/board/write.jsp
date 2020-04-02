@@ -112,6 +112,7 @@
 		<table class="big_table">
 			<tr>
 				<h3 class="content_header">새 글 쓰기</h3>
+				<span class="up_time"></span>
 			</tr>
 			<tr>
 			<form:form id="frm_board" >
@@ -119,21 +120,21 @@
 					<tr>
 						<td>작성자</td>
 						<td>${userid}</td>
-						<input type = "hidden" value="${userid}"  name="writer">
+						<input type = "hidden" value="${userid}"  name="writer" >
 					</tr>
 					<tr>
 						<td>제목</td>
 						<td>										
-							<input type="text"  class="subject_input" name="title">				
+							<input type="text"  class="subject_input" name="title" value="${one.title}">				
 						</td>
 					</tr>
 					<tr>
 						<td>게시판 선택</td>
 						<td>
 							<div>	
-								<select class="sel_board" name="type">
+								<select class="sel_board board_type" name="type">
 									<option value="free">자유게시판</option>
-									<option value="qna">질의응답</option>
+									<option value="qna" selected>질의응답</option>
 									<option value="buywhogi">구매후기</option>
 								</select>
 							</div>	
@@ -147,7 +148,7 @@
 						<td>글 작성</td>
 						<td>
 							<script type="text/javascript" src="${path}/resources/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="content" style="min-width:650px;"></textarea>
+							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="content" style="min-width:650px;">${one.content}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -171,6 +172,20 @@
 
 </body>
 <script type="text/javascript">
+	$(function(){
+	//	alert('데이터: ' +${one}); // 공백으로 뜬다는거는 그 코드를 그대로 써도 된다는 것 
+		//register ==> 게시글 등록과 게시글 수정
+		//${one}에값이 있으면 수정페이지 로딩!
+		if('${one}' != ''){
+			//수정페이지로 디자인 변경
+			$('.content_header').text('글 수정');
+			$('.up_btn').text('수정');
+			//selectbox값으로 selected
+			$('.board_type').val('${one.type}').attr('selected','selected');// 셀렉트박스에서 그녀석을 셀렉트해라
+							//free인것을 셀렉트해주세요
+			$('.up_time')	
+		}
+	});
 	$(function(){
 		
 	});

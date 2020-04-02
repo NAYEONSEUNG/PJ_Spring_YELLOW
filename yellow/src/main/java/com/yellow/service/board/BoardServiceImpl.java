@@ -89,6 +89,11 @@ public class BoardServiceImpl implements BoardService{
 		bDao.write(bDto);//디비 타러 갈려고 bDao를 써준다.
 		
 	}
+	@Override
+	public void updateBoard(BoardDTO bDto) {
+		// TODO Auto-generated method stub
+		bDao.updateBoard(bDto);
+	}
 
 
 }

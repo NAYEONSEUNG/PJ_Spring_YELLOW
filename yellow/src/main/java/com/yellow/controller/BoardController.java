@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yellow.domain.BoardDTO;
 import com.yellow.service.board.BoardService;
@@ -97,5 +98,23 @@ public class BoardController {
 		
 		return "redirect:/board/list";
 	}
+	@GetMapping("/update")
+	public String updateBoard(int bno, Model model) {
+		log.info(">>>>>GET: Board updat view page");
+		log.info("bno: " + bno);
+		
+		//수정을 원하는 게시글의 정보를 (1줄)원함
+		model.addAttribute("one",bService.viewBoard(bno));
+		return "/board/write";
+	}
 	
+	@PostMapping("/update")
+	public String updateBoard(BoardDTO bDto) {
+		
+		bService.updateBoard(bDto);
+		bDto.getBno();
+		return "redirect:/board/view/"+bDto.getBno();
+		
+	}
+
 }//class
