@@ -15,77 +15,85 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import lombok.extern.slf4j.Slf4j;
+
 //오버라이딩 상속조건일때, 부모메서드가 있을때 가능
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-	//URL 전
+	// URL 전
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//Session 객체 생성
-		HttpSession session = request.getSession();
-		//login no
-		if(session.getAttribute("userid") == null) {
-			log.info(">>> noLogin:(");
-			
-			//
-			String uri = request.getRequestURI();
-			log.info(">>>>>목적지:" + uri);
-			
-			String referer = request.getHeader("referer"); //목적지만 안다.
-			log.info(">>>이전 url:" + referer);
-			
-			//request 오면 response를 반드시 해줘야한다. 
-			//request(GET, POST) > response(forward, sendRedirect) ,get이냐 post는 신경쓰지 않고 url만 중요시한다. 
-			//회원수정페이지: GET:/member/update
-			//회원수정DB: POST:/member/update
-			
-			if(referer == null) {//타 사이트에서 들어왔을때 
-				//url로 바로 접근한 경우 (rferer이 없는 경우)인덱스페이지로 간다. 
-				referer = "http://localhost:8081/yellow/";
-			} else {//내 페이지 내부에서 접근했을때 
-				int index = referer.lastIndexOf("/");
-				int len = referer.length();
-				log.info(">>>>>인덱스: " + index);
-				log.info(">>>>>길 이 : " + len);
-				String mapWord = referer.substring(index, len);
-				log.info("수정된 url: " + mapWord);
-				log.info(">>>>>이전 URL: " + referer);
-				
-				if(mapWord.equals("/write")) {
-					response.sendRedirect(request.getContextPath()+"/board/list");
-					return false;
+		// Session 객체 생성
+		HttpSession session = request.getSession();// request가 요청이 들어왔을때 세션에 userid, name이 들어있다. 로그인 여부판단
+
+		// 이전page url
+		String referer = request.getHeader("referer"); // 헤더에서 url을 가져온다. html 헤더 ㄴㄴ
+		log.info(">>>>>referer: " + referer); // 이전페이지 url이 찍힌다.
+		// 이동하려고 했던 page url
+		String uri = request.getRequestURI();// 8081/ 이후부터 끝까지가 uri
+		String ctx = request.getContextPath();// /yellow 프로젝트 이름
+		String nextUrl = uri.substring(ctx.length());// 7글자(/yellow) 뒤부터의 url , nexturl값에는 /board/write,list가 들어온다.
+		String prevUrl = ""; // 아래에서 쓸려고 변수선언하고 초기화를 한다.
+		String finalUrl = "http://localhost:8081/yellow/"; // 비정상접근시 강제로 인덱스페이지로 이동시키기 위해.
+
+		// 비정상적인 접근을 막는 기능
+		if (referer == null) { // 다른곳에서 바로 url로 내 사이트를 들어올려고 했을때
+			log.info("WARNNING >> 비정상적인 접근");
+			response.sendRedirect(finalUrl);// sendRedirect 방식(새로운 창을 띄운다.)으로 finalurl을 보낸다.
+			return false;
+		} else { // (정상적인 방법으로 이동중
+
+			int indexQuery = referer.indexOf("?");// 리퍼럴에서 물음표를 찾는다./ 찾아서 집어 넣는다.,, indexOf 찾는 위치의 숫자를 찍는다.
+			if (indexQuery == -1) {// ?를 못찾은 경우
+				prevUrl = referer.substring(finalUrl.length() - 1);// http://localhost:8081/yellow 이걸 넣는다. PREVurl에
+			} else {// ?를 찾은경우
+				prevUrl = referer.substring(finalUrl.length() - 1, indexQuery);// http://localhost:8081/yellow
+			}
+			log.info("prev url >>>>>>>>>>>>" + prevUrl);
+			log.info("next Url>>>>>>>" + nextUrl);
+
+			if (nextUrl.equals("/board/update") || nextUrl.equals("board/delete")) {
+				if (request.getParameter("title") == null) {// 타이틀 값이 없는경우
+//					log.info("alasdfasdf:" + prevUrl.indexOf("board/view"));
+					if (prevUrl.indexOf("board/view") == -1) {
+						log.info("WARNING>>>> 비정상적인 접근");
+						response.sendRedirect(finalUrl);
+						return false;
+
+					}
+
 				}
-				
-				
 			}
 
+		}
+		// 정상적인 접근인 경우 실행
 
-			
+		if (session.getAttribute("userid") == null) {
+			if (prevUrl.equals(nextUrl)) {
+				log.info("warning>>>> prevUrl == nuextUrl");
+				response.sendRedirect(finalUrl);
+				return false;
+			}
 			FlashMap fMap = RequestContextUtils.getOutputFlashMap(request);
 			fMap.put("message", "nologin");
 			fMap.put("uri", uri);
-			
-
 			RequestContextUtils.saveOutputFlashMap(referer, request, response);
 			response.sendRedirect(referer);
-			//response.sendRedirect(referer+ "?message=nologin");
-			
-			return false;//이동X
-		}else {//login O
+
+			return false;// 이동X
+
+		} else {// login O
 			log.info(">>>>>login :)");
 			return true; // 원래 가려던곳으로 이동
 		}
 	}
-	
-	//URL후 
+
+	// URL후
 	/*
 	 * @Override public void postHandle(HttpServletRequest request,
 	 * HttpServletResponse response, Object handler, ModelAndView modelAndView)
-	 * throws Exception { 
-	 * // TODO Auto-generated method stub
-	 * super.postHandle(request, response, handler, modelAndView); 
-	 * }
+	 * throws Exception { // TODO Auto-generated method stub
+	 * super.postHandle(request, response, handler, modelAndView); }
 	 */
-	
+
 }

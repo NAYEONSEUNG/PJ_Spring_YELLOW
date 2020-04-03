@@ -516,7 +516,7 @@
 			</div>
 			<div class="div_input" id="naver_pw">
 				<span class="input_box">
-					<input type="password" placeholder="비밀번호" id="login_pw" class="input_login" required minlength="6" maxlength="18" value="">
+					<input type="password" placeholder="비밀번호" id="login_pw" class="input_login" required minlength="6" maxlength="18" value="Dusrnfk18!!">
 					<span class="pw_eye"><i class="fas fa-eye-slash"></i></span>
 				</span>
 				
