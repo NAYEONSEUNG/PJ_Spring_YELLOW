@@ -362,7 +362,8 @@ CREATE TABLE tbl_board(
     bno number(10,0),
     type CHAR(4) NOT NULL,
     title VARCHAR2(200) NOT NULL,
-    content VARCHAR2(4000) NOT NULL,
+    view_content VARCHAR2(4000) NOT NULL,
+    search_content VARCHAR2(4000) NOT NULL,
     writer VARCHAR2(50) NOT NULL,
     viewcnt NUMBER DEFAULT 0,
     replycnt NUMBER DEFAULT 0,
@@ -372,7 +373,7 @@ CREATE TABLE tbl_board(
     show CHAR(1) DEFAULT 'Y',
     ref NUMBER DEFAULT 1,
     re_step NUMBER DEFAULT 1,
-    re_level NUMBERDEFAULT 0
+    re_level NUMBER DEFAULT 0
 );
 --게시판 테이블 PK KEY 추가
 ALTER TABLE tbl_board ADD CONSTRAINT pk_board
