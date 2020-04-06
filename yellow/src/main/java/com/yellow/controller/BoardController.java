@@ -94,9 +94,11 @@ public class BoardController {
 		
 		log.info(bDto.toString());
 		
-		bService.write(bDto);//컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.
+		bService.write(bDto);//게시글 등록한것, 컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.
+		log.info(">>>>>>>>>Currval: " + bDto.getBno());
 		
-		return "redirect:/board/list";
+		//return "redirect:/board/list";
+		return "redirect:/board/view/"+bDto.getBno();
 	}
 	@GetMapping("/update")
 	public String updateBoard(int bno, Model model) {

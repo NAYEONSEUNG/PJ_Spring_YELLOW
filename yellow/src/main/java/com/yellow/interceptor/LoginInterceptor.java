@@ -39,15 +39,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		// 비정상적인 접근을 막는 기능
 		if (referer == null) { // 다른곳에서 바로 url로 내 사이트를 들어올려고 했을때
 			log.info("WARNNING >> 비정상적인 접근");
-			response.sendRedirect(finalUrl);// sendRedirect 방식(새로운 창을 띄운다.)으로 finalurl을 보낸다.
+			response.sendRedirect(finalUrl);// response는 request의 결과를 보낸다! 라고 생각 / sendRedirect 방식(새로운 창을 띄운다.)으로 finalurl을 보낸다.
 			return false;
 		} else { // (정상적인 방법으로 이동중
 
 			int indexQuery = referer.indexOf("?");// 리퍼럴에서 물음표를 찾는다./ 찾아서 집어 넣는다.,, indexOf 찾는 위치의 숫자를 찍는다.
 			if (indexQuery == -1) {// ?를 못찾은 경우
-				prevUrl = referer.substring(finalUrl.length() - 1);// http://localhost:8081/yellow 이걸 넣는다. PREVurl에
+				prevUrl = referer.substring(finalUrl.length() - 1);// prevUrl에 '/yellow' 이걸 넣는다. 
 			} else {// ?를 찾은경우
-				prevUrl = referer.substring(finalUrl.length() - 1, indexQuery);// http://localhost:8081/yellow
+				prevUrl = referer.substring(finalUrl.length() - 1, indexQuery);// http://localhost:8081/yellow?bno=41  ,앞부분과 ?뒤를 자르는 작업
 			}
 			log.info("prev url >>>>>>>>>>>>" + prevUrl);
 			log.info("next Url>>>>>>>" + nextUrl);
@@ -74,7 +74,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				response.sendRedirect(finalUrl);
 				return false;
 			}
-			FlashMap fMap = RequestContextUtils.getOutputFlashMap(request);
+			FlashMap fMap = RequestContextUtils.getOutputFlashMap(request);// flashmap 일회용을쓰는 맵, hash맵은 계속 쓰고
 			fMap.put("message", "nologin");
 			fMap.put("uri", uri);
 			RequestContextUtils.saveOutputFlashMap(referer, request, response);

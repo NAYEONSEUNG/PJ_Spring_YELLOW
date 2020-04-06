@@ -134,7 +134,7 @@
 							<div>	
 								<select class="sel_board board_type" name="type">
 									<option value="free">자유게시판</option>
-									<option value="qna" selected>질의응답</option>
+									<option value="qna" >질의응답</option>
 									<option value="buywhogi">구매후기</option>
 								</select>
 							</div>	
