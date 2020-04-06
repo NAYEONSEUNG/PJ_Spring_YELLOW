@@ -148,7 +148,8 @@
 						<td>글 작성</td>
 						<td>
 							<script type="text/javascript" src="${path}/resources/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="content" style="min-width:650px;">${one.content}</textarea>
+							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="view_content" style="min-width:650px;">${one.view_content}</textarea>
+							
 						</td>
 					</tr>
 					<tr>
@@ -216,10 +217,24 @@
 			alert('제목 입력해라');
 			return false;
 		}else{
-		//서버로 전송
+	
+		//스마트에디터의 값을 #board_content
 			oEditors.getById["board_content"].exec("UPDATE_CONTENTS_FIELD", []);
-			alert('서버로 보낼게')
+			var view_content = $('#board_content').val();
+			console.log("view_content" + view_content);
+			
+			//정규식을 통ㅎ새 HTML태그를 제거 후 순수 Text만 추출
+			var search_content = view_content.replace(/(<([^>]+)>)/ig, "").replace("&nbsp;", "");
+			console.log('search_content:' + search_content);
+			
+			$('#frm_board').append('<textarea id="search_content" name="search_content"></textarea>');// 게시글 등록버튼 눌렀을때 폼태그의 맨 마지막에 추가 ㄱㄱ
+			$('#search_content').val(search_content);
+/* 			var search_content2 = $('#search_content').val();
+			console.log('search_content2: ' + search_content2); */
+			
+			//서버로 전송
 			$('#frm_board').submit();
+			alert('서버로 이동');
 		}
 	});
 </script>

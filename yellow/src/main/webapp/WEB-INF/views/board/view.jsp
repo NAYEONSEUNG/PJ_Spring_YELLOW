@@ -266,7 +266,7 @@
 					<div class="board_view_cont">
 						<div class="board_view_contents">
 							<div id="boardContents">
-								${one.content}
+								${one.view_content}
 							</div>
 						</div>						
 					</div>
