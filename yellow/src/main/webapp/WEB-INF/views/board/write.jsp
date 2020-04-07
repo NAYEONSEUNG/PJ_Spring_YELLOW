@@ -173,18 +173,29 @@
 
 </body>
 <script type="text/javascript">
+	var flag = '${flag}';
+	console.log('flag:' + flag);
+
 	$(function(){
 	//	alert('데이터: ' +${one}); // 공백으로 뜬다는거는 그 코드를 그대로 써도 된다는 것 
 		//register ==> 게시글 등록과 게시글 수정
 		//${one}에값이 있으면 수정페이지 로딩!
-		if('${one}' != ''){
+		//if('${one}' != ''){
+		if(flag == 'update'){
 			//수정페이지로 디자인 변경
-			$('.content_header').text('글 수정');
+			$('.content_header').text('글 수정');//글씨 바꾸는거 .text를 이용해서
 			$('.up_btn').text('수정');
 			//selectbox값으로 selected
 			$('.board_type').val('${one.type}').attr('selected','selected');// 셀렉트박스에서 그녀석을 셀렉트해라
 							//free인것을 셀렉트해주세요
 			$('.up_time')	
+		}else if(flag == 'answer'){
+			$('.content_header').text('게시글 답글');// 글씨 바꾸는거 .text를 이용해서
+			$('.up_btn').text('답글');
+			$('.board_type').val('${one.type}').attr('selected', 'selected') // 셀렉트박스가 비활성화되면서 클릭이 안된다. 
+											   .attr('onFocus','this.initialSelect = this.selectedIndex')
+										       .attr('onChange','this.selectedIndex = this.initialSelect');
+			$('.subject_input').val('${one.title}').attr('readonly', 'readonly');
 		}
 	});
 	$(function(){

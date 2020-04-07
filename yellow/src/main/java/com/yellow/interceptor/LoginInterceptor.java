@@ -29,6 +29,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		// 이전page url
 		String referer = request.getHeader("referer"); // 헤더에서 url을 가져온다. html 헤더 ㄴㄴ
 		log.info(">>>>>referer: " + referer); // 이전페이지 url이 찍힌다.
+		String qString = request.getQueryString();
+		log.info(">>>>>queryString" + qString);
 		// 이동하려고 했던 page url
 		String uri = request.getRequestURI();// 8081/ 이후부터 끝까지가 uri
 		String ctx = request.getContextPath();// /yellow 프로젝트 이름
@@ -76,6 +78,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			}
 			FlashMap fMap = RequestContextUtils.getOutputFlashMap(request);// flashmap 일회용을쓰는 맵, hash맵은 계속 쓰고
 			fMap.put("message", "nologin");
+			if(qString != null) {
+				uri = uri +"?" + qString;
+			}
 			fMap.put("uri", uri);
 			RequestContextUtils.saveOutputFlashMap(referer, request, response);
 			response.sendRedirect(referer);

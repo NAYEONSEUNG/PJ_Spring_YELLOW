@@ -23,6 +23,10 @@ public interface BoardService {
 	//게시글 등록
 	 public void write(BoardDTO bDto);
 	 
+	 //게시글 수정
 	 public void updateBoard(BoardDTO bDto);
+	 
+	 //게시글 답글 등록
+	public void answer(BoardDTO bDto);
 	 
 }

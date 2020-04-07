@@ -277,7 +277,7 @@
 					<div class="board_view_btn" style="display: flex; justify-content: space-between; padding: 0 0 1px;">
 						<div class="writer_btn">
 							<a href="${header.referer}" class="board_write btn_write black_btn" >목 록</a><!-- 바로 전의 페이지를 보여주기위해서 referer쓰는데 이거는 헤더에 담겨온다. -->
-							<a href="#" class="board_write btn_write black_btn">답 변</a>
+							<a href="${path}/board/answer?bno=${one.bno}" class="board_write btn_write black_btn" id="rep_write">답 글</a>
 						</div>
 						<c:if test="${userid == one.writer}">
 							<div class="btn_second">							

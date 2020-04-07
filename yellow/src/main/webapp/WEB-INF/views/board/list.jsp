@@ -365,6 +365,12 @@
 						<tr>
 							<td class="num">${list.bno}</td>					
 							<td class="subject">
+								<c:if test="${list.re_level != 0}">
+									<c:forEach begin="1" end="${list.re_level}">
+										<i class="fas fa-hand-point-right"></i>
+									</c:forEach>
+									re:
+								</c:if>
 								<a href="${path}/board/view/${list.bno}">${list.title}</a>
 								<c:if test="${today == regdate}">
 									<span class="new_color twincle_eff">N</span> <!-- 오늘쓴 게시글 막 ㅈㄴ N 뜨면서 깜빡거리는거 -->
