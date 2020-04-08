@@ -83,7 +83,7 @@
 			height: 27px;
 		}
 		/*첨부파일*/
-		.file_plus{
+		.form-group{
 			width: 673px;
 			height: 100px;
 			border: 2px dashed #a09d9d;
@@ -155,11 +155,20 @@
 					<tr>
 						<td><i class="fas fa-paperclip"></i></td>
 						<td>
-							<div class="file_plus">
-								<span class="file_ment">첨부파일을 넣어주세요</span>
+							<div class="file_plus input_wrap form-group fileDrop">
+								<div class="board_div">
+									<span class="file_ment">첨부파일을 넣어주세요</span>
+								</div>
+								<ul class="mailbox-attachments clearfix uploadedList"></ul> 	
 							</div>
 						</td>
-					</tr>
+					</tr> 
+<!-- 					<div class = "input_wrap form-group">
+						<div class="board_div fileDrop">
+							<p>첨부파일을 드래그</p>
+						</div>
+						<ul class="mailbox-attachments clearfix uploadedList"></ul> 
+					</div> -->
 				</table>
 			</tr>
 		</table>
@@ -197,6 +206,42 @@
 										       .attr('onChange','this.selectedIndex = this.initialSelect');
 			$('.subject_input').val('${one.title}').attr('readonly', 'readonly');
 		}
+		
+		//1.웹브라우저에 drag&drop시 파일이 열리는 문제(기본효과)
+		//기본 효과 막음!
+		$('.fileDrop').on('dragenter dragover',function(e){
+			e.preventDefault();	
+		});
+		//2.사용자가 파일을 drop했을때
+		$('.fileDrop').on('drop',function(e){
+			e.preventDefault(); 
+			
+			var files=e.originalEvent.dataTransfer.files; //드래그에 전달된
+			var file = files[0]; //그중 하나만 꺼내옴
+			
+			var formData = new FormData(); // 폼 객체 생성
+			formData.append('file',file); // 폼에 파일 1개 추가 !
+			
+			//서버에 파일 업로드
+			$.ajax({
+				url: '${path}/upload/uploadAjax',
+				data: formData,
+				datatype: "text",	//서버에서 내가 받는것
+				processData: false, //프로세스 타입을 펄스로 주면은 쿼리스트링 방식을 안쓴다., 쿼리스트링 방식 생성 x
+				contentType: false, // 갈때 데이터 정보(보내려고 하는것 ajax에서 서버로 보낼력고 하는것), 멀티파트 서버단으로 전송하는 데이터 타입(multipart)
+				type: 'POST',
+				success: function(data){
+					console.log(data);
+					//data: 업로드한 파일 정보와 http상태 코드
+					printFiles(data);// 첨부파일 출력 메서드 호출
+				}
+			
+				});
+			
+		});
+	
+		
+		
 	});
 	$(function(){
 		

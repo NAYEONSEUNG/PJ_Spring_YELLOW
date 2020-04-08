@@ -152,7 +152,7 @@ public class BoardController {
 	//seq_board.NEXTVAL() 값을 bno로 갖기떄문에 화면단에서 즈얼대 몰라
 	//<selectkey keyProperty="bno", resultType="Integer", order="after">로 등록후 seq_board.nextval의 값을 가져올수있는 함수 seq_board.currval
 	//내가 등록시의 bno 를 디티오에 셀렉하는거자나 이제서야 내가 등록한글을 return "redirect:/board/view/"+bDto.getBno(); 로 불러올수 있는거지
-	//그전까진 걍 개쑤ㅖㅅ 퍼킹 비치
+
 	public String answerBoard(BoardDTO bDto) { 
 		log.info(">>>>>>>>>>>>>>>POST Board ansewer Action");
 		
