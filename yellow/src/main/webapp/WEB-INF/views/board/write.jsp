@@ -7,8 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 	<style type="text/css">
-
+		
 		.content{
 			border-top:2px solid #696c75;
 			border-bottom:2px solid #696c75;
@@ -159,8 +160,8 @@
 								<div class="board_div">
 									<span class="file_ment">첨부파일을 넣어주세요</span>
 								</div>
-								<ul class="mailbox-attachments clearfix uploadedList"></ul> 	
 							</div>
+								<ul class="mailbox-attachments clearfix uploadedList" style="display:flex;"></ul> 	
 						</td>
 					</tr> 
 <!-- 					<div class = "input_wrap form-group">
@@ -181,10 +182,27 @@
 	</div>
 
 </body>
+<script id="fileTemplate" type="text/x-handlers-template">
+	<li>
+		<div class="mailbox-attachment-icon has-img">
+			<center><img alt="Attachment" src="{{imgSrc}}" class="s_img"></center>
+			
+		</div>
+	    <div class = "mailbox-attachment-info">
+			<a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+	   			<i class = "fa fa-paperclip"></i> {{originalFileName}}
+			</a>
+			<span class = "btn btn-default btn-xs pull-right delBtn" data-src="{{basicFileName}}">
+				<i class="fas fa-times"></i>
+			</span>
+		</div>
+	</li>
+		
+</script>
 <script type="text/javascript">
 	var flag = '${flag}';
 	console.log('flag:' + flag);
-
+	var fileTemplate = Handlebars.compile($("#fileTemplate").html());
 	$(function(){
 	//	alert('데이터: ' +${one}); // 공백으로 뜬다는거는 그 코드를 그대로 써도 된다는 것 
 		//register ==> 게시글 등록과 게시글 수정
@@ -217,7 +235,7 @@
 			e.preventDefault(); 
 			
 			var files=e.originalEvent.dataTransfer.files; //드래그에 전달된
-			var file = files[0]; //그중 하나만 꺼내옴
+			var file = files[0]; //그중 하나만 꺼내옴, 몇개를 넣든 한개만 뽑아온다. 
 			
 			var formData = new FormData(); // 폼 객체 생성
 			formData.append('file',file); // 폼에 파일 1개 추가 !
@@ -226,10 +244,12 @@
 			$.ajax({
 				url: '${path}/upload/uploadAjax',
 				data: formData,
-				datatype: "text",	//서버에서 내가 받는것
-				processData: false, //프로세스 타입을 펄스로 주면은 쿼리스트링 방식을 안쓴다., 쿼리스트링 방식 생성 x
-				contentType: false, // 갈때 데이터 정보(보내려고 하는것 ajax에서 서버로 보낼력고 하는것), 멀티파트 서버단으로 전송하는 데이터 타입(multipart)
-				type: 'POST',
+				datatype: "text",	//서버에서 내가 받는것, 서버단에서 화면단으로 받는것 ,생략을해도 문제가 없다.
+				processData: false, //프로세스 타입을 펄스로 주면은 쿼리스트링 방식을 안쓴다., 쿼리스트링 방식 생성 x, false로 입력해주면 폼데이터인데 
+				//																									그 폼데이터의 타입을 멀티파트로 보내겠다.
+				contentType: false, // 갈때 데이터 정보(보내려고 하는것 ajax에서 서버로 보낼력고 하는것), 멀티파트 서버단으로 전송하는 데이터 타입(multipart)사진,영상같은것 	
+																										//확장팩 개념이다. 
+				type: 'POST', // 첨부파일같은 큰 파일들 보낼때는 무조건 타입은 POST로 한다. GET로는 절대 못받음. 
 				success: function(data){
 					console.log(data);
 					//data: 업로드한 파일 정보와 http상태 코드
@@ -293,6 +313,110 @@
 			alert('서버로 이동');
 		}
 	});
+	
+	//파일 정보 처리
+	function getFileInfo(fullName){
+		var originalFileName;	//화면에 출력할 파일명
+		var imgSrc;				//썸네일 or 파일아이콘 이미지 파일
+		var originalFileUrl;	//원본파일 요청 url
+		var uuidFileName;		//날짜경로를 제외한 나머지 파일명(UUID)
+		var basicFileName =fullName;	//삭제시 값을 전달하기 위한
+		if(checkImageType(fullName)){
+			console.log("img");
+		
+			imgSrc = "${path}/upload/displayFile?fileName="+fullName;
+			//썸네일 이미지 링크
+			uuidFileName = fullName.substr(14);// 14번부터 끝까지 
+			var originalImg =fullName.substr(0,12) + fullName.substr(14);
+			//원본이미지 요청 링크
+			originalFileUrl ="${path}/upload/displayFile?fileName="+originalImg;
+		}else{
+			console.log("file");
+		
+			imgSrc = "${path}/resources/img/file-icon.png"; //파일 아이콘 이미지 링크
+			uuidFileName = fullName.substr(12);
+			originalFileUrl = "${path}/upload/displayFile?fileName="+fullName;	//파일 다운로드 요청 링크
+		}
+		originalFileName = uuidFileName.substr(uuidFileName.indexOf("_")+1) //전체파일명의 크기가 14보다 작으면 그대로 이름 출력,
+		if(originalFileName.length>14){
+			
+		
+			var shortName = originalFileName.substr(0,10);
+			var formatVal = originalFileName.split(".");
+			var arrNum = formatVal.length -1;
+			originalFileName = shortName+"..."+formatVal[arrNum];
+		}
+		return {originalFileName: originalFileName, imgSrc:imgSrc,originalFileUrl:originalFileUrl,fullName:fullName,basicFileName:basicFileName};
+	}
+		
+
+	//첨부파일 출력
+	function printFiles(data){
+		//파일정보처리
+		var fileInfo = getFileInfo(data);
+		 console.log(fileInfo); 
+		//Handlers 파일 템플릿에 파일 정보들을 바이딩하고 html 생성
+		var html = fileTemplate(fileInfo);
+		html += "<input type = 'hidden' class='file' value='+fileInfo.fullName+'>";
+		//Handler파일 템플릿 컴파일을 통해 생성된 html을 dom에 주입
+		$('.uploadedList').append(html);
+		//이미지 파일인 경우 aaaaaaa파일 템플릿에 lightbox속성 추가
+		if(fileInfo.fullName.substr(12, 2) === "s_"){
+			//마지막 추가된 첨부파일 템플릿 선택자
+			var that = $(".upladedList li").last();
+		 //light속성추가
+		 that.find(".mailbox-attachment-name").attr("data-lightbox", "uploadImages");
+		 // 아이콘에서 이미지 아이콘으로 변경
+		 that.find(".fa-paperclip").attr("class","fa fa-camera");
+		}
+	}
+	function getOriginalName(fileName){
+		if(checkImageType(fileName)){//이미지 파일이면 skip
+			return;
+		}
+		var idx=fileName.indexOf("_")+1; //uuid를 제외한 파일이름
+		return fileName.substr(idx);
+	}
+	function getImageLink(fileName){
+		if(!checkImageType(fileName)){// 이미지 파일이 아니면 스킵
+			return;
+		}
+		var front=fileName.substr(0.12);// 년월일 경로
+		var end=fileName.substr(14);//s_제거
+		return front + end;
+	}
+	function checkImageType(fileName){
+		var pattern=/jpg|gif|png|jpeg/i; //정규표현식(대소문자 무시)
+		console.log(">>>>>>"+fileName.match(pattern));
+		return fileName.match(pattern);//규칙에 맞으면 true
+	}
+	
+	//첨부파일 리스트를 출력하는 함수
+	function listAttach(){
+		var listCnt = 0;
+		$.ajax({
+			type: "post",
+			url:"${path}/board/getAttach/${one.bno}",
+			async: false,
+			success: function(list){
+				//list: json
+				//console.log(list);
+				listCnt = list.length;
+				/* console.log(list.length); */
+/* 				jQuery each()는 반복문
+				i와e는 index와 element로
+				json에서 {0: "apple.png"}일 때
+				index는 0, element는 apple.png가 됨 */
+				$(list).each(function(i, e){
+					/* console.lgo(list) */
+					printFiles(e);
+				});
+				
+			}
+		});
+		
+	}
+	
 </script>
 <script type="text/javascript">
 var oEditors = [];

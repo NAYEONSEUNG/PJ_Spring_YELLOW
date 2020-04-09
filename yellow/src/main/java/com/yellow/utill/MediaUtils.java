@@ -16,6 +16,6 @@ public class MediaUtils {
 	}
 	public static MediaType getMediaType(String type) {
 		//toUpperCase()대문자로 변경
-		return mediaMap.get(type.toUpperCase());
+		return mediaMap.get(type.toUpperCase());//미디어 맵에있는 값을 꺼내와라라는 소리, toUpperCase는 대문자로 바뀌게한다.
 	}
 }
