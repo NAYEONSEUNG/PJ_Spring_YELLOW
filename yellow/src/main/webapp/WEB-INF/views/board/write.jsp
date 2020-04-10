@@ -154,7 +154,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><i class="fas fa-paperclip"></i></td>
+						<td>첨부파일</td>
 						<td>
 							<div class="file_plus input_wrap form-group fileDrop">
 								<div class="board_div">
@@ -256,12 +256,33 @@
 					printFiles(data);// 첨부파일 출력 메서드 호출
 				}
 			
-				});
+			});
 			
 		});
-	
 		
+		$('.uploadedList').on('click','.delBtn',function(event){
+			var bno = '${one.bno}';
+			var that = $(this);
 		
+			if(bno == ''){//게시글 등록
+				$.ajax({
+					url:'${path}/upload/deleteFile',
+					type: 'POST',
+					data: {fileName: $(this).attr('data-src')},//delBtn의 데타-src
+					success:function(data){// success: data = 'deleted'
+						if(data == 'deleted'){
+							that.parents('li').remove(); /* // remove는 display: none; 과 같다.  */
+						}
+					}, error:function(){
+						alert('system error');
+					}
+				});
+				
+			}else{// 게시글 수정
+									    
+			}
+		});
+					
 	});
 	$(function(){
 		
@@ -333,7 +354,7 @@
 		}else{
 			console.log("file");
 		
-			imgSrc = "${path}/resources/img/file-icon.png"; //파일 아이콘 이미지 링크
+			imgSrc = "${path}/resources/image/file-icon.png"; //파일 아이콘 이미지 링크
 			uuidFileName = fullName.substr(12);
 			originalFileUrl = "${path}/upload/displayFile?fileName="+fullName;	//파일 다운로드 요청 링크
 		}
@@ -367,7 +388,7 @@
 		 //light속성추가
 		 that.find(".mailbox-attachment-name").attr("data-lightbox", "uploadImages");
 		 // 아이콘에서 이미지 아이콘으로 변경
-		 that.find(".fa-paperclip").attr("class","fa fa-camera");
+		 that.find(".fa-paperclip").attr("class",".fa fa-camera");
 		}
 	}
 	function getOriginalName(fileName){

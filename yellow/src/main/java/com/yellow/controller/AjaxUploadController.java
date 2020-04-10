@@ -1,5 +1,6 @@
 package com.yellow.controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -68,9 +69,9 @@ public class AjaxUploadController {
 			HttpHeaders headers = new HttpHeaders();
 			//InputStream 생성
 			in = new FileInputStream(uploadPath + fileName);
-				if(mType != null) {//이미지 파일이면
-					headers.setContentType(mType);
-				}else {//이미지가 아니면
+//				if(mType != null) {//이미지 파일이면
+//					headers.setContentType(mType);
+//				}else {//이미지가 아니면
 				fileName = fileName.substring(fileName.indexOf(".")+1);
 				// 다운로드용 컨텐트 타입
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -81,7 +82,7 @@ public class AjaxUploadController {
 				headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("utf-8"), "iso-8859-1")+"\"");
 				//headers.add("Content-Disposition"
 				//,"attachment; filename='"+fileName+"'");
-				}
+//				}
 				//바이트배열,ㅏ 헤더
 				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
 		} catch (Exception e) {
@@ -94,6 +95,38 @@ public class AjaxUploadController {
 			return entity;	
 		
 	}
-	
+	@ResponseBody
+	@PostMapping("/upload/deleteFile")
+	public ResponseEntity<String> deleteFile(String fileName){
+		log.info("fileName: " + fileName);
+		//fileName: data-src="/2020/04/10/s_5a917416-04de-40da-9142-0bc2ec9dce17_mainlogo.png
+		
+		//확장자 검사
+		String formatName=fileName.substring(fileName.lastIndexOf(".")+1);// 끝에서부터 '.'을 찾아라
+		//formatName = png // 왜 확장자를 하나 더 띄우냐면 확장자를 알아야 썸네일도 지울건지 아닐건지를 확답을 하니까 
+		MediaType mType = MediaUtils.getMediaType(formatName);
+		if(mType !=null) {//이미지 파일이면 원본이지미 삭제 ,,  mType !=null은 일반 첨부파일일경우를 말함 이미지 아닌것는 여기 안탄다. 
+			String front= fileName.substring(0, 12);
+			//front: /2020/04/10
+			String end= fileName.substring(14);
+			//end: /5a917416-04de-40da-9142-0bc2ec9dce17.png
+			//File.separatorChar : 유닉스 /윈도우즈 \
+			new File(uploadPath+(front+end).replace('/', File.separatorChar)).delete();
+			//new File(c://developer/upload+/2020/04/10/5a917416-04de-40da-9142-0bc2ec9dce17.png 원본이미지 이다. 썸네일 아니다.
+			//replace >> c:\\developer\ upload+\2020\04\10\5a917416-04de-40da-9142-0bc2ec9dce17.png 슬러시가 역슬러시로 바뀜 
+			//delete >> c:\\developer\ upload+\2020\04\10\5a917416-04de-40da-9142-0bc2ec9dce17.png
+			//원본이미지만 삭제  
+		}
+		//원본 파일 삭제(이미지이면 썸네일 삭제)
+		new File(uploadPath+fileName.replace('/', File.separatorChar)).delete();
+		//new File: c://developer/upload+/2020/04/10/s_5a917416-04de-40da-9142-0bc2ec9dce17.png  // 썸네일이미지를 지운다.
+		//replace : c:\\developer\ upload+\2020\04\10\s_5a917416-04de-40da-9142-0bc2ec9dce17.png
+		//delete >> c:\\developer\ upload+\2020\04\10\s_5a917416-04de-40da-9142-0bc2ec9dce17.png
+		//로컬 드라이브만 삭제한것이다. 
+		
+		//레코드 삭제
+	//bService.deleteFile(fileName);
+		return  new ResponseEntity<String>("deleted", HttpStatus.OK); // 200번이 들어오면 성공 
+	}
 
 }
