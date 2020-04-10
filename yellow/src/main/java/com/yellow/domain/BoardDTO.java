@@ -27,6 +27,7 @@ public class BoardDTO {
 	private Date regdate;
 	private Date updatedate;		//수정일자
 	private String show;			//화면표시여부
+	private String[] files;			//첨부파일 이름 배열 
 	private int ref;				//답변 그룹번호
 	private int re_step;			//답변 출력 순번
 	private int re_level;			//답변 단계(계층형)

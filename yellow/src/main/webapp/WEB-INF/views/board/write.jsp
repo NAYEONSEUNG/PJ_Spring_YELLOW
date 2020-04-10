@@ -117,12 +117,14 @@
 			</tr>
 			<tr>
 			<form:form id="frm_board" >
+			<input type = "hidden" value="${userid}"  name="writer">
 				<table class="table2">
 					<tr>
 						<td>작성자</td>
 						<td>${userid}</td>
-						<input type = "hidden" value="${userid}"  name="writer" >
+						
 					</tr>
+					
 					<tr>
 						<td>제목</td>
 						<td>										
@@ -149,7 +151,7 @@
 						<td>글 작성</td>
 						<td>
 							<script type="text/javascript" src="${path}/resources/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="view_content" style="min-width:650px;">${one.view_content}</textarea>
+							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="view_content" style="min-width:650px;"></textarea>
 							
 						</td>
 					</tr>
@@ -321,7 +323,7 @@
 			console.log("view_content" + view_content);
 			
 			//정규식을 통ㅎ새 HTML태그를 제거 후 순수 Text만 추출
-			var search_content = view_content.replace(/(<([^>]+)>)/ig, "").replace("&nbsp;", "");
+			var search_content = view_content.replace(/(<([^>]+)>)/ig, "").replace("&nbsp;", ""); // 순수 내요마ㅑㄴ 있는것
 			console.log('search_content:' + search_content);
 			
 			$('#frm_board').append('<textarea id="search_content" name="search_content"></textarea>');// 게시글 등록버튼 눌렀을때 폼태그의 맨 마지막에 추가 ㄱㄱ
@@ -329,10 +331,49 @@
 /* 			var search_content2 = $('#search_content').val();
 			console.log('search_content2: ' + search_content2); */
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			if(flag == 'answer') {
+				$('#board_title').val('${bDto.title}');
+			}
+			
+			// 첨부파일 목록[배열]도 추가
+			var str = '';
+			//uploadedList 내부의 .file 태그 각 반복
+			$(".uploadedList .file").each(function(i){ // 앞에 선택자 갯수만틈 반복을 하라, 포이치랑 같다.
+				console.log(i);
+				//hidden 태그 구성
+				//str +="<input type='hidden' name='files["+i+"]' value'" +$(this).val()+"'>";// 벨류니까 영번게시글에 있는 그거
+				str +="<input type='hidden' name='files["+i+"]' value='"+$(this).val()+"'>";
+			});
+			//로컬 드라이브에 저장되어 있는 해당 게시글
+			//첨부파일 삭제
+/* 			if(deletedFile.length > 0){
+				$.post('${path}/upload/deleteAllFile', {files:deleteFileList},function(){});
+			} */
+			//폼에 hidden 태그들을 붙임
+			$("#frm_board").append(str); //
+		
+			
+			
 			//서버로 전송
 			$('#frm_board').submit();
 			alert('서버로 이동');
 		}
+		
+		
+		
+		
+		
+	/* 여기부터 */	
+	/* 여기까지 */	
+	
 	});
 	
 	//파일 정보 처리
@@ -378,7 +419,7 @@
 		 console.log(fileInfo); 
 		//Handlers 파일 템플릿에 파일 정보들을 바이딩하고 html 생성
 		var html = fileTemplate(fileInfo);
-		html += "<input type = 'hidden' class='file' value='+fileInfo.fullName+'>";
+		html += "<input type = 'hidden' class='file' value='"+fileInfo.fullName+"'>";
 		//Handler파일 템플릿 컴파일을 통해 생성된 html을 dom에 주입
 		$('.uploadedList').append(html);
 		//이미지 파일인 경우 aaaaaaa파일 템플릿에 lightbox속성 추가

@@ -99,7 +99,7 @@ public class BoardController {
 	}
 
 	@PostMapping("/write")
-	public String write(BoardDTO bDto) {
+	public String write(BoardDTO bDto) { 
 		log.info(">>>>>>POST : BOARD WRITE ACTION");
 		log.info(bDto.toString());
 		bService.write(bDto);// 게시글 등록한것, 컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.

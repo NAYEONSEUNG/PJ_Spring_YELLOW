@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.yellow.domain.BoardDTO;
@@ -84,10 +85,22 @@ public class BoardServiceImpl implements BoardService{
 	public void delBoard(int bno) {
 		bDao.delBoard(bno);
 	}
+	@Transactional
 	@Override
 	public void write(BoardDTO bDto) {
+		//tbl_board에 게시글 등록 (type, title, content, writer)
 		bDao.write(bDto);//디비 타러 갈려고 bDao를 써준다.
 		
+		//tbl_attach에 해당 게시글 첨부파일 등록 
+		String[] files = bDto.getFiles();
+		
+		if(files == null) {// 첨부파일이 한건도 안들어옴 
+			return; //첨부파일 없음 종료
+		}
+		for(String name : files) {
+			//tbl_attach 테이블에 첨부파일 1건씩 등록
+			 bDao.addAttach(name);
+		}
 	}
 	@Override
 	public void updateBoard(BoardDTO bDto) {
