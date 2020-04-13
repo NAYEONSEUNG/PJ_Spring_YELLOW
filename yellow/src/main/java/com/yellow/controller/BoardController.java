@@ -100,10 +100,16 @@ public class BoardController {
 	public String write(BoardDTO bDto) { 
 		log.info(">>>>>>POST : BOARD WRITE ACTION");
 		log.info(bDto.toString());
-		bService.write(bDto);// 게시글 등록한것, 컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.
 		// log.info(">>>>>>>>>Currval: " + bDto.getBno());
+		
+		if(bDto.getFiles() == null) {//첨부파일 NO
+			bDto.setFilecnt(0);
+		}else {
+			log.info("첨부파일 수:" +bDto.getFiles().length);
+			bDto.setFilecnt(bDto.getFiles().length);
+		}
 
-		// return "redirect:/board/list";
+		bService.write(bDto);// 게시글 등록한것, 컨트롤러단에서 서비스단 타야하니까 bService를 쓴다.
 		return "redirect:/board/view/" + bDto.getBno();
 	}
 

@@ -356,6 +356,7 @@
 						<th scope="col">작성일자</th>
 						<th scope="col">조회수</th>
 						<th scope="col">첨부파일</th>
+
 					</tr>
 				</thead>
 				<tbody>
@@ -392,7 +393,20 @@
 								<i class="far fa-comment">${list.replycnt}</i>
 								<i class="far fa-thumbs-up">${list.goodcnt}</i>
 							</td>
-							<td class="file"></td>
+							<td class="file">
+								<c:choose>
+									<c:when test="${list.filecnt != 0}">
+										<span>O</span>
+									</c:when>
+									<c:otherwise>
+										<span>X</span>
+									</c:otherwise>
+								</c:choose>
+							
+								<%-- <c:if test="${list.filecnt != 0}">
+									<span>O</span>
+								</c:if> --%>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
