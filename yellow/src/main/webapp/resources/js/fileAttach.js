@@ -46,11 +46,11 @@
 		//이미지 파일인 경우 aaaaaaa파일 템플릿에 lightbox속성 추가
 		if(fileInfo.fullName.substr(12, 2) === "s_"){
 			//마지막 추가된 첨부파일 템플릿 선택자
-			var that = $(".upladedList li").last();
+			var that = $(".uploadedList li").last();
 		 //light속성추가
 		 that.find(".mailbox-attachment-name").attr("data-lightbox", "uploadImages");
 		 // 아이콘에서 이미지 아이콘으로 변경
-		 that.find(".fa-paperclip").attr("class",".fa fa-camera");
+		 that.find(".fa-paperclip").attr("class","fa fa-camera");
 		}
 	}
 	
@@ -77,11 +77,11 @@
 	
 	
 	//첨부파일 리스트를 출력하는 함수
-	function listAttach(){
-		var listCnt = 0;
+	function listAttach(path, bno){
+		var listCnt = 0;		
 		$.ajax({
 			type: "post",
-			url:"${path}/board/getAttach/${one.bno}",
+			url: path+"/board/getAttach?bno="+bno,
 			async: false,
 			success: function(list){
 				//list: json
@@ -94,10 +94,9 @@
 				index는 0, element는 apple.png가 됨 */
 				$(list).each(function(i, e){
 					/* console.lgo(list) */
-					printFiles(e);
+					printFiles(e, path);
 				});
-				
-			}
+			}			
 		});
-		
-	}
+		return listCnt;		
+	};

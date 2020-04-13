@@ -51,8 +51,6 @@ public class BoardController {
 																										// sort_option
 																										// 넣어준다.
 
-		//
-
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		map.put("count", count);//
@@ -177,6 +175,15 @@ public class BoardController {
 		//re_step = 메인게시글 re_step +1 
 		
 		return "redirect:/board/view/"+bDto.getBno();
+	}
+	
+	@PostMapping("/getAttach")
+	@ResponseBody
+	public List<String> getAttach(int bno){
+		log.info(">>>>>>POST: Board getAttach Action");
+		log.info(">>>>>>>>>>>bno: " + bno);
+		return bService.getAttach(bno);
+		
 	}
 
 }// class

@@ -202,9 +202,11 @@
 		
 </script>
 <script src="${path}/resources/js/fileAttach.js"></script>
+
 <script type="text/javascript">
 	var flag = '${flag}';
 	console.log('flag:' + flag);
+	//Handlebars 파일 템플릿 컴파일
 	var fileTemplate = Handlebars.compile($("#fileTemplate").html());
 	$(function(){
 	//	alert('데이터: ' +${one}); // 공백으로 뜬다는거는 그 코드를 그대로 써도 된다는 것 

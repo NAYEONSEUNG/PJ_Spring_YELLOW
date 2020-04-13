@@ -29,4 +29,7 @@ public interface BoardService {
 	 //게시글 답글 등록
 	 public void answer(BoardDTO bDto);
 	 
+	 //해당게시글 첨부파일 목록 출력
+	 public List<String> getAttach(int bno);
+	 
 }

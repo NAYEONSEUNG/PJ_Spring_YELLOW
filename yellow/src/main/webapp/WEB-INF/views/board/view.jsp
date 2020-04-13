@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 	<script src="https://kit.fontawesome.com/e272fd87da.js" crossorigin="anonymous"></script>
 	<style type="text/css">
 		#container{
@@ -226,6 +227,12 @@
 			margin: 0 0 0 7px;
 			color: white;
 		}	
+		.file_plus{
+		  /*   width: 100px; */
+            padding: 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+		}
 	</style>
 </head>
 <body>
@@ -270,6 +277,12 @@
 							</div>
 						</div>						
 					</div>
+					<div class="file_plus input_wrap form-group fileDrop">
+						<div class="board_div">
+							<span class="file_ment"></span>
+							<ul class="mailbox-attachments clearfix uploadedList" style="display:flex;"></ul> 	
+						</div>
+					</div>
 					<div>
 						<div class="board_view_winfo">					
 						</div>
@@ -294,9 +307,37 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
 
-		$(function(){
+<script id="fileTemplate" type="text/x-handlers-template">
+	<li>
+		<div class="mailbox-attachment-icon has-img">
+			<center><img alt="Attachment" src="{{imgSrc}}" class="s_img"></center>
+		</div>
+	    <div class = "mailbox-attachment-info">
+			<a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+	   			<i class = "fa fa-paperclip"></i> {{originalFileName}}
+			</a>
+		</div>
+	</li>
+		
+</script>
+<script src="${path}/resources/js/fileAttach.js"></script>
+
+<script type="text/javascript">
+//Handlebars 파일 템플릿 컴파일
+	var fileTemplate = Handlebars.compile($("#fileTemplate").html());
+
+		$(function(path){
+			//alert('');
+			//첨부파일 목록 불러오기
+			var listCnt = listAttach('${path}','${one.bno}');
+			//첨부파일이 0건일때 '첨부파일 없음' 출력
+			console.log('FILE COUNT: '+ listCnt);
+			if(listCnt == 0){
+				var text = '<span class ="no_attach"> 첨부파일 없습니다.</span>';
+				$('.uploadedList').html(text);
+			}
+			
 			//자바스크립트 내장함수
 			setInterval(refreshReply,3000000);//300000시간에 한번씩refreshReply를 실행하라
 			
@@ -368,7 +409,6 @@
 		});
 		
 		//댓글 목록  출력함수
-		//$(function(){
 		function listReply(){
 			$.ajax({
 				type:'get',
