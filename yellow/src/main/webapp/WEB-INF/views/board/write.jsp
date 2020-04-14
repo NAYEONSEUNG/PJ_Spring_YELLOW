@@ -151,7 +151,7 @@
 						<td>글 작성</td>
 						<td>
 							<script type="text/javascript" src="${path}/resources/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="view_content" style="min-width:650px;"></textarea>
+							<textarea cols="93" rows="28" placeholder="게시글을 입력하세요" id="board_content" name="view_content" style="min-width:650px;">${one.view_content}</textarea>
 							
 						</td>
 					</tr>
@@ -198,8 +198,7 @@
 				<i class="fas fa-times"></i>
 			</span>
 		</div>
-	</li>
-		
+	</li>		
 </script>
 <script src="${path}/resources/js/fileAttach.js"></script>
 
@@ -208,6 +207,10 @@
 	console.log('flag:' + flag);
 	//Handlebars 파일 템플릿 컴파일
 	var fileTemplate = Handlebars.compile($("#fileTemplate").html());
+	
+	//수정시 로컬에서 삭제할 기존 천부파일 목록
+	var deleteFileList = new Array();
+	
 	$(function(){
 	//	alert('데이터: ' +${one}); // 공백으로 뜬다는거는 그 코드를 그대로 써도 된다는 것 
 		//register ==> 게시글 등록과 게시글 수정
@@ -221,6 +224,7 @@
 			$('.board_type').val('${one.type}').attr('selected','selected');// 셀렉트박스에서 그녀석을 셀렉트해라
 							//free인것을 셀렉트해주세요
 			$('.up_time')	
+			listAttach('${path}','${one.bno}');
 		}else if(flag == 'answer'){
 			$('.content_header').text('게시글 답글');// 글씨 바꾸는거 .text를 이용해서
 			$('.up_btn').text('답글');
@@ -279,10 +283,15 @@
 					}, error:function(){
 						alert('system error');
 					}
-				});
-				
+				});				
 			}else{// 게시글 수정
-									    
+				var arr_size = deleteFileList.length;				
+				deleteFileList[arr_size] = $(this).attr('data-src');			
+				$(this).parents('li').next('input').remove();
+				$(this).parents('li').remove();
+				
+				for(var i = 0; i < deleteFileList.length; i++)
+					console.log(i+',' + deleteFileList[i]);
 			}
 		});
 					
@@ -348,9 +357,11 @@
 			});
 			//로컬 드라이브에 저장되어 있는 해당 게시글
 			//첨부파일 삭제
-/* 			if(deletedFile.length > 0){
+			
+			//삭제 첨부파일 목록에 있는 첨부파일들 local에서 삭제
+			if(deleteFileList.length > 0){
 				$.post('${path}/upload/deleteAllFile', {files:deleteFileList},function(){});
-			} */
+			} 
 			//폼에 hidden 태그들을 붙임
 			$("#frm_board").append(str); //
 		

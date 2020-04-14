@@ -127,9 +127,18 @@ public class BoardController {
 
 	@PostMapping("/update")
 	public String updateBoard(BoardDTO bDto) {
-
+		log.info(">>>>>>>>>>> POST: BOARD UPDATE ACTION");
+		
+		if(bDto.getFiles() == null) {//첨부파일 NO // 배열로 들어온다. 
+			bDto.setFilecnt(0);
+		}else {
+			log.info("첨부파일 수:" +bDto.getFiles().length);
+			bDto.setFilecnt(bDto.getFiles().length);
+		}
+		
+		log.info(bDto.toString());
 		bService.updateBoard(bDto);
-		bDto.getBno();
+	
 		return "redirect:/board/view/" + bDto.getBno();
 
 	}
@@ -143,8 +152,9 @@ public class BoardController {
 		bDto = bService.viewBoard(bDto.getBno());
 
 		String newContent = bDto.getView_content()+"<br> ================================================================================</br>";
+									
 		bDto.setView_content(newContent);
-
+		
 		model.addAttribute("one", bDto);
 		model.addAttribute("flag", "answer");
 		return "/board/write";
@@ -163,8 +173,18 @@ public class BoardController {
 		//현재상태: 답글(bno(이전 게시글), 타입, 제목, 내용, 작성자)
 		log.info(">><>>>>>>메인게시글: " + bDto.toString());
 		
+
+		
 		//현재상태: 메인(ALL, ref, re_level, re_step)
 		BoardDTO prevDto = bService.viewBoard(bDto.getBno());
+		log.info(prevDto.toString());
+		
+		if(bDto.getFiles() == null) {//첨부파일 NO // 배열로 들어온다. 
+			bDto.setFilecnt(0);
+		}else {
+			log.info("첨부파일 수:" +bDto.getFiles().length);
+			bDto.setFilecnt(bDto.getFiles().length);
+		}
 		
 		//현재상태: 답글(bno(메인게시글), 타입, 제목, 내용, 작성자
 		//				 ref(메인), re_level(메인), re_step(메인))

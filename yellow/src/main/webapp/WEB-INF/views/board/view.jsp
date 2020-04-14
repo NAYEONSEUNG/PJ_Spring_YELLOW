@@ -327,6 +327,7 @@
 //Handlebars 파일 템플릿 컴파일
 	var fileTemplate = Handlebars.compile($("#fileTemplate").html());
 
+	var deleteFileList = new Array();
 		$(function(path){
 			//alert('');
 			//첨부파일 목록 불러오기
@@ -345,11 +346,23 @@
 			//삭제버튼 클릭시 모달창 Open
 			$('#delete_btn').on('click',function(){
 				$('.include_modal_wrap').css('display','flex');
+				
 			});
 			
 			//삭제알림 모달창에서 확인버튼 클릭 -> 게시글 삭제
-			
-			$('#include_btn_login').click(function(){
+			$('#include_btn_login').click(function(){				
+				$(".uploadedList .file").each(function(i){					
+					deleteFileList[i] = $(this).val();
+				});
+				console.log("delfile :"+deleteFileList);
+				if(deleteFileList.length > 0){
+					console.log("if타냐");
+					$.post('${path}/upload/deleteAllFile',
+							{files:deleteFileList},
+						function(){}	
+					);
+				}	
+				
 				location.href='${path}/board/delete?bno=${one.bno}';
 			});
 			

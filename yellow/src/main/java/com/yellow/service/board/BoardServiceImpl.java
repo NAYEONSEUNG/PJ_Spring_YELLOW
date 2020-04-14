@@ -81,10 +81,21 @@ public class BoardServiceImpl implements BoardService{
 		// 조회수 +1 증가
 		//bDao.increaseViewCnt(bno);
 	}
+	
+	@Transactional
 	@Override
 	public void delBoard(int bno) {
-		bDao.delBoard(bno);
+		//
+		bDao.deleteAttach(bno);//DB에서첨부파일 삭제 
+		bDao.delBoard(bno);// 게시글 삭제
+
+		// 기타방법
+		//예) 90일 이후에 일괄 삭제
+		//tbl_board와 tbl_attach를 relation을 맺고
+		//cascade작업을 통해 tbl_board에서 해당 게시글 삭제하면 자동으로 tbl_attach에 해당 게시글 첨부파일 일괄삭제
+		//즉 첨부파일 DB에서 삭제하는 코드는 작성 안해도 됨!
 	}
+	
 	@Transactional
 	@Override
 	public void write(BoardDTO bDto) {
@@ -104,9 +115,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 	@Override
 	public void updateBoard(BoardDTO bDto) {
-		// TODO Auto-generated method stub
+		//1.게시글 내용 수정
 		bDao.updateBoard(bDto);
+		
+		//2.해당 게시글 관련 첨부파일 모두 DB에서 삭제 (tbl_attach)
+		bDao.deleteAttach(bDto.getBno());
+		
+		//3.수정시 존재하는 첨부파일 모두 DB에 등록 
+		String[] files = bDto.getFiles();
+		if(files == null) return;
+		for(String fullname: files) {
+			bDao.updateAttach(fullname, bDto.getBno()); // updateAttach할려면 반드시 bno가 필요하다. 
+		}
+		
 	}
+	@Transactional
 	@Override
 	public void answer(BoardDTO bDto) {
 		//답글 알고리즘
@@ -124,6 +147,17 @@ public class BoardServiceImpl implements BoardService{
 		bDto.setRe_level(bDto.getRe_level()+1); //re_level은 기존꺼 꺼내와서 +1을 해준다.
 		bDto.setRe_step(bDto.getRe_step()+1); //re_step도 기존꺼에다가 +1
 		bDao.answer(bDto); 
+		
+		//tbl_attach에 해당 게시글 첨부파일 등록 
+		String[] files = bDto.getFiles();
+		
+		if(files == null) {// 첨부파일이 한건도 안들어옴 
+			return; //첨부파일 없음 종료
+		}
+		for(String name : files) {
+			//tbl_attach 테이블에 첨부파일 1건씩 등록
+			 bDao.addAttach(name);
+		}
 		
 	}
 	@Override
