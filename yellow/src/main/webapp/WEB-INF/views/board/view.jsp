@@ -335,7 +335,7 @@
 			//첨부파일이 0건일때 '첨부파일 없음' 출력
 			console.log('FILE COUNT: '+ listCnt);
 			if(listCnt == 0){
-				var text = '<span class ="no_attach"> 첨부파일 없습니다.</span>';
+				var text = '<span class ="no_attach" style="color:tomato;"> 첨부파일 없습니다.</span>';
 				$('.uploadedList').html(text);
 			}
 			
@@ -354,9 +354,9 @@
 				$(".uploadedList .file").each(function(i){					
 					deleteFileList[i] = $(this).val();
 				});
-				console.log("delfile :"+deleteFileList);
+				//console.log("delfile :"+deleteFileList);
 				if(deleteFileList.length > 0){
-					console.log("if타냐");
+					//console.log("if타냐");
 					$.post('${path}/upload/deleteAllFile',
 							{files:deleteFileList},
 						function(){}	

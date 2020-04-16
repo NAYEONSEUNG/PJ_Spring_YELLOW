@@ -9,6 +9,7 @@
 		<typeAlias type="com.yellow.domain.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.yellow.domain.BoardDTO" alias="BoardDTO"/>
 		<typeAlias type="com.yellow.domain.ReplyDTO" alias="ReplyDTO"/>
+		<typeAlias type="com.yellow.domain.AttachDTO" alias="AttachDTO"/>
 	</typeAliases>
 
 </configuration>
